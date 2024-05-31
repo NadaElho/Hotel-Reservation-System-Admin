@@ -2,5 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 div{
-    background: red;
+    /* background: red; */
 }
+/* Example: Normalize.css */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+button:focus {
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sm\\:hidden {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .sm\\:hidden {
+        display: inline;
+    }
+}
+
