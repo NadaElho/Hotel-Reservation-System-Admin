@@ -5,15 +5,16 @@ import { FaRegUser ,FaHistory } from "react-icons/fa";
 import { RiHotelLine } from "react-icons/ri";
 import { VscHistory } from "react-icons/vsc";
 import { TfiViewListAlt } from "react-icons/tfi";
+import { Link } from 'react-router-dom';
 
 const SideBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const pages = [
-        { link: "/room", name: "Room" ,icon:MdOutlineBedroomParent },
-        { link: "/user", name: "User",icon: FaRegUser },
-        { link: "/branch", name: "Branch",icon: RiHotelLine },
-        { link: "/history", name: "History",icon: VscHistory},
-        { link: "/anemity", name: "Anemity",icon: TfiViewListAlt  },
+        { link: "/rooms", name: "Room" ,icon:MdOutlineBedroomParent },
+        { link: "/users", name: "User",icon: FaRegUser },
+        { link: "/branches", name: "Branch",icon: RiHotelLine },
+        { link: "/histories", name: "History",icon: VscHistory},
+        { link: "/anemities", name: "Anemity",icon: TfiViewListAlt  },
       ];
 
     return (
@@ -61,11 +62,11 @@ const SideBar = () => {
                             pages.map((page)=>{
                                 return(
                                      <li key={page.name}>
-                            <a href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-[#81664B] dark:hover:bg-gray-700 group">
+                            <Link to={page.link} className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-[#81664B] dark:hover:bg-gray-700 group">
 
                                 {page.icon && React.createElement(page.icon,{ className:'w-5 h-5' })}
                                 <span className="ms-3">{page.name}</span>
-                            </a>
+                            </Link>
                                      </li>
                                 );
                             })
