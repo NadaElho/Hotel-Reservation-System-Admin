@@ -3,13 +3,15 @@ import Table from "../components/Table";
 import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
+import Pagination from "../components/Pagination";
 
 
 export default function Room() {
   const [rooms, setRooms] = useState([]);
+  const [pageNum, setPageNum] = useState(0);
+  const [limit, setLimit] = useState(1);
+  const [noOfPages, setNoOfPages] = useState(1)
   
-  const currentPage = 1;  // assuming the currentPage is 1 for simplicity
-
   const cols = [
     { col: 'Room Name' },
     { col: 'Images' },
@@ -21,12 +23,14 @@ export default function Room() {
 
   useEffect(() => {
     getAllRooms();
-  }, [currentPage]);
+  }, [pageNum, limit]);
 
   const getAllRooms = async () => {
     const { data } = await axios.get(
-      `http://localhost:3000/api/v1/rooms?limit=6&page=${currentPage}`
+      `http://localhost:3000/api/v1/rooms?limit=${limit}&page=${pageNum+1}`
     );
+
+    setNoOfPages(data.pagination.numberPages)
     
     if (data.status === "success") {
       const formattedData = data.data.map(room => ({
@@ -36,11 +40,15 @@ export default function Room() {
         amenitiesIds: room.amenitiesIds.map(amenity => amenity.name_en).join(', '),
         status: "@mdo"  
       }));
-      console.log(formattedData)
       setRooms(formattedData);
     }
   }
-
+  const handleLimit = (num) => {
+    setLimit(num);
+  };
+  const handlePageClick = (data) => {
+    setPageNum(data.selected);
+  };
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
@@ -48,6 +56,13 @@ export default function Room() {
         <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
           <Table cols={cols} data={rooms} />
         </div>
+        <div className="flex items-center justify-center py-3">
+        <Pagination
+          handleLimit={handleLimit}
+          pageCount={noOfPages}
+          handlePageClick={handlePageClick}
+        />
+      </div>
       </div>
     </>
   );
