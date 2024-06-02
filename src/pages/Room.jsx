@@ -4,41 +4,49 @@ import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
 
+
 export default function Room() {
-    const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState([]);
+  
+  const currentPage = 1;  // assuming the currentPage is 1 for simplicity
+
+  const cols = [
+    { col: 'Room Name' },
+    { col: 'Images' },
+    { col: 'Room Type' },
+    { col: 'Room Amenities' },
+    { col: 'Status' },
+    { col: 'Action' }
+  ];
+
+  useEffect(() => {
+    getAllRooms();
+  }, [currentPage]);
+
+  const getAllRooms = async () => {
+    const { data } = await axios.get(
+      `http://localhost:3000/api/v1/rooms?limit=6&page=${currentPage}`
+    );
     
-    const currentPage = parseInt("1", 10);
-    const cols=[
-    {col:'Room Name'},
-    {col: 'Room Type'},
-    {col: 'Room Amenites'},
-    {col:'Status'},
-    {col:'Action'}
-    ]
-    useEffect(()=>{
-        getAllRooms();
-       
-    },[currentPage])
-    const getAllRooms = async () => {
-        let data;
-        data = await axios.get(
-            `http://localhost:3000/api/v1/rooms?limit=6&page=${currentPage}`
-          );
-          console.log(data)
-          console.log(data.data.data)
-          if (data.data.status === "success") {
-            setRooms(data.data.data);
-          }
+    if (data.status === "success") {
+      const formattedData = data.data.map(room => ({
+        title_en: room.title_en,
+        images: room.images,
+        roomTypeId: room.roomTypeId.type_en,
+        amenitiesIds: room.amenitiesIds.map(amenity => amenity.name_en).join(', '),
+        status: "@mdo"  
+      }));
+      console.log(formattedData)
+      setRooms(formattedData);
     }
+  }
+
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
-        {/* <div className="relative h-16"> */}
-
-        <Button name="Add Room " icon={CiSquarePlus }/>
-        {/* </div> */}
+        <Button name="Add Room " icon={CiSquarePlus}  navigate = "addRoom"/>
         <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-          <Table  cols={cols} rooms={rooms}/>
+          <Table cols={cols} data={rooms} />
         </div>
       </div>
     </>
