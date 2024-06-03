@@ -3,10 +3,13 @@ import Table from "../components/Table";
 import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
+import Pagination from "../components/Pagination";
 
 export default function User() {
   const [users, setUsers] = useState([]);
-  const currentPage = 1; 
+  const [pageNum, setPageNum] = useState(0);
+  const [limit, setLimit] = useState(1);
+  const [noOfPages, setNoOfPages] = useState(1)
   const[renderDelete,seteRenderDelete]=useState(false);
   const cols = [
     { col: 'Id' },
@@ -20,16 +23,16 @@ export default function User() {
 
   useEffect(() => {
     getAllUsers();
-  }, [currentPage,renderDelete]);
+  }, [renderDelete,pageNum, limit]);
 
   const getAllUsers = async () => {
-    const { data } = await axios.get(`http://localhost:3000/api/v1/users`,{
+    const { data } = await axios.get(`http://localhost:3000/api/v1/users?limit=${limit}&page=${pageNum+1}`,{
       headers: {
-        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3Mzc4OTkyfQ.3up6rNJBUnpb06tzicGGvX8wL30XzVD_e0tcoBGGCYw"
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04"
       }
     });
     console.log('data',data)
-   
+      setNoOfPages(data.pagination.numberPages)
       const formattedData = data.data.map(user => ({
         id:user._id,
         name: `${user.firstName} ${user.lastName}` ,
@@ -42,11 +45,17 @@ export default function User() {
       setUsers(formattedData);
     
   }
+  const handleLimit = (num) => {
+    setLimit(num);
+  };
+  const handlePageClick = (data) => {
+    setPageNum(data.selected);
+  };
   const deleteUser=async(id)=>{
     await axios.delete(`http://localhost:3000/api/v1/users/${id}`,
     {
       headers: {
-        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3Mzc4OTkyfQ.3up6rNJBUnpb06tzicGGvX8wL30XzVD_e0tcoBGGCYw"
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04"
       }}
     )
     seteRenderDelete(!renderDelete)
@@ -58,6 +67,13 @@ export default function User() {
         <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl ">
           <Table cols={cols} data={users} linkEdit='editUser'  page='user' handleDelete={deleteUser} />
         </div>
+        <div className="flex items-center justify-center py-3">
+        <Pagination
+          handleLimit={handleLimit}
+          pageCount={noOfPages}
+          handlePageClick={handlePageClick}
+        />
+      </div>
       </div>
     </>
   );

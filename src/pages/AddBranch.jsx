@@ -97,7 +97,7 @@ export default function AddBranch() {
     try {
       const response = await axios.post('http://localhost:3000/api/v1/hotels', formData, {
         headers: {
-          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDM0YWE1ZDc1MGEzZmE3NDFlN2YyOCIsImVtYWlsIjoicmFuYXNzczEyMzQ1Njc4OUBnbWFpbC5jb20iLCJpYXQiOjE3MTU2OTA0NjZ9.GwGzJ74GlbvexRgakGUNVqxRP2fKjZf1zPTQqoS69qU"
+          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04"
         }
       });
     //   const url =
