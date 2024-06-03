@@ -3,10 +3,13 @@ import Table from "../components/Table";
 import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
+import Pagination from "../components/Pagination";
 
 export default function Branch() {
   const [branches, setBranches] = useState([]);
-  const currentPage = 1;  // assuming the currentPage is 1 for simplicity
+  const [pageNum, setPageNum] = useState(0);
+  const [limit, setLimit] = useState(1);
+  const [noOfPages, setNoOfPages] = useState(1)
   const[renderDelete,seteRenderDelete]=useState(false);
   const cols = [
     { col: 'Id' },
@@ -21,12 +24,12 @@ export default function Branch() {
 
   useEffect(() => {
     getAllBranches();
-  }, [currentPage,renderDelete]);
+  }, [pageNum, limit,renderDelete]);
 
   const getAllBranches = async () => {
-    const { data } = await axios.get(`http://localhost:3000/api/v1/hotels`);
+    const { data } = await axios.get(`http://localhost:3000/api/v1/hotels?limit=${limit}&page=${pageNum+1}`);
     console.log('data',data)
-   
+    setNoOfPages(data.pagination.numberPages)
       const formattedData = data.data.map(branch => ({
         id:branch._id,
         name: branch.name_en,
@@ -48,6 +51,12 @@ export default function Branch() {
     )
     seteRenderDelete(!renderDelete)
   }
+  const handleLimit = (num) => {
+    setLimit(num);
+  };
+  const handlePageClick = (data) => {
+    setPageNum(data.selected);
+  };
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
@@ -55,6 +64,13 @@ export default function Branch() {
         <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
           <Table cols={cols} data={branches} linkEdit='editBranch'  page='branch' handleDelete={deleteBranch} />
         </div>
+        <div className="flex items-center justify-center py-3">
+        <Pagination
+          handleLimit={handleLimit}
+          pageCount={noOfPages}
+          handlePageClick={handlePageClick}
+        />
+      </div>
       </div>
     </>
   );
