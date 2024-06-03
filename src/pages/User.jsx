@@ -28,7 +28,7 @@ export default function User() {
   const getAllUsers = async () => {
     const { data } = await axios.get(`http://localhost:3000/api/v1/users?limit=${limit}&page=${pageNum+1}`,{
       headers: {
-        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3Mzc4OTkyfQ.3up6rNJBUnpb06tzicGGvX8wL30XzVD_e0tcoBGGCYw"
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04"
       }
     });
     console.log('data',data)
@@ -55,7 +55,7 @@ export default function User() {
     await axios.delete(`http://localhost:3000/api/v1/users/${id}`,
     {
       headers: {
-        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3Mzc4OTkyfQ.3up6rNJBUnpb06tzicGGvX8wL30XzVD_e0tcoBGGCYw"
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04"
       }}
     )
     seteRenderDelete(!renderDelete)
