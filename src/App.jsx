@@ -12,6 +12,8 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import Branch from "./pages/Branch.jsx";
 import AddBranch from "./pages/AddBranch.jsx";
 import EditBranch from "./pages/EditBranch.jsx";
+import User from "./pages/User.jsx";
+import AddUser from "./pages/AddUser.jsx";
 function App() {
   const [dark, setDark] = useState("light");
   const handleMode  =()=>{
@@ -36,6 +38,12 @@ function App() {
             <Route path="/branches" element={<Branch />} />
             <Route path="/branches/addBranch" element={<AddBranch />} />
             <Route path="/branches/editBranch/:id" element={<EditBranch />} />
+
+
+            <Route path="/users" element={<User />} />
+            <Route path="/users/addUser" element={<AddUser />} />
+            <Route path="/users/editUser/:id" element={<EditBranch />} />
+
             <Route path="/rooms" element={<Room/>} />
            </Routes>
             </BrowserRouter>
