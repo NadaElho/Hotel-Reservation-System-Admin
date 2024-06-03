@@ -6,7 +6,7 @@ const LanguageSwitch = () => {
   return (
     <>
       <button onClick={toggleLanguage}>translate</button>
-      <div>{t("hello")}</div>
+      {/* <div>{t("hello")}</div> */}
     </>
   );
 };
