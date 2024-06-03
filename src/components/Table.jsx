@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -13,7 +14,6 @@ export default function Table(props) {
 console.log('linkEdit',linkEdit,data)
 
 
-
   return (
     <>
       <div className="flex flex-col">
@@ -24,16 +24,22 @@ console.log('linkEdit',linkEdit,data)
                 <thead className="border-b border-neutral-200 font-medium dark:border-white/10">
                   <tr>
                     {cols.map((col) => (
-                      <th scope="col" className="px-6 py-4" key={col.col}>{col.col}</th>
+                      <th scope="col" className="px-6 py-4" key={col.col}>
+                        {col.col}
+                      </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {data.map((item, index) => (
-                    <tr key={index} className="border-b border-neutral-200 dark:border-white/10">
+                    <tr
+                      key={index}
+                      className="border-b border-neutral-200 dark:border-white/10"
+                    >
                       {Object.entries(item).map(([key, value], idx) => (
                         <td key={idx} className="whitespace-wrap  px-6 py-4">
                           {key === "images" ? (
+
                             <img src={value[0]} alt="Branch" className="w-16 h-16 object-cover" />
                           )  :key === "id" ? (
                             index+1
@@ -44,9 +50,9 @@ console.log('linkEdit',linkEdit,data)
                         </td>
                       ))}
                       <td className="whitespace-nowrap px-6 pt-10 flex justify-items-end">
-                        <Link to={`${linkEdit}/${item.id}`}>
+                       {page=='user'?null: <Link to={`${linkEdit}/${item.id}`}>
                         <FaRegEdit className='me-3 w-4 h-4' />
-                        </Link>
+                        </Link>}
                         <button onClick={()=>{
                           setSelectedName(item.name);
                           setIdDelete(item.id)

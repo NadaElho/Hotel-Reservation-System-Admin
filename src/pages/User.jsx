@@ -22,10 +22,10 @@ export default function User() {
     getAllUsers();
   }, [currentPage,renderDelete]);
 
-  const getAllBranches = async () => {
-    const { data } = await axios.get(`http://localhost:3000/api/v1/usres`,{
+  const getAllUsers = async () => {
+    const { data } = await axios.get(`http://localhost:3000/api/v1/users`,{
       headers: {
-        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDM0YWE1ZDc1MGEzZmE3NDFlN2YyOCIsImVtYWlsIjoicmFuYXNzczEyMzQ1Njc4OUBnbWFpbC5jb20iLCJpYXQiOjE3MTU2OTA0NjZ9.GwGzJ74GlbvexRgakGUNVqxRP2fKjZf1zPTQqoS69qU"
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3Mzc4OTkyfQ.3up6rNJBUnpb06tzicGGvX8wL30XzVD_e0tcoBGGCYw"
       }
     });
     console.log('data',data)
@@ -34,7 +34,7 @@ export default function User() {
         id:user._id,
         name: `${user.firstName} ${user.lastName}` ,
         email: user.email,
-        role: user.role,
+        role: user.role.name,
         images: user.images,
         
       }));
@@ -43,10 +43,10 @@ export default function User() {
     
   }
   const deleteUser=async(id)=>{
-    await axios.delete(`http://localhost:3000/api/v1/hotels/${id}`,
+    await axios.delete(`http://localhost:3000/api/v1/users/${id}`,
     {
       headers: {
-        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDM0YWE1ZDc1MGEzZmE3NDFlN2YyOCIsImVtYWlsIjoicmFuYXNzczEyMzQ1Njc4OUBnbWFpbC5jb20iLCJpYXQiOjE3MTU2OTA0NjZ9.GwGzJ74GlbvexRgakGUNVqxRP2fKjZf1zPTQqoS69qU"
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3Mzc4OTkyfQ.3up6rNJBUnpb06tzicGGvX8wL30XzVD_e0tcoBGGCYw"
       }}
     )
     seteRenderDelete(!renderDelete)
@@ -54,8 +54,8 @@ export default function User() {
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
-        <Button name="Add User " icon={CiSquarePlus}  navigate = "addUser"/>
-        <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
+        {/* <Button name="Add User " icon={CiSquarePlus}  navigate = "addUser"/> */}
+        <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl ">
           <Table cols={cols} data={users} linkEdit='editUser'  page='user' handleDelete={deleteUser} />
         </div>
       </div>

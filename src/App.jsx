@@ -8,52 +8,56 @@ import SideBar from "./components/SideBar.jsx";
 import Table from "./components/Table.jsx";
 import Room from "./pages/Room.jsx";
 
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Router,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Branch from "./pages/Branch.jsx";
 import AddBranch from "./pages/AddBranch.jsx";
 import EditBranch from "./pages/EditBranch.jsx";
+import Login from "./pages/Login.jsx";
+import { ToastContainer } from "react-toastify";
+import PrivateRoute from "./ProtectedRoutes/PrivateRoute.jsx";
+import Guard from "./ProtectedRoutes/Guard.jsx";
 import User from "./pages/User.jsx";
 import AddUser from "./pages/AddUser.jsx";
+import EditUser from "./pages/EditUser.jsx";
 function App() {
   const [dark, setDark] = useState("light");
-  const handleMode  =()=>{
-    setDark((mode)=> mode === 'light' ? 'dark' : 'light')
-  }
-  // console.log(dark)
+  const myLoc = useLocation();
+  const handleMode = () => {
+    setDark((mode) => (mode === "light" ? "dark" : "light"));
+  };
   return (
     <>
-      <div className= {`${dark} dark:bg-black dark:text-white` }>
+      <div className={`${dark} dark:bg-black dark:text-white`}>
         <I18nextProvider i18n={i18n}>
           <LanguageProvider>
-          <div className="lg:ps-14 ps-7 sm:ml-64">
-
-          <LanguageSwitch /> 
-          </div>
-            <BrowserRouter>
-          <SideBar/>
-           <Routes>
-            
-    
-            <Route path="/" element={<Room />} />
-            <Route path="/branches" element={<Branch />} />
-            <Route path="/branches/addBranch" element={<AddBranch />} />
-            <Route path="/branches/editBranch/:id" element={<EditBranch />} />
-
-
-            <Route path="/users" element={<User />} />
-            <Route path="/users/addUser" element={<AddUser />} />
-            <Route path="/users/editUser/:id" element={<EditBranch />} />
-
-            <Route path="/rooms" element={<Room/>} />
-           </Routes>
-            </BrowserRouter>
-            {/* <Room/> */}
-            {/* <Room/> */}
-              
-               {/* <ModeSwitch mode={handleMode}/> */}
-    
-          
-            
+            <div className="lg:ps-14 ps-7 sm:ml-64">
+              {/* <LanguageSwitch /> */}
+              <ToastContainer />
+            </div>
+            {myLoc.pathname != "/" && <SideBar />}
+            <Routes>
+              <Route element={<PrivateRoute />}>
+                <Route path="/" element={<Login />} />
+              </Route>
+              <Route element={<Guard />}>
+                <Route path="/branches" element={<Branch />} />
+                <Route path="/branches/addBranch" element={<AddBranch />} />
+                <Route
+                  path="/branches/editBranch/:id"
+                  element={<EditBranch />}
+                />
+                 <Route path="/users" element={<User />} />
+                {/* <Route path="/users/addUser" element={<AddUser />} />
+                <Route path="/users/editUser/:id" element={<EditUser/>} /> */}
+                    <Route path="/rooms" element={<Room />} />
+              </Route>
+            </Routes>
           </LanguageProvider>
         </I18nextProvider>
       </div>
