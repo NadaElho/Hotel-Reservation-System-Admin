@@ -50,9 +50,9 @@ console.log('linkEdit',linkEdit,data)
                         </td>
                       ))}
                       <td className="whitespace-nowrap px-6 pt-10 flex justify-items-end">
-                        <Link to={`${linkEdit}/${item.id}`}>
+                       {page=='user'?null: <Link to={`${linkEdit}/${item.id}`}>
                         <FaRegEdit className='me-3 w-4 h-4' />
-                        </Link>
+                        </Link>}
                         <button onClick={()=>{
                           setSelectedName(item.name);
                           setIdDelete(item.id)

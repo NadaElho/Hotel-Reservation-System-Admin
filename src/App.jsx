@@ -22,6 +22,9 @@ import Login from "./pages/Login.jsx";
 import { ToastContainer } from "react-toastify";
 import PrivateRoute from "./ProtectedRoutes/PrivateRoute.jsx";
 import Guard from "./ProtectedRoutes/Guard.jsx";
+import User from "./pages/User.jsx";
+import AddUser from "./pages/AddUser.jsx";
+import EditUser from "./pages/EditUser.jsx";
 function App() {
   const [dark, setDark] = useState("light");
   const myLoc = useLocation();
@@ -49,7 +52,10 @@ function App() {
                   path="/branches/editBranch/:id"
                   element={<EditBranch />}
                 />
-                <Route path="/rooms" element={<Room />} />
+                 <Route path="/users" element={<User />} />
+                {/* <Route path="/users/addUser" element={<AddUser />} />
+                <Route path="/users/editUser/:id" element={<EditUser/>} /> */}
+                    <Route path="/rooms" element={<Room />} />
               </Route>
             </Routes>
           </LanguageProvider>
