@@ -6,6 +6,7 @@ export default function Button(props) {
   const navigatee = useNavigate();
   return (
     <>
+
       <div className="flex  justify-end mb-6">
         <button
           type="button"

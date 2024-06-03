@@ -155,6 +155,7 @@ export default function EditBranch() {
         onSubmit={onSubmit}
         mode={mode}
         page='Branch'
+        
         handleDeleteImage={handleDeleteImage}
       />
     </>
