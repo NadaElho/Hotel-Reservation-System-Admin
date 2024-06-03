@@ -6,7 +6,7 @@ import ConfirmDelete from './ConfirmDelete';
 
 
 export default function Table(props) {
-  const { cols, data ,linkEdit,page,handeleDelete} = props;
+  const { cols, data ,linkEdit,page,handleDelete} = props;
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState('');
   const[idDelete,setIdDelete]=useState('')
@@ -67,7 +67,7 @@ console.log('linkEdit',linkEdit,data)
                   name={selectedName}
                   onClose={() => setShowModal(false)}
                   onConfirm={() => {
-                    handeleDelete(idDelete);
+                    handleDelete(idDelete);
                     setShowModal(false);
                   }}
                 />
