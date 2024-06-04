@@ -1,34 +1,27 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { Link } from 'react-router-dom';
-import ConfirmDelete from './ConfirmDelete';
-
+import { Link } from "react-router-dom";
+import ConfirmDelete from "./ConfirmDelete";
 
 export default function Table(props) {
-  const { cols, data ,linkEdit,page,handleDelete} = props;
+  const { cols, data, linkEdit, page, handleDelete } = props;
   const [showModal, setShowModal] = useState(false);
-  const [selectedName, setSelectedName] = useState('');
-  const[idDelete,setIdDelete]=useState('')
-console.log('linkEdit',linkEdit,data)
-const  getStatusClass =(status)=>{
-  switch(status){
-    case 'pending':
-      return 'text-amber-400';
-    case 'canceled':
-      return 'text-red-800';
-    case 'Completed':
-      return 'text-green-500';  
-    default:
-      return '';
-      
-
-  }
-
-  
-
-}
+  const [selectedName, setSelectedName] = useState("");
+  const [idDelete, setIdDelete] = useState("");
+  console.log("linkEdit", linkEdit, data);
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "pending":
+        return "text-amber-400";
+      case "canceled":
+        return "text-red-800";
+      case "Completed":
+        return "text-green-500";
+      default:
+        return "";
+    }
+  };
 
   return (
     <>
@@ -55,32 +48,40 @@ const  getStatusClass =(status)=>{
                       {Object.entries(item).map(([key, value], idx) => (
                         <td key={idx} className="whitespace-wrap  px-6 py-4">
                           {key === "images" ? (
-
-                            <img src={value[0]} alt="Branch" className="w-16 h-16 object-cover" />
-                          )  :key === "id" ? (
-                            index+1
-                            
+                            <img
+                              src={value[0]}
+                              alt="Branch"
+                              className="w-16 h-16 object-cover"
+                            />
+                          ) : key === "id" ? (
+                            index + 1
                           ) : key === "status" ? (
-                            <span className={getStatusClass(value)}>{value}</span>
-                          ) :(
+                            <span className={getStatusClass(value)}>
+                              {value}
+                            </span>
+                          ) : (
                             value
                           )}
                         </td>
                       ))}
-                   {page == 'history' ? null  : <td className="whitespace-nowrap px-6 pt-10 flex justify-items-end">
-                       {page=='user'?null: <Link to={`${linkEdit}/${item.id}`}>
-                        <FaRegEdit className='me-3 w-4 h-4' />
-                        </Link>}
-                        <button onClick={()=>{
-                          setSelectedName(item.name);
-                          setIdDelete(item.id)
-                          setShowModal(true)
-                        }}>
-
-                        <RiDeleteBinLine className='w-4 h-4' />
-                        </button>
-                        
-                      </td>}
+                      {page == "history" ? null : (
+                        <td className="whitespace-nowrap px-6 pt-10 flex justify-items-end">
+                          {page == "user" ? null : (
+                            <Link to={`${linkEdit}/${item.id}`}>
+                              <FaRegEdit className="me-3 w-4 h-4" />
+                            </Link>
+                          )}
+                          <button
+                            onClick={() => {
+                              setSelectedName(item.name);
+                              setIdDelete(item.id);
+                              setShowModal(true);
+                            }}
+                          >
+                            <RiDeleteBinLine className="w-4 h-4" />
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
