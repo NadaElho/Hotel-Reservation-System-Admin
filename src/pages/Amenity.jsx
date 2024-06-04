@@ -7,6 +7,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import ConfirmDelete from "../components/ConfirmDelete";
+import Loader from "../components/Loader";
 export default function Amenity() {
   const [amenities, setAmenities] = useState([]);
   const [pageNum, setPageNum] = useState(0);
@@ -16,12 +17,14 @@ export default function Amenity() {
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     getAllAmenities();
   }, [pageNum, limit, renderDelete]);
 
   const getAllAmenities = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get(
         `http://localhost:3000/api/v1/amenities?limit=${limit}&page=${
           pageNum + 1
@@ -35,6 +38,7 @@ export default function Amenity() {
         description: branch.description_en,
       }));
       setAmenities(formattedData);
+      setLoading(false)
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
@@ -54,17 +58,23 @@ export default function Amenity() {
     });
     seteRenderDelete(!renderDelete);
   };
+  if (loading) {
+    return <div className="lg:p-14 p-7 sm:ml-64">
+      <Loader/>
+    </div>;
+  }
+  
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
         <Button
           name="Add Branch "
           icon={CiSquarePlus}
-          navigate="/anemities/addAnemity"
+          navigate="/amenities/addAnemity"
         />
         <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mx-8">
           {amenities.map((amenity) => (
-            <div className="flex justify-center  h-52  items-center  flex-col border border-3 rounded-2xl border-main-800 bg-grey-500">
+            <div key={amenity.id} className="flex justify-center  h-52  items-center  flex-col border border-3 rounded-2xl border-main-800 bg-grey-500">
               <div className="flex items-center justify-between w-40">
                 <img
                   src={amenity?.images[0]}
@@ -76,7 +86,7 @@ export default function Amenity() {
                 </p>
               </div>
               <Link
-                to={`/anemities/editAnemity/${amenity.id}`}
+                to={`/amenities/editAnemity/${amenity.id}`}
                 className="text-white w-32 my-3 lg:w-40 bg-[#52381D]   rounded-3xl right-0 hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium text-sm  py-2.5 inline-flex items-center justify-center "
               >
                 <FaRegEdit className="w-4 h-4 me-2" /> Edit

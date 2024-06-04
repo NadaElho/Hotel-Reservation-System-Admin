@@ -4,12 +4,14 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
+import Loader from "../components/Loader";
 
 export default function AddUser() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const mode = "add";
   const initialValues = {
     firstName: "",
@@ -69,16 +71,22 @@ export default function AddUser() {
       }
     }
     try {
+      setLoading(true)
       const response = await axios.post(
         "http://localhost:3000/api/v1/users/signUp",
         formData
       );
+      setLoading(false)
       navigate("/users");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
-
+  if (loading) {
+    return <div className="lg:p-14 p-7 sm:ml-64">
+      <Loader/>
+    </div>;
+  }
   return (
     <>
       <FormComponent

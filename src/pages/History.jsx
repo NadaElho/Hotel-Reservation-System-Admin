@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
 import Pagination from "../components/Pagination";
+import Loader from "../components/Loader";
 
 export default function History() {
   const [histories, setHistories] = useState([]);
@@ -11,6 +12,7 @@ export default function History() {
   const [limit, setLimit] = useState(4);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
+  const [loading, setLoading] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "User Name" },
@@ -28,6 +30,7 @@ export default function History() {
 
   const getAllHistories = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get(
         `http://localhost:3000/api/v1/reservations?limit=${limit}&page=${
           pageNum + 1
@@ -50,6 +53,7 @@ export default function History() {
         status: history.status.name_en,
       }));
       setHistories(formattedData);
+      setLoading(false)
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
@@ -60,6 +64,11 @@ export default function History() {
   const handlePageClick = (data) => {
     setPageNum(data.selected);
   };
+  if (loading) {
+    return <div className="lg:p-14 p-7 sm:ml-64">
+      <Loader/>
+    </div>;
+  }
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">

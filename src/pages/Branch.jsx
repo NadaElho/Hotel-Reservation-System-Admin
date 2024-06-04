@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
 import Pagination from "../components/Pagination";
+import Loader from "../components/Loader";
 
 export default function Branch() {
   const [branches, setBranches] = useState([]);
@@ -11,6 +12,7 @@ export default function Branch() {
   const [limit, setLimit] = useState(3);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
+  const [loading, setLoading] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "Branch Name" },
@@ -27,6 +29,7 @@ export default function Branch() {
 
   const getAllBranches = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get(
         `http://localhost:3000/api/v1/hotels?limit=${limit}&page=${pageNum + 1}`
       );
@@ -40,6 +43,7 @@ export default function Branch() {
         description: branch.description_en,
       }));
       setBranches(formattedData);
+      setLoading(false)
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
@@ -59,6 +63,11 @@ export default function Branch() {
   const handlePageClick = (data) => {
     setPageNum(data.selected);
   };
+  if (loading) {
+    return <div className="lg:p-14 p-7 sm:ml-64">
+      <Loader/>
+    </div>;
+  }
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
