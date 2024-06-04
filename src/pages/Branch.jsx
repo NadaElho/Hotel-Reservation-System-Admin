@@ -8,7 +8,7 @@ import Pagination from "../components/Pagination";
 export default function Branch() {
   const [branches, setBranches] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(3);
   const [noOfPages, setNoOfPages] = useState(1)
   const[renderDelete,seteRenderDelete]=useState(false);
   const cols = [

@@ -9,7 +9,7 @@ import Pagination from "../components/Pagination";
 export default function Room() {
   const [rooms, setRooms] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(4);
   const [noOfPages, setNoOfPages] = useState(1)
   
   const cols = [
