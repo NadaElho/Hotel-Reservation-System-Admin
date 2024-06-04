@@ -4,13 +4,14 @@ import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
 import Pagination from "../components/Pagination";
+import Loader from "../components/Loader";
 
 export default function Room() {
   const [rooms, setRooms] = useState([]);
   const [pageNum, setPageNum] = useState(0);
   const [limit, setLimit] = useState(4);
   const [noOfPages, setNoOfPages] = useState(1);
-
+  const [loading, setLoading] = useState(false);
   const cols = [
     { col: "Room Name" },
     { col: "Images" },
@@ -26,10 +27,10 @@ export default function Room() {
 
   const getAllRooms = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get(
         `http://localhost:3000/api/v1/rooms?limit=${limit}&page=${pageNum + 1}`
       );
-
       setNoOfPages(data.pagination.numberPages);
 
       if (data.status === "success") {
@@ -43,6 +44,7 @@ export default function Room() {
           status: "@mdo",
         }));
         setRooms(formattedData);
+        setLoading(false)
       }
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
@@ -54,6 +56,11 @@ export default function Room() {
   const handlePageClick = (data) => {
     setPageNum(data.selected);
   };
+  if (loading) {
+    return <div className="lg:p-14 p-7 sm:ml-64">
+      <Loader/>
+    </div>;
+  }
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">

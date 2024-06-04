@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
+import Loader from "../components/Loader";
 
 export default function EditBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -106,6 +107,7 @@ export default function EditBranch() {
       }
     }
     try {
+      setLoading(true)
       const response = await axios.patch(
         `http://localhost:3000/api/v1/hotels/${id}`,
         formData,
@@ -116,13 +118,16 @@ export default function EditBranch() {
           },
         }
       );
+      setLoading(false)
       navigate("/branches");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
   if (loading) {
-    return <div className="lg:p-14 p-7 sm:ml-64">Loading...</div>;
+    return <div className="lg:p-14 p-7 sm:ml-64">
+      <Loader/>
+    </div>;
   }
   return (
     <>

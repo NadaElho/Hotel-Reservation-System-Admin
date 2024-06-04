@@ -15,7 +15,7 @@ const SideBar = () => {
     { link: "/users", name: "User", icon: FaRegUser },
     { link: "/branches", name: "Branch", icon: RiHotelLine },
     { link: "/histories", name: "History", icon: VscHistory },
-    { link: "/anemities", name: "Anemity", icon: TfiViewListAlt },
+    { link: "/amenities", name: "Anemity", icon: TfiViewListAlt },
   ];
 
   return (

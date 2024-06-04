@@ -60,9 +60,9 @@ function App() {
                 {/* <Route path="/users/addUser" element={<AddUser />} />
                 <Route path="/users/editUser/:id" element={<EditUser/>} /> */}
                 <Route path="/histories" element={<History />} />
-                <Route path="/anemities" element={<Amenity/>} />
-                <Route path="/anemities/addAnemity" element={<AddAmenity/>} />
-                <Route path="/anemities/editAnemity/:id" element={<EditAmenity/>} />
+                <Route path="/amenities" element={<Amenity/>} />
+                <Route path="/amenities/addAmenity" element={<AddAmenity/>} />
+                <Route path="/amenities/editAmenity/:id" element={<EditAmenity/>} />
                     <Route path="/rooms" element={<Room />} />
               </Route>
             </Routes>

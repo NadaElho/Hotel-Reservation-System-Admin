@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
 import Pagination from "../components/Pagination";
+import Loader from "../components/Loader";
 
 export default function User() {
   const [users, setUsers] = useState([]);
@@ -11,6 +12,7 @@ export default function User() {
   const [limit, setLimit] = useState(4);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
+  const [loading, setLoading] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "Name" },
@@ -26,6 +28,7 @@ export default function User() {
 
   const getAllUsers = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get(
         `http://localhost:3000/api/v1/users?limit=${limit}&page=${pageNum + 1}`,
         {
@@ -35,6 +38,7 @@ export default function User() {
           },
         }
       );
+      setLoading(false)
       setNoOfPages(data.pagination.numberPages);
       const formattedData = data.data.map((user) => ({
         id: user._id,
@@ -63,6 +67,11 @@ export default function User() {
     });
     seteRenderDelete(!renderDelete);
   };
+  if (loading) {
+    return <div className="lg:p-14 p-7 sm:ml-64">
+      <Loader/>
+    </div>;
+  }
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import { data } from "autoprefixer";
+import Loader from "../components/Loader";
 
 export default function AddBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -12,6 +13,7 @@ export default function AddBranch() {
   const navigate = useNavigate();
   const { id } = useParams();
   const mode = "add";
+  const [loading, setLoading] = useState(false);
   const initialValues = {
     name_en: "",
     name_ar: "",
@@ -90,6 +92,7 @@ export default function AddBranch() {
     //   console.log("jjjjsa", `${pair[0]}: ${pair[1]}`);
     // }
     try {
+      setLoading(true)
       const response = await axios.post(
         "http://localhost:3000/api/v1/hotels",
         formData,
@@ -100,12 +103,17 @@ export default function AddBranch() {
           },
         }
       );
+      setLoading(false)
       navigate("/branches");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
-
+  if (loading) {
+    return <div className="lg:p-14 p-7 sm:ml-64">
+      <Loader/>
+    </div>;
+  }
   return (
     <>
       <FormComponent
