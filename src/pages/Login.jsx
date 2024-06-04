@@ -42,7 +42,7 @@ const Login = ({handleLog}) => {
           }}
           onSubmit={async ({ password, email }, { setSubmitting }) => {
             try {
-              let res = await axiosInstance.post(
+              let {data} = await axiosInstance.post(
                 "/users/login",
                 {
                   password,
@@ -54,9 +54,13 @@ const Login = ({handleLog}) => {
                   },
                 }
               );
-              localStorage.setItem("token", res.data.token);
-              navigate("/rooms");
-              toast.success("You are logged in successfully");
+              if(data.data.role == "6642764acd637f7c34eb4b97"){
+                localStorage.setItem("token", data.data.token);
+                navigate("/rooms");
+                toast.success("You are logged in successfully");
+              }else{
+                toast.error("Only admins")
+              }
               handleLog();
             } catch (err) {
               toast.error(err.response.data.message);
@@ -75,7 +79,7 @@ const Login = ({handleLog}) => {
           }) => (
             <form onSubmit={handleSubmit} className="text-white">
               <div className="my-2">
-                <div className="flex items-center gap-2 border rounded-full bg-main-300 my-1 p-2">
+                <div className="flex items-center gap-2 border rounded-full bg-main-300 my-1 px-3 py-1">
                   <AiOutlineMail color="white" />
                   <input
                     type="email"
@@ -92,7 +96,7 @@ const Login = ({handleLog}) => {
                 </div>
               </div>
               <div className="my-2">
-                <div className="flex items-center gap-2 border rounded-full bg-main-300 my-1 p-2">
+                <div className="flex items-center gap-2 border rounded-full bg-main-300 my-1 px-3 py-1">
                   <IoLockClosedOutline color="white" />
                   <input
                     type="password"
