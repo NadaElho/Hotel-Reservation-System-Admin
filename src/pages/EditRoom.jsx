@@ -136,12 +136,14 @@ export default function EditRoom() {
       }
     }
     try {
-      const response = await axios.patch(
-        `http://localhost:3000/api/v1/rooms/${id}`,
+
+      const esponse= await axios.patch(
+        `http://localhost:3000/api/v1/amenities/${id}`,
         formData,
         {
           headers: {
-              `Bearer ${localStorage.getItem("token")}`,
+            authorization:`Bearer ${localStorage.getItem("token")}`,
+             
           },
         }
       );
@@ -157,18 +159,15 @@ export default function EditRoom() {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-    >
-      {({ handleSubmit, setFieldValue }) => (
-        <FormComponent
-          inputs={inputs}
+  
+        
           handleDeleteImage={handleDeleteImage}
           handleImageChange={(event) => handleImageChange(event, setFieldValue)}
           imagePreviews={imagePreviews}
-          onSubmit={handleSubmit}
+       
           mode={mode}
           page="Room"
         />
-      )}
-    </Formik>
+     
   );
 }
