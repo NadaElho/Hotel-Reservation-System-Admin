@@ -36,7 +36,7 @@ const FormComponent = ({
           onSubmit(values);
         }}
       >
-        {({ values, setFieldValue }) => (
+        {({  setFieldValue, values }) => (
           <Form className="mx-auto w-full max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {inputs.map((input) => (
@@ -103,10 +103,17 @@ const FormComponent = ({
                           ))}
                         </Field>
                       )}
-                      {input.type === "file" && (
+                      {input.type === "file" ? (
+                      <div className="col-span-1" key={input.name}>
+                        {/* <label
+                          htmlFor="images"
+                          className="block mb-2 text-base font-bold"
+                        >
+                          Images
+                        </label> */}
                         <input
-                          id={input.name}
-                          name={input.name}
+                          id="images"
+                          name="images"
                           type="file"
                           onChange={(event) =>
                             handleImageChange(event, setFieldValue)
@@ -114,8 +121,35 @@ const FormComponent = ({
                           multiple
                           className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full"
                         />
-                      )}
-                      {input.type === "select-multiple" &&
+                        <ErrorMessage
+                          name="images"
+                          component="div"
+                          className="error text-red-500"
+                        />
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mt-5">
+                          {imagePreviews.map((preview, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center w-full gap-2"
+                            >
+                              <img
+                                src={preview}
+                                alt={`Image preview ${index}`}
+                                className="w-12 h-12 object-cover rounded-full"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteImage(index)}
+                                className="text-red-500"
+                              >
+                                X
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      ) :
+                      input.type === "select-multiple" &&
                         input.name !== "amenitiesIds" && (
                           <Field
                             as="select"
@@ -133,17 +167,12 @@ const FormComponent = ({
                         )}
                     </>
                   )}
-                  <ErrorMessage
-                    name={input.name}
-                    component="div"
-                    className="error text-red-500"
-                  />
                 </div>
               ))}
             </div>
             <button
               type="submit"
-              className="bg-main-800 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+              className="bg-main-800 mt-5 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
             >
               {mode === "add" ? `Add ${page}` : `Save ${page}`}
             </button>
