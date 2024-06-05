@@ -70,8 +70,7 @@ function App() {
                 />
                 <Route path="/rooms" element={<Room />} />
                 <Route path="/rooms/addroom" element={<AddRoom />} />
-                <Route path="/rooms/editroom/:id" element={<AddRoom />} />
-                <Route path="**" element={<Room/>}/>
+                <Route path="/rooms/editroom/:id" element={<EditRoom/>} />
               </Route>
             </Routes>
           </LanguageProvider>

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import ConfirmDelete from "../components/ConfirmDelete";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 export default function Amenity() {
   const [amenities, setAmenities] = useState([]);
   const [pageNum, setPageNum] = useState(0);
@@ -50,12 +51,7 @@ export default function Amenity() {
     setPageNum(data.selected);
   };
   const deleteAmenity = async (id) => {
-    await axios.delete(`http://localhost:3000/api/v1/amenities/${id}`, {
-      headers: {
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-      },
-    });
+    await axiosInstance.delete(`/amenities/${id}`);
     seteRenderDelete(!renderDelete);
   };
   if (loading) {
@@ -68,9 +64,9 @@ export default function Amenity() {
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
         <Button
-          name="Add Branch "
+          name="Add Amenity"
           icon={CiSquarePlus}
-          navigate="/amenities/addAnemity"
+          navigate="/amenities/addAmenity"
         />
         <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mx-8">
           {amenities.map((amenity) => (
@@ -86,7 +82,7 @@ export default function Amenity() {
                 </p>
               </div>
               <Link
-                to={`/amenities/editAnemity/${amenity.id}`}
+                to={`/amenities/editAmenity/${amenity.id}`}
                 className="text-white w-32 my-3 lg:w-40 bg-[#52381D]   rounded-3xl right-0 hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium text-sm  py-2.5 inline-flex items-center justify-center "
               >
                 <FaRegEdit className="w-4 h-4 me-2" /> Edit

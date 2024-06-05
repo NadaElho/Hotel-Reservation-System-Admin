@@ -23,6 +23,17 @@ export default function EditRoom() {
     images: [],
   };
 
+  const [roomData, setRoomData] = useState({
+    roomNumber: "",
+    name_en: "",
+    name_ar: "",
+    description_en: "",
+    description_ar: "",
+    amenities: [],
+    price: "",
+    type: "",
+    images: [],
+  });
   useEffect(() => {
     // Fetch room data by id and set initial values
     const fetchRoomData = async () => {
@@ -49,7 +60,7 @@ export default function EditRoom() {
 
   const inputs = [
     { name: "roomNumber", title: "Room Number", type: "text" },
-    { name: "price", title: "Price (EGP)", type: "text" },
+    { name: "price", title: "Price", type: "text" },
     { name: "name_en", title: "English Name", type: "text" },
     { name: "name_ar", title: "Arabic Name", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
@@ -120,14 +131,14 @@ export default function EditRoom() {
         formData,
         {
           headers: {
-            Authorization: "Bearer your_access_token_here",
+            authorization:
+              `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      console.log("Success:", response.data);
       navigate("/rooms");
     } catch (err) {
-      console.log(err.message, "err");
+      console.log(err.response?.data || err.message, "err");
     }
   };
 
@@ -149,5 +160,19 @@ export default function EditRoom() {
         />
       )}
     </Formik>
+    // <>
+    //   <FormComponent
+    //     initialValues={roomData}
+    //     inputs={inputs}
+    //     validationSchema={validationSchema}
+    //     handleImageChange={handleImageChange}
+    //     imagePreviews={imagePreviews}
+    //     onSubmit={onSubmit}
+    //     mode={mode}
+    //     page="Room"
+    //     handleDeleteImage={handleDeleteImage}
+    //   />
+    
+    // </>
   );
 }

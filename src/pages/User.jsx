@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Table from "../components/Table";
-import Button from "../components/Button";
-import { CiSquarePlus } from "react-icons/ci";
 import axios from "axios";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 
 export default function User() {
   const [users, setUsers] = useState([]);
@@ -29,14 +28,8 @@ export default function User() {
   const getAllUsers = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get(
-        `http://localhost:3000/api/v1/users?limit=${limit}&page=${pageNum + 1}`,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-          },
-        }
+      const { data } = await axiosInstance.get(
+        `/users?limit=${limit}&page=${pageNum + 1}`
       );
       setLoading(false)
       setNoOfPages(data.pagination.numberPages);
