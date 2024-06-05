@@ -23,6 +23,34 @@ export default function EditRoom() {
     images: [],
   };
 
+  const [roomData, setRoomData] = useState({
+    roomNumber: "",
+    name_en: "",
+    name_ar: "",
+    description_en: "",
+    description_ar: "",
+    amenities: [],
+    price: "",
+    type: "",
+    images: [],
+  });
+  // useEffect(() => {
+  //   async function getDataById() {
+  //     try {
+  //       setLoading(true);
+  //       const { data } = await axios.get(
+  //         `http://localhost:3000/api/v1/rooms/${id}`
+  //       );
+  //       setRoomData(data.data);
+  //       setImagePreviews(data.data.images);
+  //       setLoading(false);
+  //       console.log(data.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   }
+  //   getDataById();
+  // }, [id]);
   useEffect(() => {
     // Fetch room data by id and set initial values
     const fetchRoomData = async () => {
@@ -120,14 +148,15 @@ export default function EditRoom() {
         formData,
         {
           headers: {
-            Authorization: "Bearer your_access_token_here",
+            authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
           },
         }
       );
       console.log("Success:", response.data);
       navigate("/rooms");
     } catch (err) {
-      console.log(err.message, "err");
+      console.log(err.response?.data || err.message, "err");
     }
   };
 
@@ -149,5 +178,19 @@ export default function EditRoom() {
         />
       )}
     </Formik>
+    // <>
+    //   <FormComponent
+    //     initialValues={roomData}
+    //     inputs={inputs}
+    //     validationSchema={validationSchema}
+    //     handleImageChange={handleImageChange}
+    //     imagePreviews={imagePreviews}
+    //     onSubmit={onSubmit}
+    //     mode={mode}
+    //     page="Room"
+    //     handleDeleteImage={handleDeleteImage}
+    //   />
+    
+    // </>
   );
 }
