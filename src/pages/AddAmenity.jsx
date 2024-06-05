@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import React, {useState } from "react";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
-import { data } from "autoprefixer";
 import Loader from "../components/Loader";
 
-export default function AddBranch() {
+export default function AddAmenity() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
@@ -17,9 +15,6 @@ export default function AddBranch() {
   const initialValues = {
     name_en: "",
     name_ar: "",
-    phoneNumber: [],
-    address_en: "",
-    address_ar: "",
     description_en: "",
     description_ar: "",
     images: [],
@@ -28,26 +23,14 @@ export default function AddBranch() {
   const inputs = [
     { name: "name_en", title: "English Name", type: "text" },
     { name: "name_ar", title: "Arabic Name", type: "text" },
-    { name: "address_en", title: "English Address", type: "text" },
-    { name: "address_ar", title: "Arabic Address", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
     { name: "description_ar", title: "Arabic Description", type: "textarea" },
-    { name: "phoneNumber", title: "Phone Number", type: "phone" },
     { name: "images", title: "Images", type: "file" },
   ];
 
   const validationSchema = Yup.object({
     name_en: Yup.string().required("English name is required"),
     name_ar: Yup.string().required("Arabic name is required"),
-    phoneNumber: Yup.array()
-      .of(
-        Yup.string()
-          .matches(/^\d{11}$/, "Phone number must be 11 digits")
-          .required("Phone number is required")
-      )
-      .min(1, "At least one phone number is required"),
-    address_en: Yup.string().required("English address is required"),
-    address_ar: Yup.string().required("Arabic address is required"),
     description_en: Yup.string().required("English description is required"),
     description_ar: Yup.string().required("Arabic description is required"),
     images: Yup.array()
@@ -88,13 +71,10 @@ export default function AddBranch() {
         formData.append(key, values[key]);
       }
     }
-    // for (let pair of formData.entries()) {
-    //   console.log("jjjjsa", `${pair[0]}: ${pair[1]}`);
-    // }
     try {
       setLoading(true)
       const response = await axios.post(
-        "http://localhost:3000/api/v1/hotels",
+        "http://localhost:3000/api/v1/Amenities",
         formData,
         {
           headers: {
@@ -104,7 +84,7 @@ export default function AddBranch() {
         }
       );
       setLoading(false)
-      navigate("/branches");
+      navigate("/amenities");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
@@ -125,7 +105,7 @@ export default function AddBranch() {
         imagePreviews={imagePreviews}
         onSubmit={onSubmit}
         mode={mode}
-        page="Branch"
+        page="Amenity"
       />
     </>
   );

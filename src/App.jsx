@@ -25,6 +25,12 @@ import Guard from "./ProtectedRoutes/Guard.jsx";
 import User from "./pages/User.jsx";
 import AddUser from "./pages/AddUser.jsx";
 import EditUser from "./pages/EditUser.jsx";
+import History from "./pages/History.jsx";
+import Amenity from "./pages/Amenity.jsx";
+import AddAmenity from "./pages/AddAmenity.jsx";
+import EditAmenity from "./pages/EditAmenity.jsx";
+import AddRoom from "./pages/AddRoom.jsx";
+import EditRoom from "./pages/EditRoom.jsx";
 function App() {
   const [dark, setDark] = useState("light");
   const myLoc = useLocation();
@@ -55,7 +61,16 @@ function App() {
                 <Route path="/users" element={<User />} />
                 {/* <Route path="/users/addUser" element={<AddUser />} />
                 <Route path="/users/editUser/:id" element={<EditUser/>} /> */}
+                <Route path="/histories" element={<History />} />
+                <Route path="/amenities" element={<Amenity />} />
+                <Route path="/amenities/addAmenity" element={<AddAmenity />} />
+                <Route
+                  path="/amenities/editAmenity/:id"
+                  element={<EditAmenity />}
+                />
                 <Route path="/rooms" element={<Room />} />
+                <Route path="/rooms/addroom" element={<AddRoom />} />
+                <Route path="/rooms/editroom/:id" element={<AddRoom />} />
                 <Route path="**" element={<Room/>}/>
               </Route>
             </Routes>
