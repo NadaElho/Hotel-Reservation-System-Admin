@@ -6,6 +6,7 @@ import axios from "axios";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
+import axiosInstance from "../interceptor";
 
 export default function Room() {
   const [rooms, setRooms] = useState([]);
@@ -15,10 +16,10 @@ export default function Room() {
   const [loading, setLoading] = useState(false);
 
   const cols = [
+    { col: "Id" },
     { col: "Room Name" },
-    { col: "Room Type" },
     { col: "Images" },
-    { col: "Status" },
+    { col: "Room Type" },
     { col: "Room Amenities" },
     { col: "Action" },
   ];
@@ -44,7 +45,6 @@ export default function Room() {
           amenitiesIds: room.amenitiesIds
             .map((amenity) => amenity.name_en)
             .join(", "),
-          status: room.status,
         }));
         setRooms(formattedData);
       }
@@ -67,7 +67,7 @@ export default function Room() {
     if (window.confirm("Are you sure you want to delete this room?")) {
       try {
         setLoading(true);
-        await axios.delete(`http://localhost:3000/api/v1/rooms/${roomId}`);
+        await axiosInstance.delete(`/rooms/${roomId}`);
         getAllRooms();
         setLoading(false);
       } catch (err) {
@@ -87,9 +87,7 @@ export default function Room() {
 
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
-      <Link to="addroom">
-        <Button name="Add Room " icon={CiSquarePlus} />
-      </Link>
+      <Button name="Add Room " icon={CiSquarePlus} navigate="addRoom" />
       <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
         <Table cols={cols} data={rooms}>
           {rooms.map((room) => (

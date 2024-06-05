@@ -9,7 +9,6 @@ export default function Table(props) {
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
-  console.log("linkEdit", linkEdit, data);
   const getStatusClass = (status) => {
     switch (status) {
       case "pending":
@@ -51,7 +50,7 @@ export default function Table(props) {
                             <img
                               src={value[0]}
                               alt="Branch"
-                              className="w-16 h-16 object-cover"
+                              className="w-20 h-20 object-cover rounded-3xl"
                             />
                           ) : key === "id" ? (
                             index + 1
@@ -65,10 +64,10 @@ export default function Table(props) {
                         </td>
                       ))}
                       {page == "history" ? null : (
-                        <td className="whitespace-nowrap px-6 pt-10 flex justify-items-end">
+                        <td className="whitespace-nowrap px-6 pt-10 flex justify-center justify-items-end">
                           {page == "user" ? null : (
                             <Link to={`${linkEdit}/${item.id}`}>
-                              <FaRegEdit className="me-3 w-4 h-4" />
+                              <FaRegEdit className="me-3 w-4 h-4 text-green-600" />
                             </Link>
                           )}
                           <button
@@ -78,7 +77,7 @@ export default function Table(props) {
                               setShowModal(true);
                             }}
                           >
-                            <RiDeleteBinLine className="w-4 h-4" />
+                            <RiDeleteBinLine className="w-4 h-4 text-red-600" />
                           </button>
                         </td>
                       )}

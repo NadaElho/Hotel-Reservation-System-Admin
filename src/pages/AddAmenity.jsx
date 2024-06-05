@@ -1,9 +1,9 @@
 import React, {useState } from "react";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 
 export default function AddAmenity() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -73,15 +73,9 @@ export default function AddAmenity() {
     }
     try {
       setLoading(true)
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/Amenities",
-        formData,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-          },
-        }
+      const response = await axiosInstance.post(
+        "/Amenities",
+        formData
       );
       setLoading(false)
       navigate("/amenities");

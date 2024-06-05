@@ -23,6 +23,17 @@ export default function EditRoom() {
   const id = "665265f60e87f143aa430760";
   const mode = "edit";
 
+  const [roomData, setRoomData] = useState({
+    roomNumber: "",
+    name_en: "",
+    name_ar: "",
+    description_en: "",
+    description_ar: "",
+    amenities: [],
+    price: "",
+    type: "",
+    images: [],
+  });
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
@@ -58,7 +69,7 @@ export default function EditRoom() {
 
   const inputs = [
     { name: "roomNumber", title: "Room Number", type: "text" },
-    { name: "price", title: "Price (EGP)", type: "text" },
+    { name: "price", title: "Price", type: "text" },
     { name: "name_en", title: "English Name", type: "text" },
     { name: "name_ar", title: "Arabic Name", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
@@ -130,11 +141,10 @@ export default function EditRoom() {
         formData,
         {
           headers: {
-            authorization: "Bearer YOUR_JWT_TOKEN",
+              `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      console.log("Success:", response.data);
       navigate("/rooms");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
@@ -146,12 +156,19 @@ export default function EditRoom() {
       inputs={inputs}
       initialValues={initialValues}
       validationSchema={validationSchema}
-      handleImageChange={handleImageChange}
-      handleDeleteImage={handleDeleteImage}
       onSubmit={onSubmit}
-      mode={mode}
-      page="Room"
-      imagePreviews={imagePreviews}
-    />
+    >
+      {({ handleSubmit, setFieldValue }) => (
+        <FormComponent
+          inputs={inputs}
+          handleDeleteImage={handleDeleteImage}
+          handleImageChange={(event) => handleImageChange(event, setFieldValue)}
+          imagePreviews={imagePreviews}
+          onSubmit={handleSubmit}
+          mode={mode}
+          page="Room"
+        />
+      )}
+    </Formik>
   );
 }

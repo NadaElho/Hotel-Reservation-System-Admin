@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import { data } from "autoprefixer";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 
 export default function AddBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -88,20 +87,11 @@ export default function AddBranch() {
         formData.append(key, values[key]);
       }
     }
-    // for (let pair of formData.entries()) {
-    //   console.log("jjjjsa", `${pair[0]}: ${pair[1]}`);
-    // }
     try {
       setLoading(true)
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/hotels",
-        formData,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-          },
-        }
+      const response = await axiosInstance.post(
+        "/hotels",
+        formData
       );
       setLoading(false)
       navigate("/branches");
