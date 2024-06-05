@@ -65,7 +65,7 @@ export default function Table(props) {
                         </td>
                       ))}
                       {page == "history" ? null : (
-                        <td className="whitespace-nowrap px-6 pt-10 flex justify-items-end">
+                        <td className="whitespace-nowrap px-6 pt-10 flex justify-center justify-items-end">
                           {page == "user" ? null : (
                             <Link to={`${linkEdit}/${item.id}`}>
                               <FaRegEdit className="me-3 w-4 h-4 text-green-600" />
