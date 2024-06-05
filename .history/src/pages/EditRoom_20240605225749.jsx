@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import FormComponent from "./EditRoomForm";
+
 import * as Yup from "yup";
+import FormComponent from "../components/FormComponent";
 
 export default function EditRoom() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -20,28 +21,13 @@ export default function EditRoom() {
   });
   const navigate = useNavigate();
   const { id } = useParams();
-  // const id = "665265f60e87f143aa430760";
   const mode = "edit";
 
-  const [roomData, setRoomData] = useState({
-    roomNumber: "",
-    name_en: "",
-    name_ar: "",
-    description_en: "",
-    description_ar: "",
-    amenities: [],
-    price: "",
-    type: "",
-    images: [],
-  });
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/v1/rooms/${id}`
-        );
+        const response = await axios.get(`http://localhost:3000/api/v1/rooms/${id}`);
         const roomData = response.data.room;
-        console.log(roomData);
 
         setInitialValues({
           roomNumber: roomData.roomNumber || "",
@@ -96,13 +82,9 @@ export default function EditRoom() {
     description_en: Yup.string().required("English description is required"),
     description_ar: Yup.string().required("Arabic description is required"),
     amenities: Yup.array().min(1, "Select at least one amenity"),
-    price: Yup.number()
-      .required("Price is required")
-      .positive("Price must be positive"),
+    price: Yup.number().required("Price is required").positive("Price must be positive"),
     type: Yup.string().required("Room type is required"),
-    images: Yup.array()
-      .of(Yup.mixed().required("Image is required"))
-      .min(1, "At least one image is required"),
+    images: Yup.array().of(Yup.mixed().required("Image is required")).min(1, "At least one image is required"),
   });
 
   const handleImageChange = (event, setFieldValue) => {
@@ -136,17 +118,11 @@ export default function EditRoom() {
       }
     }
     try {
-
-      const esponse= await axios.patch(
-        `http://localhost:3000/api/v1/rooms/${id}`,
-        formData,
-        {
-          headers: {
-            authorization:`Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log(esponse);
+      await axios.patch(`http://localhost:3000/api/v1/rooms/${id}`, formData, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       navigate("/rooms");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
@@ -159,13 +135,11 @@ export default function EditRoom() {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-  
-        
-          handleDeleteImage={handleDeleteImage}
-          handleImageChange={(event) => handleImageChange(event, setFieldValue)}
-          imagePreviews={imagePreviews}
-          mode={mode}
-          page="Room"
-        />
+      handleDeleteImage={handleDeleteImage}
+      handleImageChange={handleImageChange}
+      imagePreviews={imagePreviews}
+      mode={mode}
+      page="Room"
+    />
   );
 }

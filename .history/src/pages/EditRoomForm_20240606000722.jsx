@@ -59,7 +59,7 @@ export default function FormComponent(props) {
                   return (
                     <div className="col-span-1" key={input.name}>
                       <label
-                        htmlFor={input.name}
+                        htmlFor="fff"
                         className="block mb-2 text-base font-bold"
                       >
                         {input.title}

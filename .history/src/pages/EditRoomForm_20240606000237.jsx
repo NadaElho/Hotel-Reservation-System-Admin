@@ -96,7 +96,7 @@ export default function FormComponent(props) {
                         placeholder={`Enter ${input.title}`}
                       ></Field>
                       <ErrorMessage
-                        name={input.name}
+                        name="amskms"
                         component="div"
                         className="error text-red-500"
                       />

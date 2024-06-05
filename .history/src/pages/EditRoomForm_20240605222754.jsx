@@ -15,17 +15,23 @@ export default function FormComponent(props) {
     mode,
     page,
     imagePreviews,
-    setTagifyInstance,
+    // amenitiesOptions = ["weew", "wewe"],
+    setTagifyInstance = "welcome",
   } = props;
-  
   const [dropdownOptions, setDropdownOptions] = useState([]);
+
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
 
   useEffect(() => {
     const fetchAmenities = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/v1/amenities");
-        const amenityNames = response.data.data.map((amenity) => amenity.name_en);
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/amenities"
+        );
+        const amenityNames = response.data.data.map(
+          (amenity) => amenity.name_en
+        );
+        console.log(amenityNames);
         setAmenitiesOptions(amenityNames);
       } catch (err) {
         console.error("Error fetching amenities:", err);
@@ -42,6 +48,8 @@ export default function FormComponent(props) {
       }))
     );
   }, [amenitiesOptions]);
+
+  console.log(initialValues);
 
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
@@ -68,7 +76,7 @@ export default function FormComponent(props) {
                         type="text"
                         id={input.name}
                         name={input.name}
-                        placeholder={`Enter ${input.title}`}
+                        placeholder={Enter  ${input.title}}
                         className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       />
                       <ErrorMessage
@@ -93,7 +101,7 @@ export default function FormComponent(props) {
                         name={input.name}
                         rows="4"
                         className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
-                        placeholder={`Enter ${input.title}`}
+                        placeholder={Enter ${input.title}}
                       ></Field>
                       <ErrorMessage
                         name={input.name}
@@ -105,12 +113,23 @@ export default function FormComponent(props) {
                 } else if (input.type === "select") {
                   return (
                     <div className="col-span-1" key={input.name}>
-                      <label
+                      {/* <label
                         htmlFor={input.name}
                         className="block mb-2 text-base font-bold"
                       >
                         {input.title}
                       </label>
+                      <Field
+                        as="select"
+                        id={input.name}
+                        name={input.name}
+                        className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                      >
+                        <option value="" label={Select ${input.title}} />
+                        {input.options.map((option) => (
+                          <option key={option} value={option} label={option} />
+                        ))}
+                      </Field> */}
                       <Dropdown
                         options={dropdownOptions}
                         onChange={(values) => {
@@ -126,42 +145,6 @@ export default function FormComponent(props) {
                         }}
                         multi
                       />
-                      <ErrorMessage
-                        name={input.name}
-                        component="div"
-                        className="error text-red-500"
-                      />
-                    </div>
-                  );
-                } else if (input.type === "select1") {
-                  return (
-                    <div className="col-span-1" key={input.name}>
-                      <label
-                        htmlFor={input.name}
-                        className="block mb-2 text-base font-bold"
-                      >
-                        {input.title}
-                      </label>
-                      {input.type === "select1" && (
-                        <Field
-                          as="select"
-                          id={input.name}
-                          name={input.name}
-                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
-                        >
-                          <option value="">
-                            Select {input.title.toLowerCase()}
-                          </option>
-                          { input.options.map((option)=>{
-                            return (
-                            <option  key={input.name}>
-                              {option}
-                            </option>
-                            )
-                          })
-                          }
-                        </Field>
-                      )}
                       <ErrorMessage
                         name={input.name}
                         component="div"
@@ -201,7 +184,7 @@ export default function FormComponent(props) {
                           >
                             <img
                               src={preview}
-                              alt={`Image preview ${index}`}
+                              alt={Image preview ${index}}
                               className="w-12 h-12 object-cover rounded-full"
                             />
                             <button
@@ -262,7 +245,7 @@ export default function FormComponent(props) {
               type="submit"
               className="bg-main-800 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
             >
-              {mode === "add" ? `Add ${page}` : `Save ${page}`}
+              {mode === "add" ? Add ${page} : Save ${page}}
             </button>
           </Form>
         )}

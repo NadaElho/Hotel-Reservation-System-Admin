@@ -164,8 +164,10 @@ export default function EditRoom() {
           handleDeleteImage={handleDeleteImage}
           handleImageChange={(event) => handleImageChange(event, setFieldValue)}
           imagePreviews={imagePreviews}
+       
           mode={mode}
           page="Room"
         />
+     
   );
 }

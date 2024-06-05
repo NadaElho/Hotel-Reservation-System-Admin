@@ -152,13 +152,10 @@ export default function FormComponent(props) {
                           <option value="">
                             Select {input.title.toLowerCase()}
                           </option>
-                          { input.options.map((option)=>{
-                            return (
-                            <option  key={input.name}>
-                              {option}
+                          {
+                            <option  >
+                              {input[0].name}
                             </option>
-                            )
-                          })
                           }
                         </Field>
                       )}

@@ -19,8 +19,8 @@ export default function EditRoom() {
     images: [],
   });
   const navigate = useNavigate();
-  const { id } = useParams();
-  // const id = "665265f60e87f143aa430760";
+  // const { id } = useParams();
+  const id = "665265f60e87f143aa430760";
   const mode = "edit";
 
   const [roomData, setRoomData] = useState({
@@ -138,7 +138,7 @@ export default function EditRoom() {
     try {
 
       const esponse= await axios.patch(
-        `http://localhost:3000/api/v1/rooms/${id}`,
+        `http://localhost:3000/api/v1/room-type/${id}`,
         formData,
         {
           headers: {
@@ -146,7 +146,6 @@ export default function EditRoom() {
           },
         }
       );
-      console.log(esponse);
       navigate("/rooms");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
@@ -164,8 +163,10 @@ export default function EditRoom() {
           handleDeleteImage={handleDeleteImage}
           handleImageChange={(event) => handleImageChange(event, setFieldValue)}
           imagePreviews={imagePreviews}
+       
           mode={mode}
           page="Room"
         />
+     
   );
 }

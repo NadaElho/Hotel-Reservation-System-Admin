@@ -142,26 +142,21 @@ export default function FormComponent(props) {
                       >
                         {input.title}
                       </label>
-                      {input.type === "select1" && (
-                        <Field
-                          as="select"
-                          id={input.name}
-                          name={input.name}
-                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
-                        >
-                          <option value="">
-                            Select {input.title.toLowerCase()}
-                          </option>
-                          { input.options.map((option)=>{
-                            return (
-                            <option  key={input.name}>
-                              {option}
-                            </option>
-                            )
-                          })
+                      <select
+                        options={dropdownOptions}
+                        onChange={(values) => {
+                          if (setTagifyInstance) {
+                            setTagifyInstance(
+                              values.map((value) => value.value)
+                            );
                           }
-                        </Field>
-                      )}
+                          setFieldValue(
+                            "amenities",
+                            values.map((value) => value.value)
+                          );
+                        }}
+                        multi
+                      />
                       <ErrorMessage
                         name={input.name}
                         component="div"

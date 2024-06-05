@@ -89,8 +89,8 @@ export default function FormComponent(props) {
                       </label>
                       <Field
                         as="textarea"
-                        id={input.name}
-                        name={input.name}
+                        id="s"
+                        name="koskodks"
                         rows="4"
                         className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                         placeholder={`Enter ${input.title}`}

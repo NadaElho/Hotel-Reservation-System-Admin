@@ -82,7 +82,7 @@ export default function FormComponent(props) {
                   return (
                     <div className="col-span-1" key={input.name}>
                       <label
-                        htmlFor={input.name}
+                        htmlFor="asask"
                         className="block mb-2 text-base font-bold"
                       >
                         {input.title}
@@ -90,7 +90,7 @@ export default function FormComponent(props) {
                       <Field
                         as="textarea"
                         id={input.name}
-                        name={input.name}
+                        name="koskodks"
                         rows="4"
                         className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                         placeholder={`Enter ${input.title}`}

@@ -19,8 +19,8 @@ export default function EditRoom() {
     images: [],
   });
   const navigate = useNavigate();
-  const { id } = useParams();
-  // const id = "665265f60e87f143aa430760";
+  // const { id } = useParams();
+  const id = "665265f60e87f143aa430760";
   const mode = "edit";
 
   const [roomData, setRoomData] = useState({
@@ -164,8 +164,10 @@ export default function EditRoom() {
           handleDeleteImage={handleDeleteImage}
           handleImageChange={(event) => handleImageChange(event, setFieldValue)}
           imagePreviews={imagePreviews}
+       
           mode={mode}
           page="Room"
         />
+     
   );
 }

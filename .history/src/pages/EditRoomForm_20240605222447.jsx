@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+// import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Select from "react-dropdown-select";
-import Dropdown from "react-dropdown-select";
-import axios from "axios";
 
 export default function FormComponent(props) {
   const {
@@ -15,33 +13,7 @@ export default function FormComponent(props) {
     mode,
     page,
     imagePreviews,
-    setTagifyInstance,
   } = props;
-  
-  const [dropdownOptions, setDropdownOptions] = useState([]);
-  const [amenitiesOptions, setAmenitiesOptions] = useState([]);
-
-  useEffect(() => {
-    const fetchAmenities = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/v1/amenities");
-        const amenityNames = response.data.data.map((amenity) => amenity.name_en);
-        setAmenitiesOptions(amenityNames);
-      } catch (err) {
-        console.error("Error fetching amenities:", err);
-      }
-    };
-    fetchAmenities();
-  }, []);
-
-  useEffect(() => {
-    setDropdownOptions(
-      amenitiesOptions.map((option) => ({
-        label: option,
-        value: option,
-      }))
-    );
-  }, [amenitiesOptions]);
 
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
@@ -68,7 +40,7 @@ export default function FormComponent(props) {
                         type="text"
                         id={input.name}
                         name={input.name}
-                        placeholder={`Enter ${input.title}`}
+                        placeholder={`Enter  ${input.title}`}
                         className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       />
                       <ErrorMessage
@@ -111,57 +83,17 @@ export default function FormComponent(props) {
                       >
                         {input.title}
                       </label>
-                      <Dropdown
-                        options={dropdownOptions}
-                        onChange={(values) => {
-                          if (setTagifyInstance) {
-                            setTagifyInstance(
-                              values.map((value) => value.value)
-                            );
-                          }
-                          setFieldValue(
-                            "amenities",
-                            values.map((value) => value.value)
-                          );
-                        }}
-                        multi
-                      />
-                      <ErrorMessage
+                      <Field
+                        as="select"
+                        id={input.name}
                         name={input.name}
-                        component="div"
-                        className="error text-red-500"
-                      />
-                    </div>
-                  );
-                } else if (input.type === "select1") {
-                  return (
-                    <div className="col-span-1" key={input.name}>
-                      <label
-                        htmlFor={input.name}
-                        className="block mb-2 text-base font-bold"
+                        className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       >
-                        {input.title}
-                      </label>
-                      {input.type === "select1" && (
-                        <Field
-                          as="select"
-                          id={input.name}
-                          name={input.name}
-                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
-                        >
-                          <option value="">
-                            Select {input.title.toLowerCase()}
-                          </option>
-                          { input.options.map((option)=>{
-                            return (
-                            <option  key={input.name}>
-                              {option}
-                            </option>
-                            )
-                          })
-                          }
-                        </Field>
-                      )}
+                        <option value="" label={`Select ${input.title}`} />
+                        {input.options.map((option) => (
+                          <option key={option} value={option} label={option} />
+                        ))}
+                      </Field>
                       <ErrorMessage
                         name={input.name}
                         component="div"
@@ -206,9 +138,7 @@ export default function FormComponent(props) {
                             />
                             <button
                               type="button"
-                              onClick={() =>
-                                handleDeleteImage(index, setFieldValue)
-                              }
+                              onClick={() => handleDeleteImage(index)}
                               className="text-red-500"
                             >
                               X
@@ -228,22 +158,8 @@ export default function FormComponent(props) {
                         {input.title}
                       </label>
                       <Select
-                        multi
-                        options={input.options.map((option) => ({
-                          label: option,
-                          value: option,
-                        }))}
-                        values={input.options
-                          .filter((option) =>
-                            values[input.name]?.includes(option)
-                          )
-                          .map((option) => ({ label: option, value: option }))}
-                        onChange={(selected) =>
-                          setFieldValue(
-                            input.name,
-                            selected.map((option) => option.value)
-                          )
-                        }
+                        options={input.options}
+                        onChange={(value) => setFieldValue(input.name, value)}
                         className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       />
                       <ErrorMessage

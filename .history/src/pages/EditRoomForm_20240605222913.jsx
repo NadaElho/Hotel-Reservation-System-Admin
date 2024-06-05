@@ -133,42 +133,6 @@ export default function FormComponent(props) {
                       />
                     </div>
                   );
-                } else if (input.type === "select1") {
-                  return (
-                    <div className="col-span-1" key={input.name}>
-                      <label
-                        htmlFor={input.name}
-                        className="block mb-2 text-base font-bold"
-                      >
-                        {input.title}
-                      </label>
-                      {input.type === "select1" && (
-                        <Field
-                          as="select"
-                          id={input.name}
-                          name={input.name}
-                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
-                        >
-                          <option value="">
-                            Select {input.title.toLowerCase()}
-                          </option>
-                          { input.options.map((option)=>{
-                            return (
-                            <option  key={input.name}>
-                              {option}
-                            </option>
-                            )
-                          })
-                          }
-                        </Field>
-                      )}
-                      <ErrorMessage
-                        name={input.name}
-                        component="div"
-                        className="error text-red-500"
-                      />
-                    </div>
-                  );
                 } else if (input.type === "file") {
                   return (
                     <div className="col-span-1" key={input.name}>

@@ -149,17 +149,14 @@ export default function FormComponent(props) {
                           name={input.name}
                           className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                         >
-                          <option value="">
+                          <option value={"omar"}>
                             Select {input.title.toLowerCase()}
                           </option>
-                          { input.options.map((option)=>{
-                            return (
-                            <option  key={input.name}>
-                              {option}
+                          {input.options.map((option, idx) => (
+                            <option  key={idx} value={option.name}>
+                              {option.name}
                             </option>
-                            )
-                          })
-                          }
+                          ))}
                         </Field>
                       )}
                       <ErrorMessage
