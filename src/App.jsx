@@ -71,6 +71,7 @@ function App() {
                 <Route path="/rooms" element={<Room />} />
                 <Route path="/rooms/addroom" element={<AddRoom />} />
                 <Route path="/rooms/editroom/:id" element={<EditRoom/>} />
+                <Route path="**" element={<Room/>} />
               </Route>
             </Routes>
           </LanguageProvider>
