@@ -5,7 +5,7 @@ import { CiSquarePlus, CiEdit, CiTrash } from "react-icons/ci";
 import axios from "axios";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom";
 
 export default function Room() {
   const [rooms, setRooms] = useState([]);
@@ -33,19 +33,18 @@ export default function Room() {
       const { data } = await axios.get(
         `http://localhost:3000/api/v1/rooms?limit=${limit}&page=${pageNum + 1}`
       );
-      console.log(data.data[0]);
       setNoOfPages(data.pagination.numberPages);
 
       if (data.status === "success") {
         const formattedData = data.data.map((room) => ({
-          id: room.id, // Added room id
+          id: room._id,
           title_en: room.title_en,
           images: room.images,
           roomTypeId: room.roomTypeId.type_en,
           amenitiesIds: room.amenitiesIds
             .map((amenity) => amenity.name_en)
             .join(", "),
-          status: room.status, // Adjusted status field
+          status: room.status,
         }));
         setRooms(formattedData);
       }
@@ -101,7 +100,7 @@ export default function Room() {
               <td>{room.amenitiesIds}</td>
               <td>{room.status}</td>
               <td>
-                <Link to={`/rooms/editroom/${room.id}`}>
+                <Link to={`/rooms/editroom/${room._id}`}>
                   <Button icon={CiEdit} />
                 </Link>
               </td>
