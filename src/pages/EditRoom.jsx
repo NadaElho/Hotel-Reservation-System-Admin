@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import FormComponent from "../components/FormComponent";
+import axios from "axios";
+import FormComponent from "./EditRoomForm";
+import * as Yup from "yup";
 
 export default function EditRoom() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const mode = "edit";
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     roomNumber: "",
     name_en: "",
     name_ar: "",
@@ -21,7 +17,11 @@ export default function EditRoom() {
     price: "",
     type: "",
     images: [],
-  };
+  });
+  const navigate = useNavigate();
+  // const { id } = useParams();
+  const id = "665265f60e87f143aa430760";
+  const mode = "edit";
 
   const [roomData, setRoomData] = useState({
     roomNumber: "",
@@ -35,19 +35,28 @@ export default function EditRoom() {
     images: [],
   });
   useEffect(() => {
-    // Fetch room data by id and set initial values
     const fetchRoomData = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3000/api/v1/rooms/${id}`
         );
-        const roomData = response.data; // Assuming room data is received as an object
-        setInitialValues(roomData);
-        // Set image previews if room has images
-        if (roomData.images) {
-          const previews = roomData.images.map((image) =>
-            URL.createObjectURL(image)
-          );
+        const roomData = response.data.room;
+        console.log(roomData.room);
+
+        setInitialValues({
+          roomNumber: roomData.roomNumber || "",
+          name_en: roomData.name_en || "",
+          name_ar: roomData.name_ar || "",
+          description_en: roomData.description_en || "",
+          description_ar: roomData.description_ar || "",
+          amenities: roomData.amenities || [],
+          price: roomData.price || "",
+          type: roomData.type || "",
+          images: roomData.images || [],
+        });
+
+        if (roomData.images && roomData.images.length > 0) {
+          const previews = roomData.images.map((image) => image);
           setImagePreviews(previews);
         }
       } catch (error) {
@@ -104,7 +113,7 @@ export default function EditRoom() {
     setFieldValue("images", [...imageFiles, ...files]);
   };
 
-  const handleDeleteImage = (index) => {
+  const handleDeleteImage = (index, setFieldValue) => {
     const updatedPreviews = [...imagePreviews];
     updatedPreviews.splice(index, 1);
     setImagePreviews(updatedPreviews);
@@ -112,6 +121,7 @@ export default function EditRoom() {
     const updatedFiles = [...imageFiles];
     updatedFiles.splice(index, 1);
     setImageFiles(updatedFiles);
+    setFieldValue("images", updatedFiles);
   };
 
   const onSubmit = async (values) => {
@@ -131,7 +141,6 @@ export default function EditRoom() {
         formData,
         {
           headers: {
-            authorization:
               `Bearer ${localStorage.getItem("token")}`,
           },
         }
@@ -143,7 +152,8 @@ export default function EditRoom() {
   };
 
   return (
-    <Formik
+    <FormComponent
+      inputs={inputs}
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
@@ -160,19 +170,5 @@ export default function EditRoom() {
         />
       )}
     </Formik>
-    // <>
-    //   <FormComponent
-    //     initialValues={roomData}
-    //     inputs={inputs}
-    //     validationSchema={validationSchema}
-    //     handleImageChange={handleImageChange}
-    //     imagePreviews={imagePreviews}
-    //     onSubmit={onSubmit}
-    //     mode={mode}
-    //     page="Room"
-    //     handleDeleteImage={handleDeleteImage}
-    //   />
-    
-    // </>
   );
 }
