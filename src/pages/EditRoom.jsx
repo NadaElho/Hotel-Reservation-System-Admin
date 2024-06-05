@@ -9,8 +9,8 @@ export default function EditRoom() {
   const [imageFiles, setImageFiles] = useState([]);
   const [initialValues, setInitialValues] = useState({
     roomNumber: "",
-    name_en: "",
-    name_ar: "",
+    title_en: "",
+    title_ar: "",
     description_en: "",
     description_ar: "",
     amenities: [],
@@ -19,21 +19,21 @@ export default function EditRoom() {
     images: [],
   });
   const navigate = useNavigate();
-  // const { id } = useParams();
-  const id = "665265f60e87f143aa430760";
+  const { id } = useParams();
+  // const id = "665265f60e87f143aa430760";
   const mode = "edit";
 
-  const [roomData, setRoomData] = useState({
-    roomNumber: "",
-    name_en: "",
-    name_ar: "",
-    description_en: "",
-    description_ar: "",
-    amenities: [],
-    price: "",
-    type: "",
-    images: [],
-  });
+  // const [roomData, setRoomData] = useState({
+  //   roomNumber: "",
+  //   name_en: "",
+  //   name_ar: "",
+  //   description_en: "",
+  //   description_ar: "",
+  //   amenities: [],
+  //   price: "",
+  //   type: "",
+  //   images: [],
+  // });
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
@@ -45,8 +45,8 @@ export default function EditRoom() {
 
         setInitialValues({
           roomNumber: roomData.roomNumber || "",
-          name_en: roomData.name_en || "",
-          name_ar: roomData.name_ar || "",
+          title_en: roomData.title_en || "",
+          title_ar: roomData.title_ar || "",
           description_en: roomData.description_en || "",
           description_ar: roomData.description_ar || "",
           amenities: roomData.amenities || [],
@@ -70,8 +70,8 @@ export default function EditRoom() {
   const inputs = [
     { name: "roomNumber", title: "Room Number", type: "text" },
     { name: "price", title: "Price", type: "text" },
-    { name: "name_en", title: "English Name", type: "text" },
-    { name: "name_ar", title: "Arabic Name", type: "text" },
+    { name: "title_en", title: "English Name", type: "text" },
+    { name: "title_ar", title: "Arabic Name", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
     { name: "description_ar", title: "Arabic Description", type: "textarea" },
     {
@@ -91,8 +91,8 @@ export default function EditRoom() {
 
   const validationSchema = Yup.object({
     roomNumber: Yup.string().required("Room number is required"),
-    name_en: Yup.string().required("English name is required"),
-    name_ar: Yup.string().required("Arabic name is required"),
+    title_en: Yup.string().required("English name is required"),
+    title_ar: Yup.string().required("Arabic name is required"),
     description_en: Yup.string().required("English description is required"),
     description_ar: Yup.string().required("Arabic description is required"),
     amenities: Yup.array().min(1, "Select at least one amenity"),

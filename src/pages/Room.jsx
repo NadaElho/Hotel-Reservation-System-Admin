@@ -11,12 +11,12 @@ import axiosInstance from "../interceptor";
 export default function Room() {
   const [rooms, setRooms] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(1);
   const [noOfPages, setNoOfPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const cols = [
-    { col: "Id" },
+    { col: "Id" },    
     { col: "Room Name" },
     { col: "Images" },
     { col: "Room Type" },
@@ -64,7 +64,6 @@ export default function Room() {
   };
 
   const handleDeleteClick = async (roomId) => {
-    if (window.confirm("Are you sure you want to delete this room?")) {
       try {
         setLoading(true);
         await axiosInstance.delete(`/rooms/${roomId}`);
@@ -74,7 +73,6 @@ export default function Room() {
         console.log(err.response?.data || err.message, "err");
         setLoading(false);
       }
-    }
   };
 
   if (loading) {
@@ -89,7 +87,7 @@ export default function Room() {
     <div className="lg:p-14 p-7 sm:ml-64">
       <Button name="Add Room " icon={CiSquarePlus} navigate="addRoom" />
       <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-        <Table cols={cols} data={rooms} linkEdit="editRoom">
+        <Table cols={cols} data={rooms} linkEdit="editRoom" handleDelete={handleDeleteClick}>
           {rooms.map((room) => (
             <tr key={room.id}>
               <td>{room.title_en}</td>

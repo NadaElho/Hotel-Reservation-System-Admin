@@ -12,7 +12,7 @@ import axiosInstance from "../interceptor";
 export default function Amenity() {
   const [amenities, setAmenities] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(8);
+  const [limit, setLimit] = useState(1);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
   const [showModal, setShowModal] = useState(false);
