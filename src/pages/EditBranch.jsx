@@ -34,7 +34,6 @@ export default function EditBranch() {
         setHotelData(data.data);
         setImagePreviews(data.data.images);
         setLoading(false);
-        console.log(data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

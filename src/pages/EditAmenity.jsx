@@ -36,7 +36,6 @@ export default function EditAmenity() {
         setLoading(false);
         setAmenityData(data.data);
         setImagePreviews(data.data.images);
-        console.log(data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

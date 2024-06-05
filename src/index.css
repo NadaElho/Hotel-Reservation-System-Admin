@@ -47,10 +47,10 @@ ul {
     padding: 0;
     margin: 0;
 }
-
+/* 
 .sm\\:hidden {
     display: none;
-}
+} */
 
 @media (min-width: 640px) {
     .sm\\:hidden {
@@ -58,51 +58,75 @@ ul {
     }
 }
 
-.pyramid-loader .wrapper .side {
-    width: 70px;
-    height: 70px;
-  /* you can choose any gradient or color you want */
-    /* background: radial-gradient( #2F2585 10%, #F028FD 70%, #2BDEAC 120%); */
+.loader {
+  transform: rotateZ(45deg);
+  perspective: 1000px;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  color: #52381d;
+}
+  .loader:before,
+  .loader:after {
+    content: '';
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    transform-origin: center top;
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    transform: rotateX(70deg);
+    animation: 1s spin linear infinite;
   }
-  
-  .pyramid-loader .wrapper .side1 {
-    transform: rotateZ(-30deg) rotateY(90deg);
-    background: conic-gradient( #2BDEAC, #F028FD, #D8CCE6, #2F2585);
+  .loader:after {
+    color: #52381d;
+    transform: rotateY(70deg);
+    animation-delay: .4s;
   }
-  
-  .pyramid-loader .wrapper .side2 {
-    transform: rotateZ(30deg) rotateY(90deg);
-    background: conic-gradient( #2F2585, #D8CCE6, #F028FD, #2BDEAC);
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotateZ(0deg);
   }
-  
-  .pyramid-loader .wrapper .side3 {
-    transform: rotateX(30deg);
-    background: conic-gradient( #2F2585, #D8CCE6, #F028FD, #2BDEAC);
+  100% {
+    transform: translate(-50%, -50%) rotateZ(360deg);
   }
-  
-  .pyramid-loader .wrapper .side4 {
-    transform: rotateX(-30deg);
-    background: conic-gradient( #2BDEAC, #F028FD, #D8CCE6, #2F2585);
+}
+
+@keyframes rotateccw {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-  
-  .pyramid-loader .wrapper .shadow {
-    width: 60px;
-    height: 60px;
-    background: #8B5AD5;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    transform: rotateX(90deg) translateZ(-40px);
-    filter: blur(12px);
+  100% {
+    transform: translate(-50%, -50%) rotate(-360deg);
   }
+}
+
+@keyframes spin {
+  0%,
+  100% {
+    box-shadow: .2em 0px 0 0px currentcolor;
+  }
+  12% {
+    box-shadow: .2em .2em 0 0 currentcolor;
+  }
+  25% {
+    box-shadow: 0 .2em 0 0px currentcolor;
+  }
+  37% {
+    box-shadow: -.2em .2em 0 0 currentcolor;
+  }
+  50% {
+    box-shadow: -.2em 0 0 0 currentcolor;
+  }
+  62% {
+    box-shadow: -.2em -.2em 0 0 currentcolor;
+  }
+  75% {
+    box-shadow: 0px -.2em 0 0 currentcolor;
+  }
+  87% {
+    box-shadow: .2em -.2em 0 0 currentcolor;
+  }
+}

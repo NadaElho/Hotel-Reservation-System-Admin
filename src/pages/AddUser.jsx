@@ -81,9 +81,6 @@ export default function AddUser() {
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
-    for (let pair of formData.entries()) {
-        console.log("jjjjsagggg", `${pair[0]}: ${pair[1]}`);
-      }
   };
   if (loading) {
     return <div className="lg:p-14 p-7 sm:ml-64">

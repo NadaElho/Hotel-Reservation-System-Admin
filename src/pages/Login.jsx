@@ -3,18 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { AiOutlineMail } from "react-icons/ai";
 import img from "/login.png";
-import logo from "/logo.png"
+import logo from "/logo.png";
 import { toast } from "react-toastify";
 import axiosInstance from "../interceptor";
 
-const Login = ({handleLog}) => {
+const Login = () => {
   const navigate = useNavigate();
 
   return (
     <div className="flex justify-center lg:h-screen lg:overflow-hidden min-h-screen">
       <div className="w-full p-4 lg:p-8 lg:w-1/2  flex flex-col justify-center">
-        <img src={logo} className="fixed top-8 left-4 lg:left-10"/>
-          
+        <img src={logo} className="fixed top-8 left-4 lg:left-10" />
+
         <h3 className="ml-2 font-bold text-grey-600 text-2xl mt-[100px] lg:mt-0">
           Welcome Back Admin
         </h3>
@@ -42,7 +42,7 @@ const Login = ({handleLog}) => {
           }}
           onSubmit={async ({ password, email }, { setSubmitting }) => {
             try {
-              let res = await axiosInstance.post(
+              let { data } = await axiosInstance.post(
                 "/users/login",
                 {
                   password,
@@ -54,10 +54,13 @@ const Login = ({handleLog}) => {
                   },
                 }
               );
-              localStorage.setItem("token", res.data.token);
-              navigate("/rooms");
-              toast.success("You are logged in successfully");
-              handleLog();
+              if (data.data.role == "6642764acd637f7c34eb4b97") {
+                localStorage.setItem("token", data.data.token);
+                toast.success("You are logged in successfully");
+                navigate("/rooms");
+              } else {
+                toast.error("Only admins");
+              }
             } catch (err) {
               toast.error(err.response.data.message);
             }
@@ -75,7 +78,7 @@ const Login = ({handleLog}) => {
           }) => (
             <form onSubmit={handleSubmit} className="text-white">
               <div className="my-2">
-                <div className="flex items-center gap-2 border rounded-full bg-main-300 my-1 p-2">
+                <div className="flex items-center gap-2 border rounded-full bg-main-300 my-1 px-3 py-1">
                   <AiOutlineMail color="white" />
                   <input
                     type="email"
@@ -92,7 +95,7 @@ const Login = ({handleLog}) => {
                 </div>
               </div>
               <div className="my-2">
-                <div className="flex items-center gap-2 border rounded-full bg-main-300 my-1 p-2">
+                <div className="flex items-center gap-2 border rounded-full bg-main-300 my-1 px-3 py-1">
                   <IoLockClosedOutline color="white" />
                   <input
                     type="password"

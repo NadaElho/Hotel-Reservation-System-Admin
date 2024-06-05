@@ -34,23 +34,6 @@ export default function EditRoom() {
     type: "",
     images: [],
   });
-  // useEffect(() => {
-  //   async function getDataById() {
-  //     try {
-  //       setLoading(true);
-  //       const { data } = await axios.get(
-  //         `http://localhost:3000/api/v1/rooms/${id}`
-  //       );
-  //       setRoomData(data.data);
-  //       setImagePreviews(data.data.images);
-  //       setLoading(false);
-  //       console.log(data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   }
-  //   getDataById();
-  // }, [id]);
   useEffect(() => {
     // Fetch room data by id and set initial values
     const fetchRoomData = async () => {
@@ -77,7 +60,7 @@ export default function EditRoom() {
 
   const inputs = [
     { name: "roomNumber", title: "Room Number", type: "text" },
-    { name: "price", title: "Price (EGP)", type: "text" },
+    { name: "price", title: "Price", type: "text" },
     { name: "name_en", title: "English Name", type: "text" },
     { name: "name_ar", title: "Arabic Name", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
@@ -149,11 +132,10 @@ export default function EditRoom() {
         {
           headers: {
             authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
+              `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      console.log("Success:", response.data);
       navigate("/rooms");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");

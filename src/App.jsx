@@ -49,7 +49,7 @@ function App() {
             {myLoc.pathname != "/" && <SideBar />}
             <Routes>
               <Route element={<PrivateRoute />}>
-                <Route path="/" element={<Login />} />
+                <Route exact path="/" element={<Login />}/>
               </Route>
               <Route element={<Guard />}>
                 <Route path="/branches" element={<Branch />} />
@@ -62,17 +62,16 @@ function App() {
                 {/* <Route path="/users/addUser" element={<AddUser />} />
                 <Route path="/users/editUser/:id" element={<EditUser/>} /> */}
                 <Route path="/histories" element={<History />} />
-
                 <Route path="/amenities" element={<Amenity />} />
                 <Route path="/amenities/addAmenity" element={<AddAmenity />} />
                 <Route
                   path="/amenities/editAmenity/:id"
                   element={<EditAmenity />}
                 />
-
                 <Route path="/rooms" element={<Room />} />
                 <Route path="/rooms/addroom" element={<AddRoom />} />
                 <Route path="/rooms/editroom/:id" element={<EditRoom/>} />
+                <Route path="**" element={<Room/>} />
               </Route>
             </Routes>
           </LanguageProvider>

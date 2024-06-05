@@ -1,50 +1,54 @@
-
 import React, { useState, useEffect } from "react";
-import { Formik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FormComponent from "./Form";
+import axiosInstance from "../interceptor";
 
 export default function AddRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([]);
+  const [hotels, setHotels] = useState([]);
   const navigate = useNavigate();
   const mode = "add";
   const initialValues = {
     roomNumber: "",
     title_en: "",
     title_ar: "",
-    hotelId:"",
+    hotelId: "",
     description_en: "",
     description_ar: "",
-    amenities: [],
+    amenitiesIds: [],
+    roomTypeId: "",
     price: "",
-    type: "",
     images: [],
   };
 
   const inputs = [
     { name: "roomNumber", title: "Room Number", type: "text" },
-    { name: "price", title: "Price (EGP)", type: "text" },
+    { name: "price", title: "Price", type: "text" },
     { name: "title_en", title: "English Name", type: "text" },
     { name: "title_ar", title: "Arabic Name", type: "text" },
-    { name: "hotelId", title: "Hotel", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
     { name: "description_ar", title: "Arabic Description", type: "textarea" },
-
     {
-      name: "amenities",
-      title: "Amenities",
-      type: "select-multiple",
-      options: amenitiesOptions, // Pass options to FormComponent
+      name: "hotelId",
+      title: "Hotel",
+      type: "select",
+      options: hotels,
     },
     {
-      name: "type",
+      name: "amenitiesIds",
+      title: "Amenities",
+      type: "select-multiple",
+      options: amenitiesOptions,
+    },
+    {
+      name: "roomTypeId",
       title: "Room Type",
       type: "select",
-      options: ["Standard", "Deluxe", "Suite"],
+      options: roomTypes,
     },
     { name: "images", title: "Images", type: "file", multiple: true },
   ];
@@ -53,14 +57,14 @@ export default function AddRoom() {
     roomNumber: Yup.string().required("Room number is required"),
     title_en: Yup.string().required("English name is required"),
     title_ar: Yup.string().required("Arabic name is required"),
-    hotelId: Yup.string().required("Hotel ID  is required"),
+    hotelId: Yup.string().required("Hotel ID is required"),
     description_en: Yup.string().required("English description is required"),
     description_ar: Yup.string().required("Arabic description is required"),
-    amenities: Yup.array().min(1, "Select at least one amenity"),
+    amenitiesIds: Yup.array().min(1, "Select at least one amenity"),
     price: Yup.number()
       .required("Price is required")
       .positive("Price must be positive"),
-    type: Yup.string().required("Room type is required"),
+    roomTypeId: Yup.string().required("Room type is required"),
     images: Yup.array()
       .of(Yup.mixed().required("Image is required"))
       .min(1, "At least one image is required"),
@@ -69,19 +73,47 @@ export default function AddRoom() {
   useEffect(() => {
     const fetchAmenities = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/amenities"
+        const response = await axiosInstance.get(
+          "/amenities"
         );
-        const amenityNames = response.data.data.map(
-          (amenity) => amenity.name_en
-        );
-        console.log(amenityNames);
+        const amenityNames = response.data.data.map((amenity) => ({
+          id: amenity._id,
+          name: amenity.name_en,
+        }));
         setAmenitiesOptions(amenityNames);
       } catch (err) {
         console.error("Error fetching amenities:", err);
       }
     };
+    const fetchRoomTypes = async () => {
+      try {
+        const response = await axiosInstance.get(
+          "/room-type"
+        );
+        const roomTypes = response.data.data.map((type) => ({
+          id: type._id,
+          name: type.type_en,
+        }));
+        setRoomTypes(roomTypes);
+      } catch (err) {
+        console.error("Error fetching types:", err);
+      }
+    };
+    const fetchHotels = async () => {
+      try {
+        const response = await axiosInstance.get("/hotels");
+        const hotels = response.data.data.map((name) => ({
+          id: name._id,
+          name: name.name_en,
+        }));
+        setHotels(hotels);
+      } catch (err) {
+        console.error("Error fetching hotels:", err);
+      }
+    };
     fetchAmenities();
+    fetchRoomTypes();
+    fetchHotels();
   }, []);
 
   const handleImageChange = (event, setFieldValue) => {
@@ -111,27 +143,20 @@ export default function AddRoom() {
         values[key].forEach((image) => {
           formData.append(key, image);
         });
+      } else if (key == "amenitiesIds") {
+        for (var i = 0; i < values[key].length; i++) {
+          formData.append("amenitiesIds", values[key][i]);
+        }
       } else {
         formData.append(key, values[key]);
       }
-
-  for (let pair of formData.entries()) {
-      console.log("jjjjsa", `${pair[0]}: ${pair[1]}`);
-    }
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/rooms",
-        formData,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-          },
-        }
+      await axiosInstance.post(
+        "/rooms",
+        formData
       );
-      console.log("Success:", response.data);
       navigate("/rooms");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
@@ -139,7 +164,7 @@ export default function AddRoom() {
   };
 
   return (
-     <>
+    <>
       <FormComponent
         initialValues={initialValues}
         inputs={inputs}
@@ -150,28 +175,8 @@ export default function AddRoom() {
         onSubmit={onSubmit}
         mode={mode}
         amenitiesOptions={amenitiesOptions}
-        page="Branch"
+        page="Room"
       />
     </>
-    // <Formik
-    //   initialValues={initialValues}
-    //   validationSchema={validationSchema}
-    //   onSubmit={onSubmit}
-    // >
-    //   {({ values, setFieldValue }) => (
-    //     <FormComponent
-    //       initialValues={initialValues}
-    //       inputs={inputs}
-    //       validationSchema={validationSchema}
-    //       handleDeleteImage={(index) => handleDeleteImage(index, setFieldValue)}
-    //       handleImageChange={(event) => handleImageChange(event, setFieldValue)}
-    //       imagePreviews={imagePreviews}
-    //       amenitiesOptions={amenitiesOptions}
-    //       onSubmit={onSubmit}
-    //       mode={mode}
-    //       page="Room"
-    //     />
-    //   )}
-    // </Formik>
   );
 }

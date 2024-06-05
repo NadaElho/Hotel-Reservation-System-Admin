@@ -9,7 +9,6 @@ export default function Table(props) {
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
-  console.log("linkEdit", linkEdit, data);
   const getStatusClass = (status) => {
     switch (status) {
       case "pending":

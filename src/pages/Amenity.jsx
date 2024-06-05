@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import ConfirmDelete from "../components/ConfirmDelete";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 export default function Amenity() {
   const [amenities, setAmenities] = useState([]);
   const [pageNum, setPageNum] = useState(0);
@@ -50,12 +51,7 @@ export default function Amenity() {
     setPageNum(data.selected);
   };
   const deleteAmenity = async (id) => {
-    await axios.delete(`http://localhost:3000/api/v1/amenities/${id}`, {
-      headers: {
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-      },
-    });
+    await axiosInstance.delete(`/amenities/${id}`);
     seteRenderDelete(!renderDelete);
   };
   if (loading) {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import Dropdown from "react-dropdown-select";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 
@@ -21,8 +21,8 @@ const FormComponent = ({
   useEffect(() => {
     setDropdownOptions(
       amenitiesOptions.map((option) => ({
-        label: option,
-        value: option,
+        label: option.name,
+        value: option.id,
       }))
     );
   }, [amenitiesOptions]);
@@ -32,7 +32,9 @@ const FormComponent = ({
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={onSubmit}
+        onSubmit={(values) => {
+          onSubmit(values);
+        }}
       >
         {({ values, setFieldValue }) => (
           <Form className="mx-auto w-full max-w-4xl">
@@ -46,20 +48,19 @@ const FormComponent = ({
                     {input.title}
                   </label>
                   {input.type === "select-multiple" &&
-                  input.name === "amenities" ? (
+                  input.name === "amenitiesIds" ? (
                     <div ref={amenitiesRef} className="mb-6">
                       <Dropdown
                         options={dropdownOptions}
-                        onChange={(values) => {
-                          if (setTagifyInstance) {
-                            setTagifyInstance(
-                              values.map((value) => value.value)
-                            );
-                          }
-                          setFieldValue(
-                            "amenities",
-                            values.map((value) => value.value)
+                        onChange={(selectedValues) => {
+                          const amenitiesArray = selectedValues.map(
+                            (value) => value.value
                           );
+                          console.log("Selected Amenities:", amenitiesArray);
+                          setFieldValue("amenitiesIds", amenitiesArray);
+                          if (setTagifyInstance) {
+                            setTagifyInstance(amenitiesArray);
+                          }
                         }}
                         multi
                       />
@@ -96,8 +97,8 @@ const FormComponent = ({
                             Select {input.title.toLowerCase()}
                           </option>
                           {input.options.map((option, idx) => (
-                            <option key={idx} value={option}>
-                              {option}
+                            <option key={idx} value={option.id}>
+                              {option.name}
                             </option>
                           ))}
                         </Field>
@@ -111,11 +112,11 @@ const FormComponent = ({
                             handleImageChange(event, setFieldValue)
                           }
                           multiple
-                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full"
                         />
                       )}
                       {input.type === "select-multiple" &&
-                        input.name !== "amenities" && (
+                        input.name !== "amenitiesIds" && (
                           <Field
                             as="select"
                             id={input.name}
