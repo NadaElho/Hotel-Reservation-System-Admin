@@ -15,7 +15,7 @@ export default function Room() {
   const [loading, setLoading] = useState(false);
 
   const cols = [
-    { col: "Id" },    
+    { col: "Id" },
     { col: "Room Name" },
     { col: "Images" },
     { col: "Room Type" },
@@ -63,15 +63,15 @@ export default function Room() {
   };
 
   const handleDeleteClick = async (roomId) => {
-      try {
-        setLoading(true);
-        await axiosInstance.delete(`/rooms/${roomId}`);
-        getAllRooms();
-        setLoading(false);
-      } catch (err) {
-        console.log(err.response?.data || err.message, "err");
-        setLoading(false);
-      }
+    try {
+      setLoading(true);
+      await axiosInstance.delete(`/rooms/${roomId}`);
+      getAllRooms();
+      setLoading(false);
+    } catch (err) {
+      console.log(err.response?.data || err.message, "err");
+      setLoading(false);
+    }
   };
 
   if (loading) {
@@ -86,7 +86,12 @@ export default function Room() {
     <div className="lg:p-14 p-7 sm:ml-64">
       <Button name="Add Room " icon={CiSquarePlus} navigate="addRoom" />
       <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-        <Table cols={cols} data={rooms} linkEdit="editRoom" handleDelete={handleDeleteClick}>
+        <Table
+          cols={cols}
+          data={rooms}
+          linkEdit="editRoom"
+          handleDelete={handleDeleteClick}
+        >
           {rooms.map((room) => (
             <tr key={room.id}>
               <td>{room.title_en}</td>
@@ -110,11 +115,16 @@ export default function Room() {
           ))}
         </Table>
         <div className="flex items-center justify-center py-3">
-          <Pagination
-            handleLimit={handleLimit}
-            pageCount={noOfPages}
-            handlePageClick={handlePageClick}
-          />
+          {rooms.length ? (
+            <Pagination
+              handleLimit={handleLimit}
+              limit={limit}
+              pageCount={noOfPages}
+              handlePageClick={handlePageClick}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

@@ -118,7 +118,10 @@ export default function FormComponent(props) {
 
                       <div ref={amenitiesRef} className="mb-6">
                         <Dropdown
+                          color="#52381d"
+                          closeOnClickInput={true}
                           options={dropdownOptions}
+                          values={dropdownOptions.filter(option => initialValues.amenitiesIds.includes(option.value))}
                           onChange={(selectedValues) => {
                             const amenitiesArray = selectedValues.map(
                               (value) => value.value

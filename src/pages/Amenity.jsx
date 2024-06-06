@@ -102,6 +102,7 @@ export default function Amenity() {
         <div className="flex items-center justify-center py-3">
           <Pagination
             handleLimit={handleLimit}
+            limit={limit}
             pageCount={noOfPages}
             handlePageClick={handlePageClick}
           />

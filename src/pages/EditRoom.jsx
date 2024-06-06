@@ -75,23 +75,23 @@ export default function EditRoom() {
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/rooms/${id}`
-        );
+        const response = await axiosInstance.get(`/rooms/${id}`);
         const roomData = response.data.room;
-
         setInitialValues({
           roomNumber: roomData.roomNumber || "",
           title_en: roomData.title_en || "",
           title_ar: roomData.title_ar || "",
           description_en: roomData.description_en || "",
           description_ar: roomData.description_ar || "",
-          amenitiesIds: roomData.amenitiesIds || [],
+          amenitiesIds:
+            roomData.amenitiesIds.map((amenity) => {
+              return amenity._id;
+            }) || [],
           price: roomData.price || "",
-          roomTypeId: roomData.roomTypeId || "",
+          roomTypeId: roomData.roomTypeId._id || "",
           images: roomData.images || [],
+          hotelId: roomData.hotelId._id,
         });
-
         if (roomData.images && roomData.images.length > 0) {
           const previews = roomData.images.map((image) => image);
           setImagePreviews(previews);
@@ -176,6 +176,7 @@ export default function EditRoom() {
         });
       } else if (key === "amenitiesIds") {
         for (var i = 0; i < values[key].length; i++) {
+          console.log(values[key][i]);
           formData.append("amenitiesIds", values[key][i]);
         }
       } else {
@@ -200,7 +201,7 @@ export default function EditRoom() {
       handleDeleteImage={handleDeleteImage}
       handleImageChange={handleImageChange}
       imagePreviews={imagePreviews}
-      // amenitiesOptions={amenitiesOptions}
+      amenitiesOptions={amenitiesOptions}
       mode={mode}
       page="Room"
     />
