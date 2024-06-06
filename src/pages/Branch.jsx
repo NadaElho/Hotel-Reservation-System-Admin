@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "../components/Table";
 import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
-import axios from "axios";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 
 export default function Branch() {
   const [branches, setBranches] = useState([]);
@@ -30,8 +30,8 @@ export default function Branch() {
   const getAllBranches = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get(
-        `http://localhost:3000/api/v1/hotels?limit=${limit}&page=${pageNum + 1}`
+      const { data } = await axiosInstance.get(
+        `/hotels?limit=${limit}&page=${pageNum + 1}`
       );
       setNoOfPages(data.pagination.numberPages);
       const formattedData = data.data.map((branch) => ({
@@ -49,12 +49,7 @@ export default function Branch() {
     }
   };
   const deleteBranch = async (id) => {
-    await axios.delete(`http://localhost:3000/api/v1/hotels/${id}`, {
-      headers: {
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-      },
-    });
+    await axiosInstance.delete(`/hotels/${id}`);
     seteRenderDelete(!renderDelete);
   };
   const handleLimit = (num) => {

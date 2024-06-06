@@ -123,7 +123,6 @@ export default function FormComponent(props) {
                             const amenitiesArray = selectedValues.map(
                               (value) => value.value
                             );
-                            console.log("Selected Amenities:", amenitiesArray);
                             setFieldValue("amenitiesIds", amenitiesArray);
                             if (setTagifyInstance) {
                               setTagifyInstance(amenitiesArray);

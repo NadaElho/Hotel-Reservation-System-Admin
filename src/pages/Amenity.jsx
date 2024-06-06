@@ -3,7 +3,6 @@ import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import ConfirmDelete from "../components/ConfirmDelete";
@@ -26,8 +25,8 @@ export default function Amenity() {
   const getAllAmenities = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get(
-        `http://localhost:3000/api/v1/amenities?limit=${limit}&page=${
+      const { data } = await axiosInstance.get(
+        `/amenities?limit=${limit}&page=${
           pageNum + 1
         }`
       );

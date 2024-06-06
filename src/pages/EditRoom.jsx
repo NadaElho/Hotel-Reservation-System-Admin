@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import FormComponent from "./EditRoomForm";
 import * as Yup from "yup";
 import axiosInstance from "../interceptor";
@@ -76,11 +75,10 @@ export default function EditRoom() {
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/v1/rooms/${id}`
+        const response = await axiosInstance.get(
+          `/rooms/${id}`
         );
         const roomData = response.data.room;
-        console.log(roomData);
 
         setInitialValues({
           roomNumber: roomData.roomNumber || "",
@@ -148,7 +146,6 @@ export default function EditRoom() {
     fetchRoomData();
   }, [id]);
 
-
   const handleImageChange = (event, setFieldValue) => {
     const files = Array.from(event.currentTarget.files);
     const previews = files.map((file) => URL.createObjectURL(file));
@@ -177,7 +174,7 @@ export default function EditRoom() {
         values[key].forEach((image) => {
           formData.append(key, image);
         });
-      } else if (key == "amenitiesIds") {
+      } else if (key === "amenitiesIds") {
         for (var i = 0; i < values[key].length; i++) {
           formData.append("amenitiesIds", values[key][i]);
         }
@@ -187,23 +184,10 @@ export default function EditRoom() {
     }
 
     try {
-      // await axiosInstance.post(`/rooms/${id}`, formData);
-
-      const esponse = await axios.patch(
-        `http://localhost:3000/api/v1/rooms/${id}`,
-        formData,
-        {
-          headers: {
-            authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NjYyNzAxfQ.4Gb9UafDDbYxXSWyqQfNfPEQ7DnKm5dQEiGu9GgAYCY`,
-          },
-        }
-      );
-      console.log("##########hallo from navigate to room ");
-
+      await axiosInstance.patch(`/rooms/${id}`, formData);
       navigate("/rooms");
     } catch (error) {
-      console.log(error.response?.data || error.message, "err");
-      return Promise.reject(error);
+      console.log("Error:", error.response?.data || error.message);
     }
   };
 

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 
 export default function EditAmenity() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -25,14 +24,7 @@ export default function EditAmenity() {
     async function getDataById() {
       try {
         setLoading(true);
-        const { data } = await axios.get(
-          `http://localhost:3000/api/v1/amenities/${id}`,{
-            headers: {
-              authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-            },
-          }
-        );
+        const { data } = await axiosInstance.get(`/amenities/${id}`);
         setLoading(false);
         setAmenityData(data.data);
         setImagePreviews(data.data.images);
@@ -92,27 +84,23 @@ export default function EditAmenity() {
       }
     }
     try {
-      setLoading(true)
-      const response = await axios.patch(
-        `http://localhost:3000/api/v1/amenities/${id}`,
-        formData,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-          },
-        }
+      setLoading(true);
+      await axiosInstance.patch(
+        `/amenities/${id}`,
+        formData
       );
-      setLoading(false)
+      setLoading(false);
       navigate("/amenities");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
   if (loading) {
-    return <div className="lg:p-14 p-7 sm:ml-64">
-      <Loader/>
-    </div>;
+    return (
+      <div className="lg:p-14 p-7 sm:ml-64">
+        <Loader />
+      </div>
+    );
   }
   return (
     <>

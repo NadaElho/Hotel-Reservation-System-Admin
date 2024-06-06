@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import { useState } from "react";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 
 export default function AddUser() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -72,8 +71,8 @@ export default function AddUser() {
     }
     try {
       setLoading(true)
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/signUp",
+      await axiosInstance.post(
+        "/users/signUp",
         formData
       );
       setLoading(false)

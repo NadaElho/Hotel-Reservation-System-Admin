@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Table from "../components/Table";
 import Button from "../components/Button";
 import { CiSquarePlus, CiEdit, CiTrash } from "react-icons/ci";
-import axios from "axios";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
@@ -31,8 +30,8 @@ export default function Room() {
   const getAllRooms = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:3000/api/v1/rooms?limit=${limit}&page=${pageNum + 1}`
+      const { data } = await axiosInstance.get(
+        `/rooms?limit=${limit}&page=${pageNum + 1}`
       );
       setNoOfPages(data.pagination.numberPages);
 

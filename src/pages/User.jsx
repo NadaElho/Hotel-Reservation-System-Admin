@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Table from "../components/Table";
-import axios from "axios";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
@@ -27,11 +26,11 @@ export default function User() {
 
   const getAllUsers = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data } = await axiosInstance.get(
         `/users?limit=${limit}&page=${pageNum + 1}`
       );
-      setLoading(false)
+      setLoading(false);
       setNoOfPages(data.pagination.numberPages);
       const formattedData = data.data.map((user) => ({
         id: user._id,
@@ -52,18 +51,15 @@ export default function User() {
     setPageNum(data.selected);
   };
   const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:3000/api/v1/users/${id}`, {
-      headers: {
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-      },
-    });
+    await axiosInstance.delete(`/users/${id}`);
     seteRenderDelete(!renderDelete);
   };
   if (loading) {
-    return <div className="lg:p-14 p-7 sm:ml-64">
-      <Loader/>
-    </div>;
+    return (
+      <div className="lg:p-14 p-7 sm:ml-64">
+        <Loader />
+      </div>
+    );
   }
   return (
     <>
