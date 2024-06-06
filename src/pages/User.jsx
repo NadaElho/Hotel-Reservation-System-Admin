@@ -78,6 +78,7 @@ export default function User() {
           <Pagination
             handleLimit={handleLimit}
             pageCount={noOfPages}
+            limit={limit}
             handlePageClick={handlePageClick}
           />
         </div>
