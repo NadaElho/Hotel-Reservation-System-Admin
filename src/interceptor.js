@@ -1,20 +1,21 @@
-import axios from 'axios'
+import axios from "axios";
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
-})
+  baseURL: "http://localhost:3000/api/v1",
+});
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem('token')
-
+    const accessToken = localStorage.getItem("token");
+    console.log(accessToken);
     if (accessToken) {
-      if (config.headers) config.headers.authorization = `Bearer ${accessToken}`
+      if (config.headers)
+        config.headers.authorization = `Bearer ${accessToken}`;
     }
-    return config
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
-  },
-)
+    return Promise.reject(error);
+  }
+);
 
-export default axiosInstance
+export default axiosInstance;

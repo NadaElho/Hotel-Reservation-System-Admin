@@ -22,9 +22,9 @@ export default function FormComponent(props) {
         {({ setFieldValue, values }) => (
           <Form className="mx-auto w-full max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {inputs.map((input) =>
+              {inputs.map((input, index) =>
                 input.type === "text" ? (
-                  <div className="col-span-1" key={input.name}>
+                  <div className="col-span-1" key={index}>
                     <label
                       htmlFor={input.name}
                       className="block mb-2 text-base font-bold"
