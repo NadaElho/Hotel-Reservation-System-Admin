@@ -148,6 +148,7 @@ export default function EditRoom() {
     fetchRoomData();
   }, [id]);
 
+
   const handleImageChange = (event, setFieldValue) => {
     const files = Array.from(event.currentTarget.files);
     const previews = files.map((file) => URL.createObjectURL(file));
