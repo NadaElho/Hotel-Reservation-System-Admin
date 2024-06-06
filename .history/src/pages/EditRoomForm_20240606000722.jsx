@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Select from "react-dropdown-select";
 import Dropdown from "react-dropdown-select";
-import axiosInstance from "../interceptor";
+import axios from "axios";
 
 export default function FormComponent(props) {
   const {
@@ -17,32 +17,28 @@ export default function FormComponent(props) {
     imagePreviews,
     setTagifyInstance,
   } = props;
-  const amenitiesRef = useRef(null);
+  
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
 
   useEffect(() => {
     const fetchAmenities = async () => {
       try {
-        const response = await axiosInstance.get("/amenities");
-        const amenityNames = response.data.data.map((amenity) => ({
-          id: amenity._id,
-          name: amenity.name_en,
-        }));
+        const response = await axios.get("http://localhost:3000/api/v1/amenities");
+        const amenityNames = response.data.data.map((amenity) => amenity.name_en);
         setAmenitiesOptions(amenityNames);
       } catch (err) {
         console.error("Error fetching amenities:", err);
       }
     };
-
     fetchAmenities();
   }, []);
 
   useEffect(() => {
     setDropdownOptions(
       amenitiesOptions.map((option) => ({
-        label: option.name,
-        value: option.id,
+        label: option,
+        value: option,
       }))
     );
   }, [amenitiesOptions]);
@@ -63,7 +59,7 @@ export default function FormComponent(props) {
                   return (
                     <div className="col-span-1" key={input.name}>
                       <label
-                        htmlFor={input.name}
+                        htmlFor="fff"
                         className="block mb-2 text-base font-bold"
                       >
                         {input.title}
@@ -115,23 +111,21 @@ export default function FormComponent(props) {
                       >
                         {input.title}
                       </label>
-
-                      <div ref={amenitiesRef} className="mb-6">
-                        <Dropdown
-                          options={dropdownOptions}
-                          onChange={(selectedValues) => {
-                            const amenitiesArray = selectedValues.map(
-                              (value) => value.value
+                      <Dropdown
+                        options={dropdownOptions}
+                        onChange={(values) => {
+                          if (setTagifyInstance) {
+                            setTagifyInstance(
+                              values.map((value) => value.value)
                             );
-                            console.log("Selected Amenities:", amenitiesArray);
-                            setFieldValue("amenitiesIds", amenitiesArray);
-                            if (setTagifyInstance) {
-                              setTagifyInstance(amenitiesArray);
-                            }
-                          }}
-                          multi
-                        />
-                      </div>
+                          }
+                          setFieldValue(
+                            "amenities",
+                            values.map((value) => value.value)
+                          );
+                        }}
+                        multi
+                      />
                       <ErrorMessage
                         name={input.name}
                         component="div"
@@ -158,11 +152,14 @@ export default function FormComponent(props) {
                           <option value="">
                             Select {input.title.toLowerCase()}
                           </option>
-                          {input.options.map((option, idx) => (
-                            <option key={idx} value={option.id}>
-                              {option.name}
+                          { input.options.map((option)=>{
+                            return (
+                            <option  key={input.name}>
+                              {option}
                             </option>
-                          ))}
+                            )
+                          })
+                          }
                         </Field>
                       )}
                       <ErrorMessage

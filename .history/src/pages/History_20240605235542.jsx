@@ -50,7 +50,7 @@ export default function History() {
         roomName: history.roomId?.title_en,
         checkIn: new Date(history?.checkIn).toLocaleDateString(),
         checkOut: new Date(history?.checkOut).toLocaleDateString(),
-        status: history.status?.name_en,
+        status: history.status.name_en,
       }));
       setHistories(formattedData);
       setLoading(false)

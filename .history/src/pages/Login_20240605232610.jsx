@@ -6,6 +6,7 @@ import img from "/login.png";
 import logo from "/logo.png";
 import { toast } from "react-toastify";
 import axiosInstance from "../interceptor";
+import { date } from "yup";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,16 +55,16 @@ const Login = () => {
                   },
                 }
               );
-              // if (data.data.role == "6642764acd637f7c34eb4b97") {
-              localStorage.setItem("token", data.data?.token);
-              toast.success("You are logged in successfully");
-              console.log(data);
-              navigate("/rooms");
-              // } else {
-              //   toast.error("Only admins");
-              // }
+              if (data.data.role == "6642764acd637f7c34eb4b97") {
+                localStorage.setItem("token", data.data.token);
+                toast.success("You are logged in successfully");
+                console.log(date);
+                navigate("/rooms");
+              } else {
+                toast.error("Only admins");
+              }
             } catch (err) {
-              toast.error(err.response.data?.message);
+              toast.error(err.response.data.message);
             }
             setSubmitting(false);
           }}

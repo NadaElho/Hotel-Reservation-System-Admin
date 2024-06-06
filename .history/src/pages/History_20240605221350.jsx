@@ -43,14 +43,14 @@ export default function History() {
         }
       );
       setNoOfPages(data.pagination.numberPages);
-      const formattedData = data.data?.map((history) => ({
+      const formattedData = data.data.map((history) => ({
         id: history._id,
-        username: `${history.userId?.firstName} ${history.userId.lastName}`,
-        images: history.userId?.images,
-        roomName: history.roomId?.title_en,
-        checkIn: new Date(history?.checkIn).toLocaleDateString(),
-        checkOut: new Date(history?.checkOut).toLocaleDateString(),
-        status: history.status?.name_en,
+        username: `${history.userId.firstName} ${history.userId.lastName}`,
+        images: history.userId.images,
+        roomName: history.roomId.title_en,
+        checkIn: new Date(history.checkIn).toLocaleDateString(),
+        checkOut: new Date(history.checkOut).toLocaleDateString(),
+        status: history.status.name_en,
       }));
       setHistories(formattedData);
       setLoading(false)
