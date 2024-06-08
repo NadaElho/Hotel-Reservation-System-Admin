@@ -11,7 +11,6 @@ const Pagination = ({
   for (let i = 1; i <= noOfItems; i++) {
     arr.push(i);
   }
-
   return (
     <div className="py-4 px-8 bg-white w-fit border rounded-full flex items-center gap-4">
       <ReactPaginate

@@ -1,4 +1,3 @@
-import React from "react";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 export default function FormComponent(props) {
   const {
@@ -19,7 +18,7 @@ export default function FormComponent(props) {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({ setFieldValue, values }) => (
+        {({ setFieldValue}) => (
           <Form className="mx-auto w-full max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {inputs.map((input, index) =>

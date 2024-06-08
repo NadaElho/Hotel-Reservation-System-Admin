@@ -168,7 +168,7 @@ export default function EditRoom() {
 
   const onSubmit = async (values) => {
     const formData = new FormData();
-
+  
     for (const key in values) {
       if (key === "images" && values[key].length > 0) {
         values[key].forEach((image) => {
@@ -176,14 +176,13 @@ export default function EditRoom() {
         });
       } else if (key === "amenitiesIds") {
         for (var i = 0; i < values[key].length; i++) {
-          console.log(values[key][i]);
           formData.append("amenitiesIds", values[key][i]);
         }
       } else {
         formData.append(key, values[key]);
       }
     }
-
+  
     try {
       await axiosInstance.patch(`/rooms/${id}`, formData);
       navigate("/rooms");
@@ -191,6 +190,7 @@ export default function EditRoom() {
       console.log("Error:", error.response?.data || error.message);
     }
   };
+  
 
   return (
     <FormComponent

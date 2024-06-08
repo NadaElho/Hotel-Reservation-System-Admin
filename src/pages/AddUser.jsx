@@ -9,7 +9,6 @@ export default function AddUser() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
-  const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const mode = "add";
   const initialValues = {

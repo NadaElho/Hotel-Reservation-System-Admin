@@ -47,10 +47,10 @@ ul {
     padding: 0;
     margin: 0;
 }
-/* 
+
 .sm\\:hidden {
     display: none;
-} */
+}
 
 @media (min-width: 640px) {
     .sm\\:hidden {

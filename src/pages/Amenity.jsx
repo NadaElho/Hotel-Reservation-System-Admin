@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import { FaRegEdit } from "react-icons/fa";

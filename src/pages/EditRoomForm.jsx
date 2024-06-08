@@ -115,10 +115,10 @@ export default function FormComponent(props) {
                       >
                         {input.title}
                       </label>
-
                       <div ref={amenitiesRef} className="mb-6">
                         <Dropdown
                           color="#52381d"
+                          style={{border: "1px solid #52381d", borderRadius: "6px", padding: "6px"}}
                           closeOnClickInput={true}
                           options={dropdownOptions}
                           values={dropdownOptions.filter(option => initialValues.amenitiesIds.includes(option.value))}
