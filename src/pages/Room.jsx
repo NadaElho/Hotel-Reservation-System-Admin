@@ -7,12 +7,13 @@ import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
 import axiosInstance from "../interceptor";
 
+
 export default function Room() {
   const [rooms, setRooms] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(3);
   const [noOfPages, setNoOfPages] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const cols = [
     { col: "Id" },
@@ -34,23 +35,22 @@ export default function Room() {
         `/rooms?limit=${limit}&page=${pageNum + 1}`
       );
       setNoOfPages(data.pagination.numberPages);
-
+      //  setLoading(false);
       if (data.status === "success") {
         const formattedData = data.data.map((room) => ({
           id: room._id,
           title_en: room.title_en,
-          images: room.images,
+          images: room?.images,
           roomTypeId: room.roomTypeId.type_en,
           amenitiesIds: room.amenitiesIds
             .map((amenity) => amenity.name_en)
             .join(", "),
         }));
         setRooms(formattedData);
+        setLoading(false);
       }
-      setLoading(false);
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
-      setLoading(false);
     }
   };
 
@@ -73,47 +73,20 @@ export default function Room() {
       setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="lg:p-14 p-7 sm:ml-64">
-        <Loader />
-      </div>
-    );
-  }
-
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
       <Button name="Add Room " icon={CiSquarePlus} navigate="addRoom" />
       <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
         <Table
-          cols={cols}
-          data={rooms}
-          linkEdit="editRoom"
-          handleDelete={handleDeleteClick}
-        >
-          {rooms.map((room) => (
-            <tr key={room.id}>
-              <td>{room.title_en}</td>
-              <td>{room.images.join(", ")}</td>
-              <td>{room.roomTypeId}</td>
-              <td>{room.amenitiesIds}</td>
-              <td>{room.status}</td>
-              <td>
-                <Link to={`/rooms/editroom/${room.id}`}>
-                  <Button icon={CiEdit} />
-                </Link>
-              </td>
-              <td>
-                <Button
-                  icon={CiTrash}
-                  onClick={() => handleDeleteClick(room.id)}
-                  color="red"
-                />
-              </td>
-            </tr>
-          ))}
-        </Table>
+            cols={cols}
+            data={rooms}
+            linkEdit="editRoom"
+            page="room"
+            handleDelete={handleDeleteClick}
+            isLoading={isLoading}
+          />
+
+
         <div className="flex items-center justify-center py-3">
           {rooms.length ? (
             <Pagination

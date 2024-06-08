@@ -11,7 +11,7 @@ export default function EditAmenity() {
   const navigate = useNavigate();
   const { id } = useParams();
   const mode = "edit";
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [amenityData, setAmenityData] = useState({
     name_en: "",
     name_ar: "",
@@ -95,7 +95,7 @@ export default function EditAmenity() {
       console.log(err.response?.data || err.message, "err");
     }
   };
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="lg:p-14 p-7 sm:ml-64">
         <Loader />

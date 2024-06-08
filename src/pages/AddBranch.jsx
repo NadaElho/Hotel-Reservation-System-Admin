@@ -10,7 +10,7 @@ export default function AddBranch() {
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
   const mode = "add";
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const initialValues = {
     name_en: "",
     name_ar: "",
@@ -29,7 +29,7 @@ export default function AddBranch() {
     { name: "address_ar", title: "Arabic Address", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
     { name: "description_ar", title: "Arabic Description", type: "textarea" },
-    { name: "phoneNumber", title: "Phone Number", type: "phone" },
+    { name: "phoneNumber", title: "Phone Numbers", type: "phone" },
     { name: "images", title: "Images", type: "file" },
   ];
 
@@ -94,10 +94,12 @@ export default function AddBranch() {
       console.log(err.response?.data || err.message, "err");
     }
   };
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="lg:p-14 p-7 sm:ml-64">
-        <Loader />
+      <div className="lg:p-14 p-7 sm:ml-64 h-full">
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
       </div>
     );
   }

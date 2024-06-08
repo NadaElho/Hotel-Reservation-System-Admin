@@ -10,7 +10,7 @@ export default function User() {
   const [limit, setLimit] = useState(4);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "Name" },
@@ -30,7 +30,7 @@ export default function User() {
       const { data } = await axiosInstance.get(
         `/users?limit=${limit}&page=${pageNum + 1}`
       );
-      setLoading(false);
+      // setLoading(false);
       setNoOfPages(data.pagination.numberPages);
       const formattedData = data.data.map((user) => ({
         id: user._id,
@@ -40,6 +40,8 @@ export default function User() {
         images: user.images,
       }));
       setUsers(formattedData);
+      setLoading(false);
+    
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
@@ -54,13 +56,6 @@ export default function User() {
     await axiosInstance.delete(`/users/${id}`);
     seteRenderDelete(!renderDelete);
   };
-  if (loading) {
-    return (
-      <div className="lg:p-14 p-7 sm:ml-64">
-        <Loader />
-      </div>
-    );
-  }
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
@@ -72,6 +67,7 @@ export default function User() {
             linkEdit="editUser"
             page="user"
             handleDelete={deleteUser}
+            isLoading={isLoading}
           />
         </div>
         <div className="flex items-center justify-center py-3">

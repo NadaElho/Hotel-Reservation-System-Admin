@@ -9,8 +9,9 @@ export default function History() {
   const [pageNum, setPageNum] = useState(0);
   const [limit, setLimit] = useState(4);
   const [noOfPages, setNoOfPages] = useState(1);
-  const [renderDelete] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [renderDelete, seteRenderDelete] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "User Name" },
@@ -32,7 +33,7 @@ export default function History() {
       const { data } = await axiosInstance.get(
         `/reservations?limit=${limit}&page=${pageNum + 1}`
       );
-      setNoOfPages(data.pagination.numberPages);
+      // setLoading(false);
       const formattedData = data.data?.map((history) => ({
         id: history._id,
         username: `${history.userId?.firstName} ${history.userId.lastName}`,
@@ -43,29 +44,25 @@ export default function History() {
         status: history.status?.name_en,
       }));
       setHistories(formattedData);
+      setNoOfPages(data.pagination.numberPages);
       setLoading(false);
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
+  
   const handleLimit = (num) => {
     setLimit(num);
   };
   const handlePageClick = (data) => {
     setPageNum(data.selected);
   };
-  if (loading) {
-    return (
-      <div className="lg:p-14 p-7 sm:ml-64">
-        <Loader />
-      </div>
-    );
-  }
+
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-          <Table cols={cols} data={histories} page="history" />
+          <Table cols={cols} data={histories} page="history"  isLoading={isLoading} />
         </div>
         <div className="flex items-center justify-center py-3">
           <Pagination

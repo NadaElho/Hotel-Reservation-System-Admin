@@ -9,10 +9,11 @@ import axiosInstance from "../interceptor";
 export default function Branch() {
   const [branches, setBranches] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(2);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  
   const cols = [
     { col: "Id" },
     { col: "Branch Name" },
@@ -58,11 +59,6 @@ export default function Branch() {
   const handlePageClick = (data) => {
     setPageNum(data.selected);
   };
-  if (loading) {
-    return <div className="lg:p-14 p-7 sm:ml-64">
-      <Loader/>
-    </div>;
-  }
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
@@ -74,6 +70,8 @@ export default function Branch() {
             linkEdit="editBranch"
             page="branch"
             handleDelete={deleteBranch}
+            isLoading={isLoading}
+     
           />
         </div>
         <div className="flex items-center justify-center py-3">
