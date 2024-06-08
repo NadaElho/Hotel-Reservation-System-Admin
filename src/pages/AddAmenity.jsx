@@ -9,7 +9,6 @@ export default function AddAmenity() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
-  const { id } = useParams();
   const mode = "add";
   const [loading, setLoading] = useState(false);
   const initialValues = {
@@ -73,7 +72,7 @@ export default function AddAmenity() {
     }
     try {
       setLoading(true)
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         "/Amenities",
         formData
       );

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
-import { data } from "autoprefixer";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
 
@@ -10,7 +9,6 @@ export default function AddBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
-  const { id } = useParams();
   const mode = "add";
   const [loading, setLoading] = useState(false);
   const initialValues = {
@@ -88,21 +86,20 @@ export default function AddBranch() {
       }
     }
     try {
-      setLoading(true)
-      const response = await axiosInstance.post(
-        "/hotels",
-        formData
-      );
-      setLoading(false)
+      setLoading(true);
+      await axiosInstance.post("/hotels", formData);
+      setLoading(false);
       navigate("/branches");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
   if (loading) {
-    return <div className="lg:p-14 p-7 sm:ml-64">
-      <Loader/>
-    </div>;
+    return (
+      <div className="lg:p-14 p-7 sm:ml-64">
+        <Loader />
+      </div>
+    );
   }
   return (
     <>

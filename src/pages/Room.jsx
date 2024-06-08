@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "../components/Table";
 import Button from "../components/Button";
 import { CiSquarePlus, CiEdit, CiTrash } from "react-icons/ci";

@@ -36,7 +36,7 @@ const FormComponent = ({
           onSubmit(values);
         }}
       >
-        {({  setFieldValue, values }) => (
+        {({  setFieldValue }) => (
           <Form className="mx-auto w-full max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {inputs.map((input) => (
@@ -52,6 +52,9 @@ const FormComponent = ({
                     <div ref={amenitiesRef} className="mb-6">
                       <Dropdown
                         options={dropdownOptions}
+                        color="#52381d"
+                        style={{border: "1px solid #52381d", borderRadius: "6px", padding: "6px"}}
+                        closeOnClickInput={true}
                         onChange={(selectedValues) => {
                           const amenitiesArray = selectedValues.map(
                             (value) => value.value

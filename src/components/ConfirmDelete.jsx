@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 export default function ConfirmDelete({ onClose, onConfirm, page, name }) {

@@ -9,7 +9,7 @@ export default function History() {
   const [pageNum, setPageNum] = useState(0);
   const [limit, setLimit] = useState(4);
   const [noOfPages, setNoOfPages] = useState(1);
-  const [renderDelete, seteRenderDelete] = useState(false);
+  const [renderDelete] = useState(false);
   const [loading, setLoading] = useState(false);
   const cols = [
     { col: "Id" },
