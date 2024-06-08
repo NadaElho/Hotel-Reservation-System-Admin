@@ -63,7 +63,7 @@ export default function Branch() {
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
         <Button name="Add Branch " icon={CiSquarePlus} navigate="addBranch" />
-        <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
+        <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
           <Table
             cols={cols}
             data={branches}

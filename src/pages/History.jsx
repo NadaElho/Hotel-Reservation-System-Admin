@@ -61,7 +61,7 @@ export default function History() {
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
-        <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
+        <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
           <Table cols={cols} data={histories} page="history"  isLoading={isLoading} />
         </div>
         <div className="flex items-center justify-center py-3">

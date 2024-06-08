@@ -83,6 +83,9 @@ export default function EditAmenity() {
         formData.append(key, values[key]);
       }
     }
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+  }
     try {
       setLoading(true);
       await axiosInstance.patch(
@@ -97,8 +100,10 @@ export default function EditAmenity() {
   };
   if (isLoading) {
     return (
-      <div className="lg:p-14 p-7 sm:ml-64">
-        <Loader />
+      <div className="lg:p-14 p-7 sm:ml-64 h-full">
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
       </div>
     );
   }

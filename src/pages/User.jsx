@@ -60,7 +60,7 @@ export default function User() {
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
         {/* <Button name="Add User " icon={CiSquarePlus}  navigate = "addUser"/> */}
-        <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl ">
+        <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl ">
           <Table
             cols={cols}
             data={users}
