@@ -55,12 +55,15 @@ export default function Amenity() {
   };
   return (
     <>
-      <div className="lg:p-14 p-7 sm:ml-64">
+      <div className="lg:p-14 p-7  sm:ml-64">
+      <div className=" me-10 ">
+
         <Button
           name="Add Amenity"
           icon={CiSquarePlus}
           navigate="/amenities/addAmenity"
         />
+      </div>
        <div className="flex justify-center items-center">
   {isLoading ? (
     <Loader />
