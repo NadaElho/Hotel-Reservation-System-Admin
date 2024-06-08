@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ConfirmDelete from "./ConfirmDelete";
 
 export default function Table(props) {
+  
   const { cols, data, linkEdit, page, handleDelete } = props;
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
