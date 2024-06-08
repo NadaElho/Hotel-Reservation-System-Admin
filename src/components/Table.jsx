@@ -33,11 +33,11 @@ export default function Table(props) {
   return (
     <>
       <div className="flex flex-col">
-        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="overflow-x-hidden sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden">
-              <table className="min-w-full text-left text-sm font-bold text-main-800 text-surface dark:text-white">
-                <thead className="border-b border-neutral-200 font-medium text-gray-950 text-base dark:border-white/10">
+              <table className="w-full overflow-hidden order text-left text-sm font-bold text-main-800 text-surface">
+                <thead className="border-b border-neutral-200 overflow-hidden  font-medium text-gray-950 text-base">
                   <tr>
                     {cols.map((col) => (
                       <th scope="col" className="px-6 py-4" key={col.col}>
@@ -59,10 +59,10 @@ export default function Table(props) {
                     data.map((item, index) => (
                       <tr
                         key={index}
-                        className="border-b border-neutral-200 dark:border-white/10"
+                        className="border-b border-neutral-200 overflow-hidden"
                       >
                         {Object.entries(item).map(([key, value], idx) => (
-                          <td key={idx} className="whitespace-wrap px-6 py-4">
+                          <td key={idx} className="whitespace-wrap overflow-hidden px-6 py-4">
                             {key === "images" ? (
                               
                               <img

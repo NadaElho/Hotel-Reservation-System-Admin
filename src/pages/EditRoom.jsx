@@ -144,7 +144,9 @@ export default function EditRoom() {
     for (const key in values) {
       if (key === "images" && values[key].length > 0) {
         values[key].forEach((image) => {
-          formData.append(key, image);
+          if (image instanceof File) {
+            formData.append(`images`, image);
+          }
         });
       } else if (key === "amenitiesIds") {
         values[key].forEach((id) => {
@@ -154,7 +156,9 @@ export default function EditRoom() {
         formData.append(key, values[key]);
       }
     }
-
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+  }
     try {
       setLoading(true);
       await axiosInstance.patch(`/rooms/${id}`, formData);
