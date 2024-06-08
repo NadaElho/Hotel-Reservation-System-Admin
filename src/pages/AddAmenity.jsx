@@ -11,7 +11,7 @@ export default function AddAmenity() {
   const navigate = useNavigate();
   const { id } = useParams();
   const mode = "add";
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const initialValues = {
     name_en: "",
     name_ar: "",
@@ -83,7 +83,7 @@ export default function AddAmenity() {
       console.log(err.response?.data || err.message, "err");
     }
   };
-  if (loading) {
+  if (isLoading) {
     return <div className="lg:p-14 p-7 sm:ml-64">
       <Loader/>
     </div>;

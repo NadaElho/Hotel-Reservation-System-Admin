@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "../components/Table";
 import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
-import axios from "axios";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 
 export default function Branch() {
   const [branches, setBranches] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(2);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "Branch Name" },
@@ -30,8 +30,8 @@ export default function Branch() {
   const getAllBranches = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get(
-        `http://localhost:3000/api/v1/hotels?limit=${limit}&page=${pageNum + 1}`
+      const { data } = await axiosInstance.get(
+        `/hotels?limit=${limit}&page=${pageNum + 1}`
       );
       setNoOfPages(data.pagination.numberPages);
       const formattedData = data.data.map((branch) => ({
@@ -49,12 +49,7 @@ export default function Branch() {
     }
   };
   const deleteBranch = async (id) => {
-    await axios.delete(`http://localhost:3000/api/v1/hotels/${id}`, {
-      headers: {
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-      },
-    });
+    await axiosInstance.delete(`/hotels/${id}`);
     seteRenderDelete(!renderDelete);
   };
   const handleLimit = (num) => {
@@ -63,11 +58,6 @@ export default function Branch() {
   const handlePageClick = (data) => {
     setPageNum(data.selected);
   };
-  if (loading) {
-    return <div className="lg:p-14 p-7 sm:ml-64">
-      <Loader/>
-    </div>;
-  }
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
@@ -79,11 +69,13 @@ export default function Branch() {
             linkEdit="editBranch"
             page="branch"
             handleDelete={deleteBranch}
+            isLoading={isLoading}
           />
         </div>
         <div className="flex items-center justify-center py-3">
           <Pagination
             handleLimit={handleLimit}
+            limit={limit}
             pageCount={noOfPages}
             handlePageClick={handlePageClick}
           />

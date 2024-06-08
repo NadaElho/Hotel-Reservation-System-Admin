@@ -56,7 +56,6 @@ const FormComponent = ({
                           const amenitiesArray = selectedValues.map(
                             (value) => value.value
                           );
-                          console.log("Selected Amenities:", amenitiesArray);
                           setFieldValue("amenitiesIds", amenitiesArray);
                           if (setTagifyInstance) {
                             setTagifyInstance(amenitiesArray);

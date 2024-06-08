@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import FormComponent from "./Form";
@@ -69,13 +69,18 @@ export default function AddRoom() {
       .of(Yup.mixed().required("Image is required"))
       .min(1, "At least one image is required"),
   });
-
+  useEffect(() => {
+    setDropdownOptions(
+      amenitiesOptions.map((option) => ({
+        label: option.name,
+        value: option.id,
+      }))
+    );
+  }, [amenitiesOptions]);
   useEffect(() => {
     const fetchAmenities = async () => {
       try {
-        const response = await axiosInstance.get(
-          "/amenities"
-        );
+        const response = await axiosInstance.get("/amenities");
         const amenityNames = response.data.data.map((amenity) => ({
           id: amenity._id,
           name: amenity.name_en,
@@ -87,9 +92,7 @@ export default function AddRoom() {
     };
     const fetchRoomTypes = async () => {
       try {
-        const response = await axiosInstance.get(
-          "/room-type"
-        );
+        const response = await axiosInstance.get("/room-type");
         const roomTypes = response.data.data.map((type) => ({
           id: type._id,
           name: type.type_en,
@@ -153,10 +156,7 @@ export default function AddRoom() {
     }
 
     try {
-      await axiosInstance.post(
-        "/rooms",
-        formData
-      );
+      await axiosInstance.post("/rooms", formData);
       navigate("/rooms");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");

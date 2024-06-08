@@ -4,6 +4,7 @@ const Pagination = ({
   pageCount,
   handlePageClick,
   handleLimit,
+  limit,
   noOfItems = 10,
 }) => {
   let arr = [];
@@ -31,6 +32,7 @@ const Pagination = ({
       <div>
         <span className="text-sm text-main-400 mx-2">Page items</span>
         <select
+        value={limit}
           name="no"
           className="bg-main-400 text-white border-0 outline-none focus:ring-0 rounded"
           onChange={(e) => handleLimit(e.target.value)}

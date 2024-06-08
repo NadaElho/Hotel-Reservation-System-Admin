@@ -23,8 +23,6 @@ import { ToastContainer } from "react-toastify";
 import PrivateRoute from "./ProtectedRoutes/PrivateRoute.jsx";
 import Guard from "./ProtectedRoutes/Guard.jsx";
 import User from "./pages/User.jsx";
-import AddUser from "./pages/AddUser.jsx";
-import EditUser from "./pages/EditUser.jsx";
 import History from "./pages/History.jsx";
 import Amenity from "./pages/Amenity.jsx";
 import AddAmenity from "./pages/AddAmenity.jsx";
@@ -59,8 +57,7 @@ function App() {
                   element={<EditBranch />}
                 />
                 <Route path="/users" element={<User />} />
-                {/* <Route path="/users/addUser" element={<AddUser />} />
-                <Route path="/users/editUser/:id" element={<EditUser/>} /> */}
+                
                 <Route path="/histories" element={<History />} />
                 <Route path="/amenities" element={<Amenity />} />
                 <Route path="/amenities/addAmenity" element={<AddAmenity />} />

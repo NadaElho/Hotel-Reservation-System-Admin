@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
+import axiosInstance from "../interceptor";
 
 export default function EditBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -12,7 +11,7 @@ export default function EditBranch() {
   const navigate = useNavigate();
   const { id } = useParams();
   const mode = "edit";
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [hotelData, setHotelData] = useState({
     name_en: "",
     name_ar: "",
@@ -28,9 +27,7 @@ export default function EditBranch() {
     async function getDataById() {
       try {
         setLoading(true);
-        const { data } = await axios.get(
-          `http://localhost:3000/api/v1/hotels/${id}`
-        );
+        const { data } = await axiosInstance.get(`/hotels/${id}`);
         setHotelData(data.data);
         setImagePreviews(data.data.images);
         setLoading(false);
@@ -106,27 +103,20 @@ export default function EditBranch() {
       }
     }
     try {
-      setLoading(true)
-      const response = await axios.patch(
-        `http://localhost:3000/api/v1/hotels/${id}`,
-        formData,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGExYzlhZWM3OGIwMzU0ZDg1NTMwYSIsImVtYWlsIjoic2FtYXIxMjNAZ21haWwuY29tIiwiaWF0IjoxNzE3NDI5MDAxfQ.SdR0EKPgdIdLTonDHBgclzY3_FHRHPvDSGDidbUyn04",
-          },
-        }
-      );
-      setLoading(false)
+      setLoading(true);
+      await axiosInstance.patch(`/hotels/${id}`, formData);
+      setLoading(false);
       navigate("/branches");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
-  if (loading) {
-    return <div className="lg:p-14 p-7 sm:ml-64">
-      <Loader/>
-    </div>;
+  if (isLoading) {
+    return (
+      <div className="lg:p-14 p-7 sm:ml-64">
+        <Loader />
+      </div>
+    );
   }
   return (
     <>

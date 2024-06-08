@@ -55,14 +55,14 @@ const Login = () => {
                 }
               );
               if (data.data.role == "6642764acd637f7c34eb4b97") {
-                localStorage.setItem("token", data.data.token);
+                localStorage.setItem("token", data.data?.token);
                 toast.success("You are logged in successfully");
                 navigate("/rooms");
               } else {
                 toast.error("Only admins");
               }
             } catch (err) {
-              toast.error(err.response.data.message);
+              toast.error(err.response.data?.message);
             }
             setSubmitting(false);
           }}
