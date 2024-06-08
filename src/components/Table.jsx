@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import ConfirmDelete from "./ConfirmDelete";
 import Loader from "./Loader";
+import LinesEllipsis from "react-lines-ellipsis";
 
 export default function Table(props) {
   const { cols, data, linkEdit, page, handleDelete, isLoading } = props;
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
+  const [truncated, setTruncated] = useState([]);
+
+  const toggleTruncated = (index) => {
+    setTruncated((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -43,12 +49,12 @@ export default function Table(props) {
                 <tbody>
                   {isLoading ? (
                     <tr>
-                    <td colSpan={cols.length + 1} className="py-4">
-                      <div className="flex justify-center items-center">
-                        <Loader />
-                      </div>
-                    </td>
-                  </tr>
+                      <td colSpan={cols.length + 1} className="py-4">
+                        <div className="flex justify-center items-center">
+                          <Loader />
+                        </div>
+                      </td>
+                    </tr>
                   ) : (
                     data.map((item, index) => (
                       <tr
@@ -58,9 +64,9 @@ export default function Table(props) {
                         {Object.entries(item).map(([key, value], idx) => (
                           <td key={idx} className="whitespace-wrap px-6 py-4">
                             {key === "images" ? (
+                              
                               <img
                                 src={value[0]}
-                                alt="Branch"
                                 className="w-20 h-20 object-cover rounded-3xl"
                               />
                             ) : key === "id" ? (
@@ -69,6 +75,28 @@ export default function Table(props) {
                               <span className={getStatusClass(value)}>
                                 {value}
                               </span>
+                            ) : key === "description" ? (
+                              truncated[index] ? (
+                                <div>
+                                  {value}
+                                  <button
+                                    className="underline"
+                                    onClick={() => toggleTruncated(index)}
+                                  >
+                                    Less
+                                  </button>
+                                </div>
+                              ) : (
+                                <LinesEllipsis
+                                  text={value}
+                                  maxLine={2}
+                                  ellipsis={
+                                    <button onClick={() => toggleTruncated(index)}>
+                                      ....
+                                    </button>
+                                  }
+                                />
+                              )
                             ) : (
                               value
                             )}

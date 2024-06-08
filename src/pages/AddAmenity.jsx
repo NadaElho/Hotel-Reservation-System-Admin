@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
@@ -9,7 +9,6 @@ export default function AddAmenity() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
-  const { id } = useParams();
   const mode = "add";
   const [isLoading, setLoading] = useState(false);
   const initialValues = {
@@ -72,21 +71,22 @@ export default function AddAmenity() {
       }
     }
     try {
-      setLoading(true)
-      const response = await axiosInstance.post(
-        "/Amenities",
-        formData
-      );
-      setLoading(false)
+      setLoading(true);
+      await axiosInstance.post("/amenities", formData);
       navigate("/amenities");
+      setLoading(false);
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
   if (isLoading) {
-    return <div className="lg:p-14 p-7 sm:ml-64">
-      <Loader/>
-    </div>;
+    return (
+      <div className="lg:p-14 p-7 sm:ml-64 h-full">
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
+      </div>
+    );
   }
   return (
     <>

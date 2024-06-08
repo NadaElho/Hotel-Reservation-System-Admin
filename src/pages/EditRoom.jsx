@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import FormComponent from "./EditRoomForm";
+import FormComponent from "../components/FormComponent";
 import * as Yup from "yup";
 import axiosInstance from "../interceptor";
+import Loader from "../components/Loader";
 
 export default function EditRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
@@ -10,6 +11,14 @@ export default function EditRoom() {
   const [roomTypes, setRoomTypes] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
+  const amenitiesRef = useRef(null);
+  const [dropdownOptions, setDropdownOptions] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const mode = "edit";
+
   const [initialValues, setInitialValues] = useState({
     roomNumber: "",
     title_en: "",
@@ -22,59 +31,38 @@ export default function EditRoom() {
     roomTypeId: "",
     images: [],
   });
-  const navigate = useNavigate();
-  const { id } = useParams();
 
-  const mode = "edit";
+  useEffect(() => {
+    const fetchAmenities = async () => {
+      try {
+        
+        const response = await axiosInstance.get("/amenities");
+        const amenityNames = response.data.data.map((amenity) => ({
+          id: amenity._id,
+          name: amenity.name_en,
+        }));
+        setAmenitiesOptions(amenityNames);
+      } catch (err) {
+        console.error("Error fetching amenities:", err);
+      }
+    };
 
-  const inputs = [
-    { name: "roomNumber", title: "Room Number", type: "text" },
-    { name: "price", title: "Price", type: "text" },
-    { name: "title_en", title: "English Name", type: "text" },
-    { name: "title_ar", title: "Arabic Name", type: "text" },
-    { name: "description_en", title: "English Description", type: "textarea" },
-    { name: "description_ar", title: "Arabic Description", type: "textarea" },
-    {
-      name: "hotelId",
-      title: "Hotel",
-      type: "select1",
-      options: hotels,
-    },
-    {
-      name: "roomTypeId",
-      title: "Room Type",
-      type: "select1",
-      options: roomTypes,
-    },
-    {
-      name: "amenitiesIds",
-      title: "Amenities",
-      type: "select",
-      options: amenitiesOptions,
-    },
-    { name: "images", title: "Images", type: "file" },
-  ];
+    fetchAmenities();
+  }, []);
 
-  const validationSchema = Yup.object({
-    roomNumber: Yup.string().required("Room number is required"),
-    title_en: Yup.string().required("English name is required"),
-    title_ar: Yup.string().required("Arabic name is required"),
-    hotelId: Yup.string().required("Hotel ID is required"),
-    description_en: Yup.string().required("English description is required"),
-    description_ar: Yup.string().required("Arabic description is required"),
-    amenitiesIds: Yup.array().min(1, "Select at least one amenity"),
-    price: Yup.number()
-      .required("Price is required")
-      .positive("Price must be positive"),
-    roomTypeId: Yup.string().required("Room type is required"),
-    images: Yup.array()
-      .of(Yup.mixed().required("Image is required"))
-      .min(1, "At least one image is required"),
-  });
+  useEffect(() => {
+    setDropdownOptions(
+      amenitiesOptions.map((option) => ({
+        label: option.name,
+        value: option.id,
+      }))
+    );
+  }, [amenitiesOptions]);
 
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
+        setLoading(true);
         const response = await axiosInstance.get(`/rooms/${id}`);
         const roomData = response.data.room;
         setInitialValues({
@@ -83,19 +71,17 @@ export default function EditRoom() {
           title_ar: roomData.title_ar || "",
           description_en: roomData.description_en || "",
           description_ar: roomData.description_ar || "",
-          amenitiesIds:
-            roomData.amenitiesIds.map((amenity) => {
-              return amenity._id;
-            }) || [],
+          amenitiesIds: roomData.amenitiesIds.map((amenity) => amenity._id) || [],
           price: roomData.price || "",
           roomTypeId: roomData.roomTypeId._id || "",
           images: roomData.images || [],
-          hotelId: roomData.hotelId._id,
+          hotelId: roomData.hotelId._id || "",
         });
         if (roomData.images && roomData.images.length > 0) {
           const previews = roomData.images.map((image) => image);
           setImagePreviews(previews);
         }
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching room data:", error);
       }
@@ -127,20 +113,6 @@ export default function EditRoom() {
       }
     };
 
-    const fetchAmenities = async () => {
-      try {
-        const response = await axiosInstance.get("/amenities");
-        const amenityNames = response.data.data.map((amenity) => ({
-          id: amenity._id,
-          name: amenity.name_en,
-        }));
-        setAmenitiesOptions(amenityNames);
-      } catch (err) {
-        console.error("Error fetching amenities:", err);
-      }
-    };
-
-    fetchAmenities();
     fetchHotels();
     fetchRoomTypes();
     fetchRoomData();
@@ -175,23 +147,78 @@ export default function EditRoom() {
           formData.append(key, image);
         });
       } else if (key === "amenitiesIds") {
-        for (var i = 0; i < values[key].length; i++) {
-          console.log(values[key][i]);
-          formData.append("amenitiesIds", values[key][i]);
-        }
+        values[key].forEach((id) => {
+          formData.append("amenitiesIds", id);
+        });
       } else {
         formData.append(key, values[key]);
       }
     }
 
     try {
+      setLoading(true);
       await axiosInstance.patch(`/rooms/${id}`, formData);
+      setLoading(true);
       navigate("/rooms");
     } catch (error) {
       console.log("Error:", error.response?.data || error.message);
     }
   };
 
+  const inputs = [
+    { name: "roomNumber", title: "Room Number", type: "text" },
+    { name: "price", title: "Price", type: "text" },
+    { name: "title_en", title: "English Name", type: "text" },
+    { name: "title_ar", title: "Arabic Name", type: "text" },
+    { name: "description_en", title: "English Description", type: "textarea" },
+    { name: "description_ar", title: "Arabic Description", type: "textarea" },
+    {
+      name: "hotelId",
+      title: "Hotel",
+      type: "select",
+      options: hotels,
+    },
+    {
+      name: "roomTypeId",
+      title: "Room Type",
+      type: "select",
+      options: roomTypes,
+    },
+    {
+      name: "amenitiesIds",
+      title: "Amenities",
+      type: "select-multiple",
+      options: amenitiesOptions,
+    },
+    { name: "images", title: "Images", type: "file" },
+  ];
+
+  const validationSchema = Yup.object({
+    roomNumber: Yup.string().required("Room number is required"),
+    title_en: Yup.string().required("English name is required"),
+    title_ar: Yup.string().required("Arabic name is required"),
+    hotelId: Yup.string().required("Hotel ID is required"),
+    description_en: Yup.string().required("English description is required"),
+    description_ar: Yup.string().required("Arabic description is required"),
+    amenitiesIds: Yup.array().min(1, "Select at least one amenity"),
+    price: Yup.number()
+      .required("Price is required")
+      .positive("Price must be positive"),
+    roomTypeId: Yup.string().required("Room type is required"),
+    images: Yup.array()
+      .of(Yup.mixed().required("Image is required"))
+      .min(1, "At least one image is required"),
+
+  });
+  if (isLoading) {
+    return (
+      <div className="lg:p-14 p-7 sm:ml-64 h-full">
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
+      </div>
+    );
+  }
   return (
     <FormComponent
       inputs={inputs}
@@ -202,6 +229,8 @@ export default function EditRoom() {
       handleImageChange={handleImageChange}
       imagePreviews={imagePreviews}
       amenitiesOptions={amenitiesOptions}
+      amenitiesRef={amenitiesRef}
+      dropdownOptions={dropdownOptions}
       mode={mode}
       page="Room"
     />

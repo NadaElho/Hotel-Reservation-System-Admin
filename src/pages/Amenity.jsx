@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { CiSquarePlus } from "react-icons/ci";
 import { FaRegEdit } from "react-icons/fa";
@@ -69,19 +69,22 @@ export default function Amenity() {
       {amenities.map((amenity) => (
         <div
           key={amenity.id}
-          className="flex justify-center h-52 items-center flex-col border border-3 rounded-2xl border-main-800 bg-grey-500"
+          className="flex justify-center h-52 items-center flex-col border-2 rounded-3xl border-[#52381D]"
         >
           <div className="flex items-center justify-between w-40">
+            <div className="bg-main-400 p-3 rounded-full">
+              
             <img
               src={amenity?.images[0]}
               alt="Amenity"
-              className="w-16 h-16 object-cover"
+              className="w-10 h-10 object-cover"
             />
+            </div>
             <p className="text-main-800 text-lg font-bold">{amenity.name}</p>
           </div>
           <Link
             to={`/amenities/editAmenity/${amenity.id}`}
-            className="text-white w-32 my-3 lg:w-40 bg-[#52381D] rounded-3xl right-0 hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium text-sm py-2.5 inline-flex items-center justify-center"
+            className="text-white w-32 mt-5 mb-2 lg:w-40 bg-[#52381D] rounded-3xl right-0 hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium text-sm py-2 inline-flex items-center justify-center"
           >
             <FaRegEdit className="w-4 h-4 me-2" /> Edit
           </Link>
@@ -91,7 +94,7 @@ export default function Amenity() {
               setIdDelete(amenity.id);
               setShowModal(true);
             }}
-            className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60 focus:ring-4 focus:outline-none focus:ring-[#C90000]/80 font-medium text-sm py-2.5 inline-flex items-center justify-center"
+            className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60 focus:ring-4 focus:outline-none focus:ring-[#C90000]/80 font-medium text-sm py-2 inline-flex items-center justify-center"
           >
             <RiDeleteBinLine className="w-4 h-4 me-2" /> Delete
           </button>

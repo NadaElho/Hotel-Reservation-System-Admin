@@ -1,103 +1,152 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
-export default function FormComponent(props) {
-  const {
-    inputs,
-    initialValues,
-    validationSchema,
-    handleImageChange,
-    handleDeleteImage,
-    onSubmit,
-    mode,
-    page,
-    imagePreviews,
-  } = props;
+import { useRef, useEffect, useState } from "react";
+import Dropdown from "react-dropdown-select";
+import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
+
+const FormComponent = ({
+  inputs,
+  initialValues,
+  validationSchema,
+  handleImageChange,
+  handleDeleteImage,
+  onSubmit,
+  mode,
+  page,
+  imagePreviews,
+  amenitiesOptions,
+  setTagifyInstance,
+  dropdownOptions,
+  amenitiesRef
+}) => {
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={onSubmit}
+        onSubmit={(values) => {
+          onSubmit(values);
+        }}
       >
         {({ setFieldValue, values }) => (
           <Form className="mx-auto w-full max-w-4xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {inputs.map((input, index) =>
-                input.type === "text" ? (
-                  <div className="col-span-1" key={index}>
-                    <label
-                      htmlFor={input.name}
-                      className="block mb-2 text-base font-bold"
-                    >
-                      {input.title}
-                    </label>
-                    <Field
-                      type="text"
-                      id={input.name}
-                      name={input.name}
-                      placeholder={`Enter  ${input.title}`}
-                      className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
-                    />
-                    <ErrorMessage
-                      name={input.name}
-                      component="div"
-                      className="error text-red-500"
-                    />
-                  </div>
-                ) : input.type === "textarea" ? (
-                  <div className="col-span-1" key={input.name}>
-                    <label
-                      htmlFor={input.name}
-                      className="block mb-2 text-base font-bold"
-                    >
-                      {input.title}
-                    </label>
-                    <Field
-                      as="textarea"
-                      id={input.name}
-                      name={input.name}
-                      rows="4"
-                      className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
-                      placeholder="Enter Description..."
-                    ></Field>
-                    <ErrorMessage
-                      name={input.name}
-                      component="div"
-                      className="error text-red-500"
-                    />
-                  </div>
-                ) : input.type === "phone" ? (
-                  <div className="col-span-1" key={input.name}>
-                    <label
-                      htmlFor="phoneNumber"
-                      className="block mb-2 text-base font-bold"
-                    >
-                      Phone Numbers
-                    </label>
-                    <FieldArray name="phoneNumber">
-                      {({ push, remove, form }) => (
-                        <div>
-                          <button
-                            type="button"
-                            onClick={() => push("")}
-                            className="bg-main-800 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block p-2.5 mb-2"
-                          >
-                            Add Phone Number
-                          </button>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {form.values.phoneNumber.map((_, index) => (
+              {inputs.map((input) => (
+                <div className="col-span-1" key={input.name}>
+                  <label
+                    htmlFor={input.name}
+                    className="block mb-2 text-base font-bold"
+                  >
+                    {input.title}
+                  </label>
+                  {input.type === "select-multiple" &&
+                  input.name === "amenitiesIds" ? (
+                    <div ref={amenitiesRef} className="mb-6">
+                      <Dropdown
+                        options={dropdownOptions}
+                        color="#52381d"
+                        style={{
+                          border: "1px solid #52381d",
+                          borderRadius: "6px",
+                          padding: "6px"
+                        }}
+                        closeOnClickInput={true}
+                        onChange={(selectedValues) => {
+                          const amenitiesArray = selectedValues.map(
+                            (value) => value.value
+                          );
+                          setFieldValue("amenitiesIds", amenitiesArray);
+                          if (setTagifyInstance) {
+                            setTagifyInstance(amenitiesArray);
+                          }
+                        }}
+                        multi
+                        values={dropdownOptions.filter(option => values.amenitiesIds.includes(option.value))}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      {input.type === "text" && (
+                        <Field
+                          type="text"
+                          id={input.name}
+                          name={input.name}
+                          placeholder={`Enter ${input.title}`}
+                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        />
+                      )}
+                      {input.type === "textarea" && (
+                        <Field
+                          as="textarea"
+                          id={input.name}
+                          name={input.name}
+                          rows="4"
+                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                          placeholder={`Enter ${input.title}`}
+                        />
+                      )}
+                      {input.type === "select" && (
+                        <Field
+                          as="select"
+                          id={input.name}
+                          name={input.name}
+                          className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        >
+                          <option value="">
+                            Select {input.title.toLowerCase()}
+                          </option>
+                          {input.options.map((option, idx) => (
+                            <option key={idx} value={option.id}>
+                              {option.name}
+                            </option>
+                          ))}
+                        </Field>
+                      )}
+                      {input.type === "file" && (
+                        <div className="col-span-1" key={input.name}>
+                          <input
+                            id="images"
+                            name="images"
+                            type="file"
+                            onChange={(event) =>
+                              handleImageChange(event, setFieldValue)
+                            }
+                            multiple
+                            className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full"
+                          />
+                          <ErrorMessage
+                            name="images"
+                            component="div"
+                            className="error text-red-500"
+                          />
+                          <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mt-5">
+                            {imagePreviews.map((preview, index) => (
                               <div
                                 key={index}
-                                className="flex items-center mb-2"
+                                className="flex items-center w-full gap-2"
                               >
-                                <Field
-                                  name={`phoneNumber[${index}]`}
-                                  placeholder="Enter Phone Number"
-                                  className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5 mr-2"
+                                {
+                                  page==='Amenity'?(
+                                    <div className="bg-main-400 p-3 rounded-full">
+
+                                <img
+                                  src={preview}
+                                  alt={`Image preview ${index}`}
+                                  className="w-12 h-12 object-cover rounded-full"
                                 />
+                                 </div>
+
+                                  ):(
+                                    <img
+                                  src={preview}
+                                  alt={`Image preview ${index}`}
+                                  className="w-12 h-12 object-cover rounded-full"
+                                />
+                                  )
+                                }
+                                 
                                 <button
                                   type="button"
-                                  onClick={() => remove(index)}
+                                  onClick={() => handleDeleteImage(index, setFieldValue)}
                                   className="text-red-500"
                                 >
                                   X
@@ -105,72 +154,67 @@ export default function FormComponent(props) {
                               </div>
                             ))}
                           </div>
-                          <ErrorMessage
-                            name="phoneNumber"
-                            component="div"
-                            className="error text-red-500"
-                          />
                         </div>
                       )}
-                    </FieldArray>
-                  </div>
-                ) : input.type === "file" ? (
-                  <div className="col-span-1" key={input.name}>
-                    <label
-                      htmlFor="images"
-                      className="block mb-2 text-base font-bold"
-                    >
-                      Images
-                    </label>
-                    <input
-                      id="images"
-                      name="images"
-                      type="file"
-                      onChange={(event) =>
-                        handleImageChange(event, setFieldValue)
-                      }
-                      multiple
-                      className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full"
-                    />
-                    <ErrorMessage
-                      name="images"
-                      component="div"
-                      className="error text-red-500"
-                    />
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mt-5">
-                      {imagePreviews.map((preview, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center w-full gap-2"
-                        >
-                          <img
-                            src={preview}
-                            alt={`Image preview ${index}`}
-                            className="w-12 h-12 object-cover rounded-full"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteImage(index)}
-                            className="text-red-500"
-                          >
-                            X
-                          </button>
+                      {input.type === "phone" && (
+                        <div className="col-span-1" key={input.name}>
+                          <FieldArray name="phoneNumber">
+                            {({ push, remove, form }) => (
+                              <div>
+                                <button
+                                  type="button"
+                                  onClick={() => push("")}
+                                  className="bg-main-800 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block p-2.5 mb-2"
+                                >
+                                  Add Phone Number
+                                </button>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  {form.values.phoneNumber.map((_, index) => (
+                                    <div
+                                      key={index}
+                                      className="flex items-center mb-2"
+                                    >
+                                      <Field
+                                        name={`phoneNumber[${index}]`}
+                                        placeholder="Enter Phone Number"
+                                        className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5 mr-2"
+                                      />
+                                      <button
+                                        type="button"
+                                        onClick={() => remove(index)}
+                                        className="text-red-500"
+                                      >
+                                        X
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                                <ErrorMessage
+                                  name="phoneNumber"
+                                  component="div"
+                                  className="error text-red-500"
+                                />
+                              </div>
+                            )}
+                          </FieldArray>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : null
-              )}
+                      )}
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
             <button
               type="submit"
-              className="bg-main-800 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+              className="bg-main-800 mt-5 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
             >
-              {mode == "add" ? `Add ${page}` : `Save ${page}`}
+              {mode === "add" ? `Add ${page}` : `Save ${page}`}
             </button>
           </Form>
         )}
       </Formik>
     </div>
   );
-}
+};
+
+export default FormComponent;

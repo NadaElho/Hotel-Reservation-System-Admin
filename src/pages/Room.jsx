@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "../components/Table";
 import Button from "../components/Button";
 import { CiSquarePlus, CiEdit, CiTrash } from "react-icons/ci";
@@ -6,6 +6,7 @@ import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
 import axiosInstance from "../interceptor";
+
 
 export default function Room() {
   const [rooms, setRooms] = useState([]);
@@ -77,34 +78,15 @@ export default function Room() {
       <Button name="Add Room " icon={CiSquarePlus} navigate="addRoom" />
       <div className="p-4 border-2 border-gray-200 border-solid rounded-3xl dark:border-gray-700">
         <Table
-          cols={cols}
-          data={rooms}
-          linkEdit="editRoom"
-          handleDelete={handleDeleteClick}
-          isLoading={isLoading}
-        >
-          {rooms.map((room) => (
-            <tr key={room.id}>
-              <td>{room.title_en}</td>
-              <td>{room.images.join(", ")}</td>
-              <td>{room.roomTypeId}</td>
-              <td>{room.amenitiesIds}</td>
-              <td>{room.status}</td>
-              <td>
-                <Link to={`/rooms/editroom/${room.id}`}>
-                  <Button icon={CiEdit} />
-                </Link>
-              </td>
-              <td>
-                <Button
-                  icon={CiTrash}
-                  onClick={() => handleDeleteClick(room.id)}
-                  color="red"
-                />
-              </td>
-            </tr>
-          ))}
-        </Table>
+            cols={cols}
+            data={rooms}
+            linkEdit="editRoom"
+            page="room"
+            handleDelete={handleDeleteClick}
+            isLoading={isLoading}
+          />
+
+
         <div className="flex items-center justify-center py-3">
           {rooms.length ? (
             <Pagination

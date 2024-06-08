@@ -13,6 +13,7 @@ export default function Branch() {
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  
   const cols = [
     { col: "Id" },
     { col: "Branch Name" },
@@ -70,6 +71,7 @@ export default function Branch() {
             page="branch"
             handleDelete={deleteBranch}
             isLoading={isLoading}
+     
           />
         </div>
         <div className="flex items-center justify-center py-3">

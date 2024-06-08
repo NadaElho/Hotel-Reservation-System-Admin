@@ -91,7 +91,7 @@ export default function EditBranch() {
     for (const key in values) {
       if (key === "_id" || key === "__v") continue;
       if (key === "images" && values[key].length > 0) {
-        values[key].forEach((image, index) => {
+        values[key].forEach((image) => {
           formData.append(`images`, image);
         });
       } else if (key === "phoneNumber" && values[key].length > 0) {

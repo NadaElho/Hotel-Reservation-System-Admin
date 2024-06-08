@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 
 import { MdOutlineBedroomParent } from "react-icons/md";
-import { FaRegUser, FaHistory } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { RiHotelLine } from "react-icons/ri";
 import { VscHistory } from "react-icons/vsc";
 import { TfiViewListAlt } from "react-icons/tfi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "/logo.png";
 
 const SideBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const pages = [
-    { link: "/rooms", name: "Room", icon: MdOutlineBedroomParent },
+    { link: "/rooms", name: "Room", icon: MdOutlineBedroomParent},
     { link: "/users", name: "User", icon: FaRegUser },
     { link: "/branches", name: "Branch", icon: RiHotelLine },
     { link: "/histories", name: "History", icon: VscHistory },
     { link: "/amenities", name: "Amenity", icon: TfiViewListAlt },
   ];
+  const location = useLocation()
 
   return (
     <>
@@ -70,7 +71,7 @@ const SideBar = () => {
                 <li key={page.name}>
                   <Link
                     to={page.link}
-                    className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-[#81664B] dark:hover:bg-gray-700 group"
+                    className={`${location.pathname.startsWith(page.link) ? "bg-[#81664B]" : "" } flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#81664B] dark:hover:bg-gray-700 group`}
                   >
                     {page.icon &&
                       React.createElement(page.icon, { className: "w-5 h-5" })}

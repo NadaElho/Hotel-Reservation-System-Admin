@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import FormComponent from "./Form";
+import FormComponent from "../components/FormComponent";
 import axiosInstance from "../interceptor";
+import Loader from "../components/Loader";
 
 export default function AddRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
@@ -11,6 +12,18 @@ export default function AddRoom() {
   const [roomTypes, setRoomTypes] = useState([]);
   const [hotels, setHotels] = useState([]);
   const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
+  const [dropdownOptions, setDropdownOptions] = useState([]);
+  const amenitiesRef = useRef(null);
+
+  useEffect(() => {
+    setDropdownOptions(
+      amenitiesOptions.map((option) => ({
+        label: option.name,
+        value: option.id,
+      }))
+    );
+  }, [amenitiesOptions]);
   const mode = "add";
   const initialValues = {
     roomNumber: "",
@@ -69,14 +82,6 @@ export default function AddRoom() {
       .of(Yup.mixed().required("Image is required"))
       .min(1, "At least one image is required"),
   });
-  useEffect(() => {
-    setDropdownOptions(
-      amenitiesOptions.map((option) => ({
-        label: option.name,
-        value: option.id,
-      }))
-    );
-  }, [amenitiesOptions]);
   useEffect(() => {
     const fetchAmenities = async () => {
       try {
@@ -156,13 +161,23 @@ export default function AddRoom() {
     }
 
     try {
+      setLoading(true);
       await axiosInstance.post("/rooms", formData);
+      setLoading(false);
       navigate("/rooms");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
-
+  if (isLoading) {
+    return (
+      <div className="lg:p-14 p-7 sm:ml-64 h-full">
+        <div className="flex justify-center items-center h-full">
+          <Loader />
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <FormComponent
@@ -175,6 +190,8 @@ export default function AddRoom() {
         onSubmit={onSubmit}
         mode={mode}
         amenitiesOptions={amenitiesOptions}
+        dropdownOptions={dropdownOptions}
+        amenitiesRef={amenitiesRef}
         page="Room"
       />
     </>
