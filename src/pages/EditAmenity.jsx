@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
-import { toast } from "react-toastify";
 
 export default function EditAmenity() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -86,15 +87,12 @@ export default function EditAmenity() {
         formData.append(key, values[key]);
       }
     }
-  //   for (let pair of formData.entries()) {
-  //     console.log(`${pair[0]}: ${pair[1]}`);
-  // }
+    //   for (let pair of formData.entries()) {
+    //     console.log(`${pair[0]}: ${pair[1]}`);
+    // }
     try {
       setLoading(true);
-      await axiosInstance.patch(
-        `/amenities/${id}`,
-        formData
-      );
+      await axiosInstance.patch(`/amenities/${id}`, formData);
       setLoading(false);
       navigate("/amenities");
       toast.success("Amenity updated successfully");

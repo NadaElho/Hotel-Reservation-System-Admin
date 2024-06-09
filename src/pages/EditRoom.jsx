@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import FormComponent from "../components/FormComponent";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
+
+import FormComponent from "../components/FormComponent";
 import axiosInstance from "../interceptor";
 import Loader from "../components/Loader";
-import { toast } from "react-toastify";
 
 export default function EditRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
@@ -165,7 +166,7 @@ export default function EditRoom() {
       toast.success("Room updated successfully");
     } catch (error) {
       // console.log("Error:", error.response?.data || error.message);
-      toast.error(err.response?.data || err.message);
+      toast.error(error.response?.data || error.message);
     }
   };
 

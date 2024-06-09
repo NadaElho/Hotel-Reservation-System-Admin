@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import Table from "../components/Table";
-import Button from "../components/Button";
-import { CiSquarePlus, CiEdit, CiTrash } from "react-icons/ci";
-import Pagination from "../components/Pagination";
-import Loader from "../components/Loader";
-import { Link } from "react-router-dom";
-import axiosInstance from "../interceptor";
+import { CiSquarePlus } from "react-icons/ci";
 import { toast } from "react-toastify";
 
+import Table from "../components/Table";
+import Button from "../components/Button";
+import Pagination from "../components/Pagination";
+import axiosInstance from "../interceptor";
 
 export default function Room() {
   const [rooms, setRooms] = useState([]);
@@ -28,7 +26,7 @@ export default function Room() {
 
   useEffect(() => {
     getAllRooms();
-  }, [pageNum, limit,renderDelete]);
+  }, [pageNum, limit, renderDelete]);
 
   const getAllRooms = async () => {
     try {
@@ -37,7 +35,6 @@ export default function Room() {
         `/rooms?limit=${limit}&page=${pageNum + 1}`
       );
       setNoOfPages(data.pagination.numberPages);
-      //  setLoading(false);
       if (data.status === "success") {
         const formattedData = data.data.map((room) => ({
           id: room._id,
@@ -65,24 +62,24 @@ export default function Room() {
   };
 
   const handleDeleteClick = async (roomId) => {
-      await axiosInstance.delete(`/rooms/${roomId}`);
-      seteRenderDelete(!renderDelete);
-      toast("Room deleted successfully");
+    await axiosInstance.delete(`/rooms/${roomId}`);
+    seteRenderDelete(!renderDelete);
+    toast("Room deleted successfully");
   };
+  
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
       <Button name="Add Room " icon={CiSquarePlus} navigate="addRoom" />
       <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
         <Table
-            cols={cols}
-            data={rooms}
-            linkEdit="editRoom"
-            page="room"
-            handleDelete={handleDeleteClick}
-            isLoading={isLoading}
-          />
-
-
+          cols={cols}
+          data={rooms}
+          linkEdit="editRoom"
+          page="room"
+          handleDelete={handleDeleteClick}
+          isLoading={isLoading}
+          limit={limit}
+        />
         <div className="flex items-center justify-center py-3">
           {rooms.length ? (
             <Pagination
