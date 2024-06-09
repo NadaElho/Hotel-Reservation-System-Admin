@@ -43,7 +43,7 @@ export default function User() {
       setUsers(formattedData);
       setLoading(false);
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      // console.log(err.response?.data || err.message, "err");
     }
   };
 

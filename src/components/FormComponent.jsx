@@ -71,10 +71,26 @@ const FormComponent = ({
                     </div>
                   ) : (
                     <>
-                      {input.type === "text" && (
+                      {input.type === "text"&& (
                         <>
                           <Field
                             type="text"
+                            id={input.name}
+                            name={input.name}
+                            placeholder={`Enter ${input.title}`}
+                            className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                          />
+                          <ErrorMessage
+                            name={input.name}
+                            component="div"
+                            className="error text-red-500"
+                          />
+                        </>
+                      )}
+                       {input.type === "number"&& (
+                        <>
+                          <Field
+                            type="number"
                             id={input.name}
                             name={input.name}
                             placeholder={`Enter ${input.title}`}

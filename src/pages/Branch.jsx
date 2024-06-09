@@ -39,7 +39,7 @@ export default function Branch() {
         id: branch._id,
         name: branch.name_en,
         address: branch.address_en,
-        phoneNumber: branch.phoneNumber,
+        phoneNumber: branch.phoneNumber.join("  "),
         images: branch.images,
         description: branch.description_en,
       }));
