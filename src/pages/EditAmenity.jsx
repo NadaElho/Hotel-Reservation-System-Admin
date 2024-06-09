@@ -77,7 +77,9 @@ export default function EditAmenity() {
       if (key === "_id" || key === "__v") continue;
       if (key === "images" && values[key].length > 0) {
         values[key].forEach((image) => {
-          formData.append(`images`, image);
+          if (image instanceof File) {
+            formData.append(`images`, image);
+          }
         });
       } else {
         formData.append(key, values[key]);
