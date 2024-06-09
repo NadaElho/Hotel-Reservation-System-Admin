@@ -41,8 +41,8 @@ export default function AddRoom() {
   };
 
   const inputs = [
-    { name: "roomNumber", title: "Room Number", type: "text" },
-    { name: "price", title: "Price", type: "text" },
+    { name: "roomNumber", title: "Room Number", type: "number" },
+    { name: "price", title: "Price", type: "number" },
     { name: "title_en", title: "English Name", type: "text" },
     { name: "title_ar", title: "Arabic Name", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
