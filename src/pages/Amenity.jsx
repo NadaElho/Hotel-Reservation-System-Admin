@@ -8,6 +8,7 @@ import Pagination from "../components/Pagination";
 import ConfirmDelete from "../components/ConfirmDelete";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
+import { toast } from "react-toastify";
 export default function Amenity() {
   const [amenities, setAmenities] = useState([]);
   const [pageNum, setPageNum] = useState(0);
@@ -52,6 +53,7 @@ export default function Amenity() {
   const deleteAmenity = async (id) => {
     await axiosInstance.delete(`/amenities/${id}`);
     seteRenderDelete(!renderDelete);
+    toast("Aamenity deleted successfully");
   };
   return (
     <>
