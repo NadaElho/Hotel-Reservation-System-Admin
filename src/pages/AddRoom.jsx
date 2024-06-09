@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import axiosInstance from "../interceptor";
 import Loader from "../components/Loader";
+import { toast } from "react-toastify";
 
 export default function AddRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
@@ -165,8 +166,10 @@ export default function AddRoom() {
       await axiosInstance.post("/rooms", formData);
       setLoading(false);
       navigate("/rooms");
+      toast.success("Room added successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      // console.log(err.response?.data || err.message, "err");
+      toast.error(err.response?.data || err.message);
     }
   };
   if (isLoading) {

@@ -6,6 +6,7 @@ import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
 import axiosInstance from "../interceptor";
+import { toast } from "react-toastify";
 
 
 export default function Room() {
@@ -66,6 +67,7 @@ export default function Room() {
   const handleDeleteClick = async (roomId) => {
       await axiosInstance.delete(`/rooms/${roomId}`);
       seteRenderDelete(!renderDelete);
+      toast("Room deleted successfully");
   };
   return (
     <div className="lg:p-14 p-7 sm:ml-64">

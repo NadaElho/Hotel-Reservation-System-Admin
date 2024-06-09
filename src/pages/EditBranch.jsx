@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
+import { toast } from "react-toastify";
 
 export default function EditBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -109,8 +110,10 @@ export default function EditBranch() {
       await axiosInstance.patch(`/hotels/${id}`, formData);
       setLoading(false);
       navigate("/branches");
+      toast.success("Branch updated successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      // console.log(err.response?.data || err.message, "err");
+      toast.error(err.response?.data || err.message);
     }
   };
   if (isLoading) {
