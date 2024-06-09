@@ -14,6 +14,7 @@ export default function Room() {
   const [limit, setLimit] = useState(3);
   const [noOfPages, setNoOfPages] = useState(1);
   const [isLoading, setLoading] = useState(false);
+  const [renderDelete, seteRenderDelete] = useState(false);
 
   const cols = [
     { col: "Id" },
@@ -26,7 +27,7 @@ export default function Room() {
 
   useEffect(() => {
     getAllRooms();
-  }, [pageNum, limit]);
+  }, [pageNum, limit,renderDelete]);
 
   const getAllRooms = async () => {
     try {
@@ -63,15 +64,8 @@ export default function Room() {
   };
 
   const handleDeleteClick = async (roomId) => {
-    try {
-      setLoading(true);
       await axiosInstance.delete(`/rooms/${roomId}`);
-      getAllRooms();
-      setLoading(false);
-    } catch (err) {
-      console.log(err.response?.data || err.message, "err");
-      setLoading(false);
-    }
+      seteRenderDelete(!renderDelete);
   };
   return (
     <div className="lg:p-14 p-7 sm:ml-64">

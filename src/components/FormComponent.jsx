@@ -62,10 +62,16 @@ const FormComponent = ({
                         multi
                         values={dropdownOptions.filter(option => values.amenitiesIds.includes(option.value))}
                       />
+                      <ErrorMessage
+                        name={input.name}
+                        component="div"
+                        className="error text-red-500"
+                    />
                     </div>
                   ) : (
                     <>
                       {input.type === "text" && (
+                        <>
                         <Field
                           type="text"
                           id={input.name}
@@ -73,8 +79,15 @@ const FormComponent = ({
                           placeholder={`Enter ${input.title}`}
                           className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                         />
+                        <ErrorMessage
+                        name={input.name}
+                        component="div"
+                        className="error text-red-500"
+                    />
+                        </>
                       )}
                       {input.type === "textarea" && (
+                        <>
                         <Field
                           as="textarea"
                           id={input.name}
@@ -83,8 +96,16 @@ const FormComponent = ({
                           className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                           placeholder={`Enter ${input.title}`}
                         />
-                      )}
+                        <ErrorMessage
+                      name={input.name}
+                      component="div"
+                      className="error text-red-500"
+                    />
+                        </>
+                      )
+                      }
                       {input.type === "select" && (
+                        <>
                         <Field
                           as="select"
                           id={input.name}
@@ -100,6 +121,12 @@ const FormComponent = ({
                             </option>
                           ))}
                         </Field>
+                        <ErrorMessage
+                        name={input.name}
+                        component="div"
+                        className="error text-red-500"
+                      />
+                        </>
                       )}
                       {input.type === "file" && (
                         <div className="col-span-1" key={input.name}>
@@ -123,7 +150,6 @@ const FormComponent = ({
                             multiple type="file" className="hidden" />
                         </label>
                     </div> 
-
                           {/* <input
                             id="images"
                             name="images"
@@ -195,26 +221,29 @@ const FormComponent = ({
                                       key={index}
                                       className="flex items-center mb-2"
                                     >
+                                      <div>
+
                                       <Field
                                         name={`phoneNumber[${index}]`}
                                         placeholder="Enter Phone Number"
                                         className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5 mr-2"
                                       />
+                                      <ErrorMessage
+                                        name={`phoneNumber[${index}]`}
+                                        component="div"
+                                        className="error text-red-500"
+                                      />
+                                      </div>
                                       <button
                                         type="button"
                                         onClick={() => remove(index)}
-                                        className="text-red-500"
+                                        className="text-red-500 mb-8 ms-2"
                                       >
                                         X
                                       </button>
                                     </div>
                                   ))}
                                 </div>
-                                <ErrorMessage
-                                  name="phoneNumber"
-                                  component="div"
-                                  className="error text-red-500"
-                                />
                               </div>
                             )}
                           </FieldArray>

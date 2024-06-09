@@ -67,7 +67,7 @@ export default function AddRoom() {
   ];
 
   const validationSchema = Yup.object({
-    roomNumber: Yup.string().required("Room number is required"),
+    roomNumber: Yup.number().required("Room number is required"),
     title_en: Yup.string().required("English name is required"),
     title_ar: Yup.string().required("Arabic name is required"),
     hotelId: Yup.string().required("Hotel ID is required"),
