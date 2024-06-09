@@ -3,6 +3,7 @@ import Table from "../components/Table";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
+import { toast } from "react-toastify";
 
 export default function User() {
   const [users, setUsers] = useState([]);
@@ -55,6 +56,7 @@ export default function User() {
   const deleteUser = async (id) => {
     await axiosInstance.delete(`/users/${id}`);
     seteRenderDelete(!renderDelete);
+    toast("User deleted successfully");
   };
   return (
     <>

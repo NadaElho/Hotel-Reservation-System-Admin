@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
+import { toast } from "react-toastify";
 
 export default function EditAmenity() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -85,9 +86,9 @@ export default function EditAmenity() {
         formData.append(key, values[key]);
       }
     }
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-  }
+  //   for (let pair of formData.entries()) {
+  //     console.log(`${pair[0]}: ${pair[1]}`);
+  // }
     try {
       setLoading(true);
       await axiosInstance.patch(
@@ -96,8 +97,10 @@ export default function EditAmenity() {
       );
       setLoading(false);
       navigate("/amenities");
+      toast.success("Amenity updated successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      // console.log(err.response?.data || err.message, "err");
+      toast.error(err.response?.data || err.message);
     }
   };
   if (isLoading) {

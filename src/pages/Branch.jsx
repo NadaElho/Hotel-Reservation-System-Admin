@@ -5,6 +5,7 @@ import { CiSquarePlus } from "react-icons/ci";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
+import { toast } from "react-toastify";
 
 export default function Branch() {
   const [branches, setBranches] = useState([]);
@@ -52,6 +53,7 @@ export default function Branch() {
   const deleteBranch = async (id) => {
     await axiosInstance.delete(`/hotels/${id}`);
     seteRenderDelete(!renderDelete);
+    toast("Branch deleted successfully");
   };
   const handleLimit = (num) => {
     setLimit(num);

@@ -4,6 +4,7 @@ import FormComponent from "../components/FormComponent";
 import * as Yup from "yup";
 import axiosInstance from "../interceptor";
 import Loader from "../components/Loader";
+import { toast } from "react-toastify";
 
 export default function EditRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
@@ -161,8 +162,10 @@ export default function EditRoom() {
       await axiosInstance.patch(`/rooms/${id}`, formData);
       setLoading(true);
       navigate("/rooms");
+      toast.success("Room updated successfully");
     } catch (error) {
-      console.log("Error:", error.response?.data || error.message);
+      // console.log("Error:", error.response?.data || error.message);
+      toast.error(err.response?.data || err.message);
     }
   };
 
