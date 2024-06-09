@@ -128,3 +128,7 @@ ul {
     box-shadow: .2em -.2em 0 0 currentcolor;
   }
 }
+
+label{
+  color: #81664b !important
+}

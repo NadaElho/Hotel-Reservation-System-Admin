@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { MdOutlineBedroomParent } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { RiHotelLine } from "react-icons/ri";
@@ -63,7 +62,6 @@ const SideBar = () => {
               className="h-7  mb-11 sm:h-11"
               alt="Flowbite Logo"
             />
-            {/* <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> */}
           </a>
           <ul className="space-y-2 font-medium">
             {pages.map((page) => {

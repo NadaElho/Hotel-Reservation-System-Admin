@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
+import { CiSquarePlus } from "react-icons/ci";
+import { toast } from "react-toastify";
 import Table from "../components/Table";
 import Button from "../components/Button";
-import { CiSquarePlus } from "react-icons/ci";
 import Pagination from "../components/Pagination";
-import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
-import { toast } from "react-toastify";
 
 export default function Branch() {
   const [branches, setBranches] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(3);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  
+
   const cols = [
     { col: "Id" },
     { col: "Branch Name" },
@@ -31,7 +30,7 @@ export default function Branch() {
 
   const getAllBranches = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data } = await axiosInstance.get(
         `/hotels?limit=${limit}&page=${pageNum + 1}`
       );
@@ -45,7 +44,7 @@ export default function Branch() {
         description: branch.description_en,
       }));
       setBranches(formattedData);
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
@@ -73,7 +72,7 @@ export default function Branch() {
             page="branch"
             handleDelete={deleteBranch}
             isLoading={isLoading}
-     
+            limit={limit}
           />
         </div>
         <div className="flex items-center justify-center py-3">

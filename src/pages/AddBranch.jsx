@@ -1,10 +1,11 @@
 import { useState } from "react";
-import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
-import { toast } from "react-toastify";
 
 export default function AddBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);

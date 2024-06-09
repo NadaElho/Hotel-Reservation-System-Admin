@@ -5,7 +5,6 @@ export default function ConfirmDelete({ onClose, onConfirm, page, name }) {
     <>
       <div className="fixed bg-gray-400  inset-0 bg-opacity-50 z-50 flex justify-center items-center ">
         <div className="bg-grey-500  w-[500px]  h-80 rounded-3xl flex-col flex justify-center items-center ">
-          {/* <h2 className="text-lg font-bold mb-4">Confirm Delete</h2> */}
           <div className="rounded-full bg-main-100 p-4 text-white mb-8">
             <RiDeleteBin5Line className="h-9 w-9" />
           </div>

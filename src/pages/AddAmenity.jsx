@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { useNavigate, useParams } from "react-router-dom";
+
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
-import { toast } from "react-toastify";
 
 export default function AddAmenity() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -78,7 +79,6 @@ export default function AddAmenity() {
       toast.success("Amenity added successfully");
       setLoading(false);
     } catch (err) {
-      // console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
     }
   };

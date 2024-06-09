@@ -1,5 +1,6 @@
 import SideBar from "./components/SideBar.jsx";
 import Room from "./pages/Room.jsx";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 import { Route, Routes, useLocation } from "react-router-dom";
 import Branch from "./pages/Branch.jsx";
@@ -26,30 +27,35 @@ function App() {
           <ToastContainer />
         </div>
         {myLoc.pathname != "/" && <SideBar />}
-        <Routes>
-          <Route element={<PrivateRoute />}>
-            <Route exact path="/" element={<Login />} />
-          </Route>
-          <Route element={<Guard />}>
-            <Route path="/branches" element={<Branch />} />
-            <Route path="/branches/addBranch" element={<AddBranch />} />
-            <Route path="/branches/editBranch/:id" element={<EditBranch />} />
-            <Route path="/users" element={<User />} />
-            {/* <Route path="/users/addUser" element={<AddUser />} />
+        <SkeletonTheme
+          baseColor={"#EEE"}
+          highlightColor={"#FFF"}
+        >
+          <Routes>
+            <Route element={<PrivateRoute />}>
+              <Route exact path="/" element={<Login />} />
+            </Route>
+            <Route element={<Guard />}>
+              <Route path="/branches" element={<Branch />} />
+              <Route path="/branches/addBranch" element={<AddBranch />} />
+              <Route path="/branches/editBranch/:id" element={<EditBranch />} />
+              <Route path="/users" element={<User />} />
+              {/* <Route path="/users/addUser" element={<AddUser />} />
                 <Route path="/users/editUser/:id" element={<EditUser/>} /> */}
-            <Route path="/histories" element={<History />} />
-            <Route path="/amenities" element={<Amenity />} />
-            <Route path="/amenities/addAmenity" element={<AddAmenity />} />
-            <Route
-              path="/amenities/editAmenity/:id"
-              element={<EditAmenity />}
-            />
-            <Route path="/rooms" element={<Room />} />
-            <Route path="/rooms/addroom" element={<AddRoom />} />
-            <Route path="/rooms/editroom/:id" element={<EditRoom />} />
-            <Route path="**" element={<Room />} />
-          </Route>
-        </Routes>
+              <Route path="/histories" element={<History />} />
+              <Route path="/amenities" element={<Amenity />} />
+              <Route path="/amenities/addAmenity" element={<AddAmenity />} />
+              <Route
+                path="/amenities/editAmenity/:id"
+                element={<EditAmenity />}
+              />
+              <Route path="/rooms" element={<Room />} />
+              <Route path="/rooms/addroom" element={<AddRoom />} />
+              <Route path="/rooms/editroom/:id" element={<EditRoom />} />
+              <Route path="**" element={<Room />} />
+            </Route>
+          </Routes>
+        </SkeletonTheme>
       </div>
     </>
   );

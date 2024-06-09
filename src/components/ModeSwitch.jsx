@@ -1,7 +1,6 @@
 const ModeSwitch = ({ mode }) => {
   return (
     <>
-      {/* <button onClick={mode}>button</button> */}
       <button
         className="w-20 h-10 rounded-full bg-white flex items-center transition duration-300 focus:outline-none shadow"
         onClick={mode}
