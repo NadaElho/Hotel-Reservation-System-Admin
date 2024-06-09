@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 export default function Button(props) {
   const { name, icon, navigate } = props;
   const navigatee = useNavigate();
+  
   return (
     <>
-
       <div className="flex  justify-end mb-6">
         <button
           type="button"

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 import Table from "../components/Table";
 import Pagination from "../components/Pagination";
-import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
-import { toast } from "react-toastify";
 
 export default function User() {
   const [users, setUsers] = useState([]);
@@ -42,22 +42,25 @@ export default function User() {
       }));
       setUsers(formattedData);
       setLoading(false);
-    
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
   };
+
   const handleLimit = (num) => {
     setLimit(num);
   };
+
   const handlePageClick = (data) => {
     setPageNum(data.selected);
   };
+
   const deleteUser = async (id) => {
     await axiosInstance.delete(`/users/${id}`);
     seteRenderDelete(!renderDelete);
     toast("User deleted successfully");
   };
+
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
@@ -70,6 +73,7 @@ export default function User() {
             page="user"
             handleDelete={deleteUser}
             isLoading={isLoading}
+            limit={limit}
           />
         </div>
         <div className="flex items-center justify-center py-3">

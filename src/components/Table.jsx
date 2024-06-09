@@ -3,16 +3,20 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import ConfirmDelete from "./ConfirmDelete";
-import Loader from "./Loader";
 import LinesEllipsis from "react-lines-ellipsis";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Table(props) {
-  const { cols, data, linkEdit, page, handleDelete, isLoading } = props;
+  const { cols, data, linkEdit, page, handleDelete, isLoading, limit } = props;
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
   const [truncated, setTruncated] = useState([]);
-
+  const arrOfRows = [];
+  for (let i = 0; i < limit; i++) {
+    arrOfRows.push(i);
+  }
   const toggleTruncated = (index) => {
     setTruncated((prev) => ({ ...prev, [index]: !prev[index] }));
   };
@@ -50,8 +54,15 @@ export default function Table(props) {
                   {isLoading ? (
                     <tr>
                       <td colSpan={cols.length + 1} className="py-4">
-                        <div className="flex justify-center items-center">
-                          <Loader />
+                        <div>
+                          {arrOfRows.map((num) => (
+                            <div
+                              key={num}
+                              className="my-4 pb-2 border-b border-neutral-200"
+                            >
+                              <Skeleton className="w-full" height={80} />
+                            </div>
+                          ))}
                         </div>
                       </td>
                     </tr>
@@ -62,9 +73,11 @@ export default function Table(props) {
                         className="border-b border-neutral-200 overflow-hidden"
                       >
                         {Object.entries(item).map(([key, value], idx) => (
-                          <td key={idx} className="whitespace-wrap overflow-hidden px-6 py-4">
+                          <td
+                            key={idx}
+                            className="whitespace-wrap overflow-hidden px-6 py-4"
+                          >
                             {key === "images" ? (
-                              
                               <img
                                 src={value[0]}
                                 className="w-20 h-20 object-cover rounded-3xl"
@@ -91,7 +104,9 @@ export default function Table(props) {
                                   text={value}
                                   maxLine={2}
                                   ellipsis={
-                                    <button onClick={() => toggleTruncated(index)}>
+                                    <button
+                                      onClick={() => toggleTruncated(index)}
+                                    >
                                       ....
                                     </button>
                                   }

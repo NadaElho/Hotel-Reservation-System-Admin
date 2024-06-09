@@ -1,9 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-div{
-    /* background: red; */
-}
+
 /* Example: Normalize.css */
 body {
     font-family: 'Arial', sans-serif;
@@ -129,4 +127,8 @@ ul {
   87% {
     box-shadow: .2em -.2em 0 0 currentcolor;
   }
+}
+
+label{
+  color: #81664b !important
 }

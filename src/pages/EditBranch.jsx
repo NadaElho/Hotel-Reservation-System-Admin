@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+
 import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
-import { toast } from "react-toastify";
 
 export default function EditBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -97,7 +98,7 @@ export default function EditBranch() {
             formData.append(`images`, image);
           }
         });
-      }else if (key === "phoneNumber" && values[key].length > 0) {
+      } else if (key === "phoneNumber" && values[key].length > 0) {
         values[key].forEach((phone, index) => {
           formData.append(`phoneNumber[${index}]`, phone);
         });

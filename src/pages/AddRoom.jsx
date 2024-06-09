@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+
 import FormComponent from "../components/FormComponent";
 import axiosInstance from "../interceptor";
 import Loader from "../components/Loader";
-import { toast } from "react-toastify";
 
 export default function AddRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
@@ -83,6 +84,7 @@ export default function AddRoom() {
       .of(Yup.mixed().required("Image is required"))
       .min(1, "At least one image is required"),
   });
+
   useEffect(() => {
     const fetchAmenities = async () => {
       try {
@@ -96,6 +98,7 @@ export default function AddRoom() {
         console.error("Error fetching amenities:", err);
       }
     };
+
     const fetchRoomTypes = async () => {
       try {
         const response = await axiosInstance.get("/room-type");
@@ -108,6 +111,7 @@ export default function AddRoom() {
         console.error("Error fetching types:", err);
       }
     };
+    
     const fetchHotels = async () => {
       try {
         const response = await axiosInstance.get("/hotels");
