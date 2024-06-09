@@ -156,9 +156,6 @@ export default function EditRoom() {
         formData.append(key, values[key]);
       }
     }
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-  }
     try {
       setLoading(true);
       await axiosInstance.patch(`/rooms/${id}`, formData);
