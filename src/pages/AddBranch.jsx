@@ -8,8 +8,6 @@ import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
 
 export default function AddBranch() {
-  const [imagePreviews, setImagePreviews] = useState([]);
-  const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
   const mode = "add";
   const [isLoading, setLoading] = useState(false);
@@ -54,24 +52,6 @@ export default function AddBranch() {
       .min(1, "At least one image is required"),
   });
 
-  const handleImageChange = (event, setFieldValue) => {
-    const files = Array.from(event.currentTarget.files);
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
-    setImageFiles((prevFiles) => [...prevFiles, ...files]);
-    setFieldValue("images", [...imageFiles, ...files]);
-  };
-
-  const handleDeleteImage = (index) => {
-    const updatedPreviews = [...imagePreviews];
-    updatedPreviews.splice(index, 1);
-    setImagePreviews(updatedPreviews);
-
-    const updatedFiles = [...imageFiles];
-    updatedFiles.splice(index, 1);
-    setImageFiles(updatedFiles);
-  };
-
   const onSubmit = async (values) => {
     const formData = new FormData();
     for (const key in values) {
@@ -113,9 +93,6 @@ export default function AddBranch() {
         initialValues={initialValues}
         inputs={inputs}
         validationSchema={validationSchema}
-        handleDeleteImage={handleDeleteImage}
-        handleImageChange={handleImageChange}
-        imagePreviews={imagePreviews}
         onSubmit={onSubmit}
         mode={mode}
         page="Branch"

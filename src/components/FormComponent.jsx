@@ -1,21 +1,42 @@
 import Dropdown from "react-dropdown-select";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
+import { useState } from "react";
 
 const FormComponent = ({
   inputs,
   initialValues,
   validationSchema,
-  handleImageChange,
-  handleDeleteImage,
   onSubmit,
   mode,
   page,
-  imagePreviews,
   amenitiesOptions,
   setTagifyInstance,
   dropdownOptions,
   amenitiesRef,
+  imagePrev,
 }) => {
+  const [imagePreviews, setImagePreviews] = imagePrev
+    ? useState(imagePrev)
+    : useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
+
+  const handleImageChange = (event, setFieldValue) => {
+    const files = Array.from(event.currentTarget.files);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
+    setImageFiles((prevFiles) => [...prevFiles, ...files]);
+    setFieldValue("images", [...imageFiles, ...files]);
+  };
+
+  const handleDeleteImage = (index) => {
+    const updatedPreviews = [...imagePreviews];
+    updatedPreviews.splice(index, 1);
+    setImagePreviews(updatedPreviews);
+
+    const updatedFiles = [...imageFiles];
+    updatedFiles.splice(index, 1);
+    setImageFiles(updatedFiles);
+  };
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
       <Formik
@@ -71,7 +92,7 @@ const FormComponent = ({
                     </div>
                   ) : (
                     <>
-                      {input.type === "text"&& (
+                      {input.type === "text" && (
                         <>
                           <Field
                             type="text"
@@ -87,7 +108,7 @@ const FormComponent = ({
                           />
                         </>
                       )}
-                       {input.type === "number"&& (
+                      {input.type === "number" && (
                         <>
                           <Field
                             type="number"
