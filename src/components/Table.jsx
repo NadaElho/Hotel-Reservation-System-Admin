@@ -68,15 +68,9 @@ export default function Table(props) {
                     </tr>
                   ) : (
                     data.map((item, index) => (
-                      <tr
-                        key={index}
-                        className="border-b border-neutral-200"
-                      >
+                      <tr key={index} className="border-b border-neutral-200">
                         {Object.entries(item).map(([key, value], idx) => (
-                          <td
-                            key={idx}
-                            className="whitespace-wrap px-6 py-4"
-                          >
+                          <td key={idx} className="whitespace-wrap px-6 py-4">
                             {key === "images" ? (
                               <img
                                 src={value[0]}
@@ -118,7 +112,7 @@ export default function Table(props) {
                           </td>
                         ))}
                         {page === "history" ? null : (
-                          <td className="whitespace-nowrap px-6 pt-10 flex justify-center justify-items-end">
+                          <td className="whitespace-nowrap px-4 py-10 flex justify-center justify-items-end">
                             {page === "user" ? null : (
                               <Link to={`${linkEdit}/${item.id}`}>
                                 <FaRegEdit className="me-3 w-4 h-4 text-green-600" />

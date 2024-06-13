@@ -23,6 +23,9 @@ import RoomType from "./pages/RoomType.jsx";
 import AddRoomType from "./pages/AddRoomType.jsx";
 import EditRoomType from "./pages/EditRoomType.jsx";
 import EditsubscriptionAdvantage from "./pages/EditSubscriptionAdvantage.jsx";
+import Subscription from "./pages/Subscription.jsx";
+import AddSubscription from "./pages/AddSubscription.jsx";
+import EditSubscription from "./pages/EditSubscription.jsx";
 function App() {
   const myLoc = useLocation();
 
@@ -74,6 +77,13 @@ function App() {
               <Route path="/roomsType" element={<RoomType />} />
               <Route path="/roomsType/add" element={<AddRoomType />} />
               <Route path="/roomsType/edit/:id" element={<EditRoomType />} />
+
+              <Route path="/subscriptions" element={<Subscription />} />
+              <Route path="/subscriptions/add" element={<AddSubscription />} />
+              <Route
+                path="/subscriptions/edit/:id"
+                element={<EditSubscription />}
+              />
 
               <Route path="**" element={<Room />} />
             </Route>
