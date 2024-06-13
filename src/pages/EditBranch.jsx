@@ -9,7 +9,6 @@ import axiosInstance from "../interceptor";
 
 export default function EditBranch() {
   const [imagePreviews, setImagePreviews] = useState([]);
-  const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
   const mode = "edit";
@@ -70,24 +69,6 @@ export default function EditBranch() {
       .min(1, "At least one image is required"),
   });
 
-  const handleImageChange = (event, setFieldValue) => {
-    const files = Array.from(event.currentTarget.files);
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
-    setImageFiles((prevFiles) => [...prevFiles, ...files]);
-    setFieldValue("images", [...imageFiles, ...files]);
-  };
-
-  const handleDeleteImage = (index) => {
-    const updatedPreviews = [...imagePreviews];
-    updatedPreviews.splice(index, 1);
-    setImagePreviews(updatedPreviews);
-
-    const updatedFiles = [...imageFiles];
-    updatedFiles.splice(index, 1);
-    setImageFiles(updatedFiles);
-  };
-
   const onSubmit = async (values) => {
     const formData = new FormData();
     for (const key in values) {
@@ -132,12 +113,10 @@ export default function EditBranch() {
         initialValues={hotelData}
         inputs={inputs}
         validationSchema={validationSchema}
-        handleImageChange={handleImageChange}
-        imagePreviews={imagePreviews}
+        imagePrev={imagePreviews}
         onSubmit={onSubmit}
         mode={mode}
         page="Branch"
-        handleDeleteImage={handleDeleteImage}
       />
     </>
   );

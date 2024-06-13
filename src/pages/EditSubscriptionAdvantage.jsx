@@ -7,28 +7,25 @@ import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
 
-export default function EditAmenity() {
-  const [imagePreviews, setImagePreviews] = useState([]);
+export default function EditsubscriptionAdvantage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const mode = "edit";
   const [isLoading, setLoading] = useState(false);
-  const [amenityData, setAmenityData] = useState({
+  const [subscriptionAdvantageData, setsubscriptionAdvantageeData] = useState({
     name_en: "",
     name_ar: "",
-    description_en: "",
-    description_ar: "",
-    images: [],
   });
 
   useEffect(() => {
     async function getDataById() {
       try {
         setLoading(true);
-        const { data } = await axiosInstance.get(`/amenities/${id}`);
+        const { data } = await axiosInstance.get(
+          `/subscription-advantage/${id}`
+        );
+        setsubscriptionAdvantageeData(data.data);
         setLoading(false);
-        setAmenityData(data.data);
-        setImagePreviews(data.data.images);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -39,44 +36,28 @@ export default function EditAmenity() {
   const inputs = [
     { name: "name_en", title: "English Name", type: "text" },
     { name: "name_ar", title: "Arabic Name", type: "text" },
-    { name: "description_en", title: "English Description", type: "textarea" },
-    { name: "description_ar", title: "Arabic Description", type: "textarea" },
-    { name: "images", title: "Images", type: "file" },
   ];
 
   const validationSchema = Yup.object({
     name_en: Yup.string().required("English name is required"),
     name_ar: Yup.string().required("Arabic name is required"),
-    description_en: Yup.string().required("English description is required"),
-    description_ar: Yup.string().required("Arabic description is required"),
-    images: Yup.array()
-      .of(Yup.mixed().required("Image is required"))
-      .min(1, "At least one image is required"),
   });
 
   const onSubmit = async (values) => {
     const formData = new FormData();
-    for (const key in values) {
-      if (key === "_id" || key === "__v") continue;
-      if (key === "images" && values[key].length > 0) {
-        values[key].forEach((image) => {
-          if (image instanceof File) {
-            formData.append(`images`, image);
-          }
-        });
-      } else {
-        formData.append(key, values[key]);
-      }
-    }
-    //   for (let pair of formData.entries()) {
-    //     console.log(`${pair[0]}: ${pair[1]}`);
-    // }
+    formData.append("name_en", values.name_en);
+    formData.append("name_ar", values.name_ar);
+
     try {
       setLoading(true);
-      await axiosInstance.patch(`/amenities/${id}`, formData);
+      await axiosInstance.patch(`/subscription-advantage/${id}`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       setLoading(false);
-      navigate("/amenities");
-      toast.success("Amenity updated successfully");
+      navigate("/subscriptionsAdvantage");
+      toast.success("Subscription Advantage updated successfully");
     } catch (err) {
       // console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
@@ -94,13 +75,12 @@ export default function EditAmenity() {
   return (
     <>
       <FormComponent
-        initialValues={amenityData}
+        initialValues={subscriptionAdvantageData}
         inputs={inputs}
         validationSchema={validationSchema}
-        imagePrev={imagePreviews}
         onSubmit={onSubmit}
         mode={mode}
-        page="Amenity"
+        page="Subscription Advantage"
       />
     </>
   );

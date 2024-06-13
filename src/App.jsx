@@ -17,6 +17,12 @@ import AddAmenity from "./pages/AddAmenity.jsx";
 import EditAmenity from "./pages/EditAmenity.jsx";
 import AddRoom from "./pages/AddRoom.jsx";
 import EditRoom from "./pages/EditRoom.jsx";
+import SubscriptionAdvantage from "./pages/SubscriptionAdvantage.jsx";
+import AddSubscriptionAdvantage from "./pages/AddSubscriptionAdvantage.jsx";
+import RoomType from "./pages/RoomType.jsx";
+import AddRoomType from "./pages/AddRoomType.jsx";
+import EditRoomType from "./pages/EditRoomType.jsx";
+import EditsubscriptionAdvantage from "./pages/EditSubscriptionAdvantage.jsx";
 function App() {
   const myLoc = useLocation();
 
@@ -27,10 +33,7 @@ function App() {
           <ToastContainer />
         </div>
         {myLoc.pathname != "/" && <SideBar />}
-        <SkeletonTheme
-          baseColor={"#EEE"}
-          highlightColor={"#FFF"}
-        >
+        <SkeletonTheme baseColor={"#EEE"} highlightColor={"#FFF"}>
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route exact path="/" element={<Login />} />
@@ -39,19 +42,39 @@ function App() {
               <Route path="/branches" element={<Branch />} />
               <Route path="/branches/addBranch" element={<AddBranch />} />
               <Route path="/branches/editBranch/:id" element={<EditBranch />} />
+
               <Route path="/users" element={<User />} />
-              {/* <Route path="/users/addUser" element={<AddUser />} />
-                <Route path="/users/editUser/:id" element={<EditUser/>} /> */}
+
               <Route path="/histories" element={<History />} />
+
               <Route path="/amenities" element={<Amenity />} />
               <Route path="/amenities/addAmenity" element={<AddAmenity />} />
               <Route
                 path="/amenities/editAmenity/:id"
                 element={<EditAmenity />}
               />
+
               <Route path="/rooms" element={<Room />} />
               <Route path="/rooms/addroom" element={<AddRoom />} />
               <Route path="/rooms/editroom/:id" element={<EditRoom />} />
+
+              <Route
+                path="/subscriptionsAdvantage"
+                element={<SubscriptionAdvantage />}
+              />
+              <Route
+                path="/subscriptionsAdvantage/add"
+                element={<AddSubscriptionAdvantage />}
+              />
+              <Route
+                path="/subscriptionsAdvantage/edit/:id"
+                element={<EditsubscriptionAdvantage />}
+              />
+
+              <Route path="/roomsType" element={<RoomType />} />
+              <Route path="/roomsType/add" element={<AddRoomType />} />
+              <Route path="/roomsType/edit/:id" element={<EditRoomType />} />
+
               <Route path="**" element={<Room />} />
             </Route>
           </Routes>

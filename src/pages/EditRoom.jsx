@@ -12,7 +12,6 @@ export default function EditRoom() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [hotels, setHotels] = useState([]);
-  const [imageFiles, setImageFiles] = useState([]);
   const amenitiesRef = useRef(null);
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -37,7 +36,6 @@ export default function EditRoom() {
   useEffect(() => {
     const fetchAmenities = async () => {
       try {
-        
         const response = await axiosInstance.get("/amenities");
         const amenityNames = response.data.data.map((amenity) => ({
           id: amenity._id,
@@ -73,7 +71,8 @@ export default function EditRoom() {
           title_ar: roomData.title_ar || "",
           description_en: roomData.description_en || "",
           description_ar: roomData.description_ar || "",
-          amenitiesIds: roomData.amenitiesIds.map((amenity) => amenity._id) || [],
+          amenitiesIds:
+            roomData.amenitiesIds.map((amenity) => amenity._id) || [],
           price: roomData.price || "",
           roomTypeId: roomData.roomTypeId._id || "",
           images: roomData.images || [],
@@ -119,26 +118,6 @@ export default function EditRoom() {
     fetchRoomTypes();
     fetchRoomData();
   }, [id]);
-
-  const handleImageChange = (event, setFieldValue) => {
-    const files = Array.from(event.currentTarget.files);
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
-    setImageFiles((prevFiles) => [...prevFiles, ...files]);
-    setFieldValue("images", [...imageFiles, ...files]);
-  };
-
-  const handleDeleteImage = (index, setFieldValue) => {
-    const updatedPreviews = [...imagePreviews];
-    updatedPreviews.splice(index, 1);
-    setImagePreviews(updatedPreviews);
-
-    const updatedFiles = [...imageFiles];
-    updatedFiles.splice(index, 1);
-    setImageFiles(updatedFiles);
-
-    setFieldValue("images", updatedFiles);
-  };
 
   const onSubmit = async (values) => {
     const formData = new FormData();
@@ -213,7 +192,6 @@ export default function EditRoom() {
     images: Yup.array()
       .of(Yup.mixed().required("Image is required"))
       .min(1, "At least one image is required"),
-
   });
   if (isLoading) {
     return (
@@ -230,9 +208,7 @@ export default function EditRoom() {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-      handleDeleteImage={handleDeleteImage}
-      handleImageChange={handleImageChange}
-      imagePreviews={imagePreviews}
+      imagePrev={imagePreviews}
       amenitiesOptions={amenitiesOptions}
       amenitiesRef={amenitiesRef}
       dropdownOptions={dropdownOptions}

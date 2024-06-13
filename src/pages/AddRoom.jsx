@@ -9,8 +9,6 @@ import Loader from "../components/Loader";
 
 export default function AddRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
-  const [imagePreviews, setImagePreviews] = useState([]);
-  const [imageFiles, setImageFiles] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [hotels, setHotels] = useState([]);
   const navigate = useNavigate();
@@ -111,7 +109,7 @@ export default function AddRoom() {
         console.error("Error fetching types:", err);
       }
     };
-    
+
     const fetchHotels = async () => {
       try {
         const response = await axiosInstance.get("/hotels");
@@ -128,26 +126,6 @@ export default function AddRoom() {
     fetchRoomTypes();
     fetchHotels();
   }, []);
-
-  const handleImageChange = (event, setFieldValue) => {
-    const files = Array.from(event.currentTarget.files);
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
-    setImageFiles((prevFiles) => [...prevFiles, ...files]);
-    setFieldValue("images", [...imageFiles, ...files]);
-  };
-
-  const handleDeleteImage = (index, setFieldValue) => {
-    const updatedPreviews = [...imagePreviews];
-    updatedPreviews.splice(index, 1);
-    setImagePreviews(updatedPreviews);
-
-    const updatedFiles = [...imageFiles];
-    updatedFiles.splice(index, 1);
-    setImageFiles(updatedFiles);
-
-    setFieldValue("images", updatedFiles);
-  };
 
   const onSubmit = async (values) => {
     const formData = new FormData();
@@ -191,9 +169,6 @@ export default function AddRoom() {
         initialValues={initialValues}
         inputs={inputs}
         validationSchema={validationSchema}
-        handleDeleteImage={handleDeleteImage}
-        handleImageChange={handleImageChange}
-        imagePreviews={imagePreviews}
         onSubmit={onSubmit}
         mode={mode}
         amenitiesOptions={amenitiesOptions}
