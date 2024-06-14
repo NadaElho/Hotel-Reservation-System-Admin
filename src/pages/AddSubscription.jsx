@@ -84,16 +84,19 @@ export default function AddSubscription() {
 
   const onSubmit = async (values) => {
     const formData = new FormData();
+
     for (const key in values) {
-      if (key == "subscriptionAdvantageIds") {
-        for (var i = 0; i < values[key].length; i++) {
-          formData.append("subscriptionAdvantageIds", values[key][i]);
-        }
+      if (key === "subscriptionAdvantageIds") {
+        values[key].forEach((id) => {
+          formData.append("subscriptionAdvantageIds[]", id);
+        });
       } else {
         formData.append(key, values[key]);
       }
     }
-
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
     try {
       setLoading(true);
       await axiosInstance.post("/subscriptions", formData, {
@@ -129,7 +132,7 @@ export default function AddSubscription() {
         subscriptionAdvantageOptions={subscriptionAdvantageOptions}
         dropdownOptions={dropdownOptions}
         subscriptionsAdvantageRef={subscriptionsAdvantageRef}
-        page="Subscriptions Advantage"
+        page="Subscriptions"
       />
     </>
   );

@@ -135,9 +135,9 @@ export default function AddRoom() {
           formData.append(key, image);
         });
       } else if (key == "amenitiesIds") {
-        for (var i = 0; i < values[key].length; i++) {
-          formData.append("amenitiesIds", values[key][i]);
-        }
+        values[key].forEach((id) => {
+          formData.append("amenitiesIds[]", id);
+        });
       } else {
         formData.append(key, values[key]);
       }

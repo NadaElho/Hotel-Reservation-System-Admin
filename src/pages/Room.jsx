@@ -37,7 +37,6 @@ export default function Room() {
       const reservationsResponse = await axiosInstance.get(
         `/reservations?limit=100&page=1`
       );
-      // console.log("reservations", ressponse.data.data);
       const reservations = reservationsResponse.data.data;
       const bookedReservations = reservations.filter(
         (reservations) => reservations.status.name_en == "pending"
@@ -50,12 +49,6 @@ export default function Room() {
       );
       setNoOfAvailablRooms(room.data.data.length - bookedRooms.length);
       setNoOfBookedRooms(bookedRooms.length);
-      console.log("availablRoomIds  ", bookedRoomIds);
-      console.log("bookedRoomIds  ", bookedRooms);
-      // console.log("availabl  ", availablRooms.length);
-
-      // console.log("notavailabl ", room.data.data.length - availablRooms.length);
-      // console.log("bookedRooms", bookedRooms);
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }

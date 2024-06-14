@@ -131,7 +131,7 @@ export default function EditRoom() {
         });
       } else if (key === "amenitiesIds") {
         values[key].forEach((id) => {
-          formData.append("amenitiesIds", id);
+          formData.append("amenitiesIds[]", id);
         });
       } else {
         formData.append(key, values[key]);
