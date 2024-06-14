@@ -26,6 +26,7 @@ import EditsubscriptionAdvantage from "./pages/EditSubscriptionAdvantage.jsx";
 import Subscription from "./pages/Subscription.jsx";
 import AddSubscription from "./pages/AddSubscription.jsx";
 import EditSubscription from "./pages/EditSubscription.jsx";
+import Review from "./pages/Review.jsx";
 function App() {
   const myLoc = useLocation();
 
@@ -84,7 +85,7 @@ function App() {
                 path="/subscriptions/edit/:id"
                 element={<EditSubscription />}
               />
-
+              <Route path="/reviews" element={<Review />} />
               <Route path="**" element={<Room />} />
             </Route>
           </Routes>
