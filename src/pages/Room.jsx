@@ -11,7 +11,10 @@ export default function Room() {
   const [rooms, setRooms] = useState([]);
   const [pageNum, setPageNum] = useState(0);
   const [limit, setLimit] = useState(3);
+  const [noOfAllRooms, setNoOfAllRooms] = useState(0);
   const [noOfPages, setNoOfPages] = useState(1);
+  const [noOfAvailablRooms, setNoOfAvailablRooms] = useState(0);
+  const [noOfBookedRooms, setNoOfBookedRooms] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [renderDelete, seteRenderDelete] = useState(false);
 
@@ -26,7 +29,37 @@ export default function Room() {
 
   useEffect(() => {
     getAllRooms();
+    filter();
   }, [pageNum, limit, renderDelete]);
+  const filter = async () => {
+    try {
+      const room = await axiosInstance.get(`/rooms?limit=100&page=1`);
+      const reservationsResponse = await axiosInstance.get(
+        `/reservations?limit=100&page=1`
+      );
+      // console.log("reservations", ressponse.data.data);
+      const reservations = reservationsResponse.data.data;
+      const bookedReservations = reservations.filter(
+        (reservations) => reservations.status.name_en == "pending"
+      );
+      const bookedRoomIds = bookedReservations.map(
+        (reservation) => reservation.roomId?._id
+      );
+      const bookedRooms = room.data.data.filter((room) =>
+        bookedRoomIds.includes(room._id)
+      );
+      setNoOfAvailablRooms(room.data.data.length - bookedRooms.length);
+      setNoOfBookedRooms(bookedRooms.length);
+      console.log("availablRoomIds  ", bookedRoomIds);
+      console.log("bookedRoomIds  ", bookedRooms);
+      // console.log("availabl  ", availablRooms.length);
+
+      // console.log("notavailabl ", room.data.data.length - availablRooms.length);
+      // console.log("bookedRooms", bookedRooms);
+    } catch (err) {
+      console.log(err.response?.data || err.message, "err");
+    }
+  };
 
   const getAllRooms = async () => {
     try {
@@ -34,7 +67,10 @@ export default function Room() {
       const { data } = await axiosInstance.get(
         `/rooms?limit=${limit}&page=${pageNum + 1}`
       );
+
       setNoOfPages(data.pagination.numberPages);
+      setNoOfAllRooms(data.pagination.documentCount);
+
       if (data.status === "success") {
         const formattedData = data.data.map((room) => ({
           id: room._id,
@@ -45,6 +81,7 @@ export default function Room() {
             .map((amenity) => amenity.name_en)
             .join(", "),
         }));
+        // console.log("bookedRooms", bookedRooms);
         setRooms(formattedData);
         setLoading(false);
       }
@@ -69,6 +106,20 @@ export default function Room() {
 
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
+      <div className="flex items-center justify-center py-3  text-main-800">
+        <div className="border-e border-main-800 pe-5 me-5">
+          <p className="font-bold">All Rooms</p>
+          <p>({noOfAllRooms})</p>
+        </div>
+        <div className="border-e border-main-800 pe-5 me-5">
+          <p className="font-bold">Available rooms</p>
+          <p>({noOfAvailablRooms})</p>
+        </div>
+        <div>
+          <p className="font-bold">Booked</p>
+          <p>({noOfBookedRooms})</p>
+        </div>
+      </div>
       <Button name="Add Room " icon={CiSquarePlus} navigate="addRoom" />
       <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
         <Table
