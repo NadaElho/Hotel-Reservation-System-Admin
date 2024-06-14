@@ -21,7 +21,8 @@ const SideBar = () => {
       name: "Subscription Advantage",
       icon: TfiViewListAlt,
     },
-    { link: "/roomsType", name: "room Type", icon: TfiViewListAlt },
+    { link: "/roomsType", name: "Room Type", icon: TfiViewListAlt },
+    { link: "/reviews", name: "Reviews", icon: TfiViewListAlt },
   ];
   const location = useLocation();
 
