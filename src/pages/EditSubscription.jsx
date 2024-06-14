@@ -86,7 +86,7 @@ export default function EditSubscription() {
     for (const key in values) {
       if (key === "subscriptionAdvantageIds") {
         values[key].forEach((id) => {
-          formData.append("subscriptionAdvantageIds", id);
+          formData.append("subscriptionAdvantageIds[]", id);
         });
       } else {
         formData.append(key, values[key]);
