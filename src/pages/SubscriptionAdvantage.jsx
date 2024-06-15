@@ -86,7 +86,10 @@ export default function SubscriptionAdvantage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
-
+  const [truncated, setTruncated] = useState([]);
+  const toggleTruncated = (index) => {
+    setTruncated((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
   const arrOfCards = [];
   for (let i = 0; i < limit; i++) {
     arrOfCards.push(i);
@@ -138,14 +141,40 @@ export default function SubscriptionAdvantage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-8 w-full">
-              {subscriptionsAdvantage.map((subscriptionAdvantage) => (
+              {subscriptionsAdvantage.map((subscriptionAdvantage, index) => (
                 <div
-                  key={subscriptionAdvantage.id}
-                  className="flex justify-center h-52 items-center flex-col border-2 rounded-3xl border-[#52381D]"
+                  key={index}
+                  className="flex justify-center p-5 items-center flex-col border-2 rounded-3xl border-[#52381D]"
                 >
-                  <p className="text-main-800 text-lg font-bold">
-                    {subscriptionAdvantage.name}
-                  </p>
+                  <div className="text-main-800 w-52 font-bold ">
+                    {truncated[index] ? (
+                      <div>
+                        {subscriptionAdvantage.name}
+                        {subscriptionAdvantage.name.split(" ").length > 4 && (
+                          <button
+                            className="underline"
+                            onClick={() => toggleTruncated(index)}
+                          >
+                            Less
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        {subscriptionAdvantage.name
+                          .split(" ")
+                          .slice(0, 4)
+                          .join(" ")}{" "}
+                        ...
+                        <button
+                          className="underline"
+                          onClick={() => toggleTruncated(index)}
+                        >
+                          More
+                        </button>
+                      </div>
+                    )}
+                  </div>
 
                   <Link
                     to={`/subscriptionsAdvantage/edit/${subscriptionAdvantage.id}`}

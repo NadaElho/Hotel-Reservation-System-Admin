@@ -12,9 +12,9 @@ export default function Room() {
   const [pageNum, setPageNum] = useState(0);
   const [limit, setLimit] = useState(3);
   const [noOfAllRooms, setNoOfAllRooms] = useState(0);
-  const [noOfPages, setNoOfPages] = useState(1);
   const [noOfAvailablRooms, setNoOfAvailablRooms] = useState(0);
   const [noOfBookedRooms, setNoOfBookedRooms] = useState(0);
+  const [noOfPages, setNoOfPages] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [renderDelete, seteRenderDelete] = useState(false);
 
@@ -39,7 +39,8 @@ export default function Room() {
       );
       const reservations = reservationsResponse.data.data;
       const bookedReservations = reservations.filter(
-        (reservations) => reservations.status.name_en == "pending"
+        (reservations) =>
+          reservations.status.name_en.toUpperCase() == "pending".toUpperCase()
       );
       const bookedRoomIds = bookedReservations.map(
         (reservation) => reservation.roomId?._id
@@ -99,7 +100,7 @@ export default function Room() {
 
   return (
     <div className="lg:p-14 p-7 sm:ml-64">
-      <div className="flex items-center justify-center py-3  text-main-800">
+      <div className="hidden md:flex items-center justify-center py-3  text-main-800">
         <div className="border-e border-main-800 pe-5 me-5">
           <p className="font-bold">All Rooms</p>
           <p>({noOfAllRooms})</p>

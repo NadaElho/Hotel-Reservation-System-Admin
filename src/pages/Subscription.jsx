@@ -45,7 +45,7 @@ export default function Subscription() {
           percentage: subscription.percentage,
           subscriptionAdvantageIds: subscription.subscriptionAdvantageIds
             .map((subscriptionAdvantage) => subscriptionAdvantage.name_en)
-            .join(", "),
+            .join(" , "),
         }));
         setSubscription(formattedData);
         setLoading(false);

@@ -15,12 +15,12 @@ export default function Table(props) {
   const [idDelete, setIdDelete] = useState("");
   const [truncated, setTruncated] = useState([]);
   const arrOfRows = [];
-  for (let i = 0; i < limit; i++) {
-    arrOfRows.push(i);
-  }
   const toggleTruncated = (index) => {
     setTruncated((prev) => ({ ...prev, [index]: !prev[index] }));
   };
+  for (let i = 0; i < limit; i++) {
+    arrOfRows.push(i);
+  }
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -99,25 +99,49 @@ export default function Table(props) {
                               truncated[index] ? (
                                 <div>
                                   {value}
+                                  {value.split(" ").length > 4 && (
+                                    <button
+                                      className="underline"
+                                      onClick={() => toggleTruncated(index)}
+                                    >
+                                      Less
+                                    </button>
+                                  )}
+                                </div>
+                              ) : (
+                                <div>
+                                  {value.split(" ").slice(0, 4).join(" ")} ...
                                   <button
                                     className="underline"
                                     onClick={() => toggleTruncated(index)}
                                   >
-                                    Less
+                                    More
                                   </button>
                                 </div>
-                              ) : (
-                                <LinesEllipsis
-                                  text={value}
-                                  maxLine={2}
-                                  ellipsis={
+                              )
+                            ) : key === "subscriptionAdvantageIds" ? (
+                              truncated[index] ? (
+                                <div>
+                                  {value}
+                                  {value.split(" ").length > 4 && (
                                     <button
+                                      className="underline"
                                       onClick={() => toggleTruncated(index)}
                                     >
-                                      ....
+                                      Less
                                     </button>
-                                  }
-                                />
+                                  )}
+                                </div>
+                              ) : (
+                                <div>
+                                  {value.split(" ").slice(0, 4).join(" ")} ...
+                                  <button
+                                    className="underline"
+                                    onClick={() => toggleTruncated(index)}
+                                  >
+                                    More
+                                  </button>
+                                </div>
                               )
                             ) : (
                               value
