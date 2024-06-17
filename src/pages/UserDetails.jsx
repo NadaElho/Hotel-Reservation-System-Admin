@@ -69,6 +69,7 @@ function UserDetails() {
     <div className="lg:px-16 lg:py-10 10 p-7 sm:ml-64">
       {reservationToUser.map((user, index) => (
         <div
+          key={user.id}
           className={` ${
             index < 1
               ? "flex flex-col lg:flex-row-reverse justify-between items-start"
@@ -90,22 +91,19 @@ function UserDetails() {
               </div>
               {user.user.phoneNumber && (
                 <p>
-                  <FaPhoneSquareAlt className="inline-block" />{" "}
+                  <FaPhoneSquareAlt className="inline-block text-2xl" />{" "}
                   {user.user.phoneNumber}
                 </p>
               )}
               <p>
-                <MdOutlineMailOutline className="inline-block" />{" "}
+                <MdOutlineMailOutline className="inline-block text-2xl" />{" "}
                 {user.user.email}
               </p>
 
               {/* <p>{user.user.gender}</p> */}
             </div>
           )}
-          <div
-            key={user.id}
-            className="border border-main-800 rounded-3xl xl:w-3/5 p-5 md:p-10 mb-10 text-main-400"
-          >
+          <div className="border border-main-800 rounded-3xl xl:w-3/5 p-5 md:p-10 mb-10 text-main-400">
             <div className="grid grid-cols-1 md:grid-cols-3 ">
               <div>
                 <p className="text-3xl text-main-800 mb-4  font-bold">
