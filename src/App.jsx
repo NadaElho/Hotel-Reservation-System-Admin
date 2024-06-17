@@ -27,6 +27,7 @@ import Subscription from "./pages/Subscription.jsx";
 import AddSubscription from "./pages/AddSubscription.jsx";
 import EditSubscription from "./pages/EditSubscription.jsx";
 import Review from "./pages/Review.jsx";
+import UserDetails from "./pages/UserDetails.jsx";
 function App() {
   const myLoc = useLocation();
 
@@ -48,6 +49,7 @@ function App() {
               <Route path="/branches/editBranch/:id" element={<EditBranch />} />
 
               <Route path="/users" element={<User />} />
+              <Route path="/users/user-details/:id" element={<UserDetails />} />
 
               <Route path="/histories" element={<History />} />
 
