@@ -3,7 +3,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import ConfirmDelete from "./ConfirmDelete";
-import LinesEllipsis from "react-lines-ellipsis";
+// import LinesEllipsis from "react-lines-ellipsis";
+import { FaEye } from "react-icons/fa6";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Rating } from "@smastrom/react-rating";
@@ -15,12 +16,12 @@ export default function Table(props) {
   const [idDelete, setIdDelete] = useState("");
   const [truncated, setTruncated] = useState([]);
   const arrOfRows = [];
-  for (let i = 0; i < limit; i++) {
-    arrOfRows.push(i);
-  }
   const toggleTruncated = (index) => {
     setTruncated((prev) => ({ ...prev, [index]: !prev[index] }));
   };
+  for (let i = 0; i < limit; i++) {
+    arrOfRows.push(i);
+  }
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -99,25 +100,49 @@ export default function Table(props) {
                               truncated[index] ? (
                                 <div>
                                   {value}
+                                  {value.split(" ").length > 4 && (
+                                    <button
+                                      className="underline"
+                                      onClick={() => toggleTruncated(index)}
+                                    >
+                                      Less
+                                    </button>
+                                  )}
+                                </div>
+                              ) : (
+                                <div>
+                                  {value.split(" ").slice(0, 4).join(" ")} ...
                                   <button
                                     className="underline"
                                     onClick={() => toggleTruncated(index)}
                                   >
-                                    Less
+                                    More
                                   </button>
                                 </div>
-                              ) : (
-                                <LinesEllipsis
-                                  text={value}
-                                  maxLine={2}
-                                  ellipsis={
+                              )
+                            ) : key === "subscriptionAdvantageIds" ? (
+                              truncated[index] ? (
+                                <div>
+                                  {value}
+                                  {value.split(" ").length > 4 && (
                                     <button
+                                      className="underline"
                                       onClick={() => toggleTruncated(index)}
                                     >
-                                      ....
+                                      Less
                                     </button>
-                                  }
-                                />
+                                  )}
+                                </div>
+                              ) : (
+                                <div>
+                                  {value.split(" ").slice(0, 4).join(" ")} ...
+                                  <button
+                                    className="underline"
+                                    onClick={() => toggleTruncated(index)}
+                                  >
+                                    More
+                                  </button>
+                                </div>
                               )
                             ) : (
                               value
@@ -126,10 +151,13 @@ export default function Table(props) {
                         ))}
                         {page === "history" ? null : (
                           <td className="whitespace-nowrap px-4 py-10 flex justify-center justify-items-end">
-                            {page === "user" ? null : page ===
-                              "review" ? null : (
+                            {page === "user" ? (
                               <Link to={`${linkEdit}/${item.id}`}>
-                                <FaRegEdit className="me-3 w-4 h-4 text-green-600" />
+                                <FaEye className="me-3 w-5 h-5 " />
+                              </Link>
+                            ) : page === "review" ? null : (
+                              <Link to={`${linkEdit}/${item.id}`}>
+                                <FaRegEdit className="me-3 w-5 h-5 text-green-600" />
                               </Link>
                             )}
                             <button
@@ -139,7 +167,7 @@ export default function Table(props) {
                                 setShowModal(true);
                               }}
                             >
-                              <RiDeleteBinLine className="w-4 h-4 text-red-600" />
+                              <RiDeleteBinLine className="w-5 h-5 text-red-600" />
                             </button>
                           </td>
                         )}

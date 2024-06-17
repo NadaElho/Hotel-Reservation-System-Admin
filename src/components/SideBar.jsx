@@ -63,7 +63,7 @@ const SideBar = () => {
         } sm:translate-x-0 bg-[#52381D]`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4  overflow-y-auto bg-[#52381D] text-white dark:bg-gray-800">
+        <div className="h-full px-3 py-4  overflow-y-auto bg-[#52381D] text-white ">
           <a href="#" className="flex items-center  ps-2.5 mb-5">
             <img
               src={logo}
@@ -78,9 +78,7 @@ const SideBar = () => {
                   <Link
                     to={page.link}
                     className={`${
-                      location.pathname.startsWith(page.link)
-                        ? "bg-[#81664B]"
-                        : ""
+                      location.pathname === page.link ? "bg-[#81664B]" : ""
                     } flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#81664B] dark:hover:bg-gray-700 group`}
                   >
                     {page.icon &&

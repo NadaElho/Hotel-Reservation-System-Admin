@@ -69,7 +69,7 @@ export default function User() {
           <Table
             cols={cols}
             data={users}
-            linkEdit="editUser"
+            linkEdit="user-details"
             page="user"
             handleDelete={deleteUser}
             isLoading={isLoading}
