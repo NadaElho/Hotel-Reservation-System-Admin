@@ -15,10 +15,8 @@ export default function Review() {
   const cols = [
     { col: "Id" },
     { col: "Room Name" },
-    { col: "Room Photo" },
     { col: "Review" },
     { col: "User Name" },
-    { col: "User Photo" },
     { col: "Rating" },
     { col: "Date" },
     { col: "Action" },
@@ -39,10 +37,8 @@ export default function Review() {
       const formattedData = data.data?.map((review) => ({
         id: review._id,
         roomName: review.roomId.title_en,
-        imageRoom: review.roomId?.images,
         review: review.title,
         username: `${review.userId?.firstName} ${review.userId.lastName}`,
-        images: review.userId?.images,
         rating: review.rating,
         date: new Date(review?.date).toLocaleDateString(),
       }));
