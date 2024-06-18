@@ -76,11 +76,7 @@ export default function Table(props) {
                             {key === "images" ? (
                               <img
                                 src={value[0]}
-                                className="w-20 h-20 object-cover rounded-3xl"
-                              />
-                            ) : key === "imageRoom" ? (
-                              <img
-                                src={value[0]}
+                                alt={page}
                                 className="w-20 h-20 object-cover rounded-3xl"
                               />
                             ) : key === "id" ? (
