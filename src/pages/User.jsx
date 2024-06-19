@@ -8,7 +8,7 @@ import axiosInstance from "../interceptor";
 export default function User() {
   const [users, setUsers] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(3);
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -76,7 +76,7 @@ export default function User() {
             limit={limit}
           />
         </div>
-        <div className="flex items-center justify-center py-3">
+        <div className="flex items-center justify-center pt-3">
           <Pagination
             handleLimit={handleLimit}
             pageCount={noOfPages}

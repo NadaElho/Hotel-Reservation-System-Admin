@@ -89,14 +89,16 @@ export default function AddBranch() {
   }
   return (
     <>
-      <FormComponent
-        initialValues={initialValues}
-        inputs={inputs}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        mode={mode}
-        page="Branch"
-      />
+      <div className="lg:p-14  p-7  sm:ml-64">
+        <FormComponent
+          initialValues={initialValues}
+          inputs={inputs}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          mode={mode}
+          page="Branch"
+        />
+      </div>
     </>
   );
 }

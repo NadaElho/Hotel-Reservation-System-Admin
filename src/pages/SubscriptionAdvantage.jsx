@@ -1,71 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { CiSquarePlus } from "react-icons/ci";
-// import { toast } from "react-toastify";
-// import Table from "../components/Table";
-// import Button from "../components/Button";
-// import axiosInstance from "../interceptor";
-
-// export default function SubscriptionAdvantage() {
-//   const [subscriptionsAdvantage, setSubscriptionsAdvantage] = useState([]);
-//   const [renderDelete, seteRenderDelete] = useState(false);
-//   const [isLoading, setLoading] = useState(false);
-//   const [limit, setLimit] = useState(0);
-
-//   const cols = [
-//     { col: "Id" },
-//     { col: "Subscription Advantage" },
-//     { col: "Action" },
-//   ];
-
-//   useEffect(() => {
-//     getAllSubscriptionsAdvantage();
-//   }, [renderDelete]);
-
-//   const getAllSubscriptionsAdvantage = async () => {
-//     try {
-//       setLoading(true);
-//       const { data } = await axiosInstance.get(`/subscription-advantage`);
-//       const formattedData = data.data.map((subscriptionAdvantage) => ({
-//         id: subscriptionAdvantage._id,
-//         name: subscriptionAdvantage.name_en,
-//       }));
-//       setLimit(data.length);
-//       setSubscriptionsAdvantage(formattedData);
-//       setLoading(false);
-//     } catch (err) {
-//       console.log(err.response?.data || err.message, "err");
-//     }
-//   };
-//   const deleteSubscriptionAdvantage = async (id) => {
-//     await axiosInstance.delete(`/subscription-advantage/${id}`);
-//     seteRenderDelete(!renderDelete);
-//     toast("Subscriptions Advantage deleted successfully");
-//   };
-
-//   return (
-//     <>
-//       <div className="lg:p-14 p-7 sm:ml-64">
-//         <Button
-//           name="Add Subscription Advantage "
-//           icon={CiSquarePlus}
-//           navigate="addSubscriptionAdvantage"
-//         />
-//         <div className="p-4 border-2 w-6/12 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-//           <Table
-//             cols={cols}
-//             data={subscriptionsAdvantage}
-//             linkEdit="Subscriptions-advantage"
-//             page="subscriptionAdvantage"
-//             handleDelete={deleteSubscriptionAdvantage}
-//             isLoading={isLoading}
-//             limit={limit}
-//           />
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -77,16 +9,19 @@ import ConfirmDelete from "../components/ConfirmDelete";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axiosInstance from "../interceptor";
+import Pagination from "../components/Pagination";
 
 export default function SubscriptionAdvantage() {
   const [subscriptionsAdvantage, setSubscriptionsAdvantage] = useState([]);
   const [renderDelete, seteRenderDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [limit, setLimit] = useState(0);
+  const [limit, setLimit] = useState(8);
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
   const [truncated, setTruncated] = useState([]);
+  const [noOfPages, setNoOfPages] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
   const toggleTruncated = (index) => {
     setTruncated((prev) => ({ ...prev, [index]: !prev[index] }));
   };
@@ -97,22 +32,31 @@ export default function SubscriptionAdvantage() {
 
   useEffect(() => {
     getAllSubscriptionsAdvantage();
-  }, [renderDelete]);
+  }, [pageNum, limit, renderDelete]);
 
   const getAllSubscriptionsAdvantage = async () => {
     try {
       setLoading(true);
-      const { data } = await axiosInstance.get(`/subscription-advantage`);
+      const { data } = await axiosInstance.get(
+        `/subscription-advantage?limit=${limit}&page=${pageNum + 1}`
+      );
+      setNoOfPages(data.pagination.numberPages);
       const formattedData = data.data.map((subscriptionAdvantage) => ({
         id: subscriptionAdvantage._id,
         name: subscriptionAdvantage.name_en,
       }));
-      setLimit(data.length);
       setSubscriptionsAdvantage(formattedData);
       setLoading(false);
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
     }
+  };
+  const handleLimit = (num) => {
+    setLimit(num);
+  };
+
+  const handlePageClick = (data) => {
+    setPageNum(data.selected);
   };
   const deleteSubscriptionAdvantage = async (id) => {
     await axiosInstance.delete(`/subscription-advantage/${id}`);
@@ -196,6 +140,18 @@ export default function SubscriptionAdvantage() {
               ))}
             </div>
           )}
+        </div>
+        <div
+          className={`${
+            isLoading ? "hidden" : "flex"
+          } items-center justify-center py-3`}
+        >
+          <Pagination
+            handleLimit={handleLimit}
+            limit={limit}
+            pageCount={noOfPages}
+            handlePageClick={handlePageClick}
+          />
         </div>
         {showModal && (
           <ConfirmDelete

@@ -74,14 +74,16 @@ export default function EditsubscriptionAdvantage() {
   }
   return (
     <>
-      <FormComponent
-        initialValues={subscriptionAdvantageData}
-        inputs={inputs}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        mode={mode}
-        page="Subscription Advantage"
-      />
+      <div className="lg:px-14 md:pt-44 p-7  sm:ml-64">
+        <FormComponent
+          initialValues={subscriptionAdvantageData}
+          inputs={inputs}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          mode={mode}
+          page="Subscription Advantage"
+        />
+      </div>
     </>
   );
 }

@@ -109,15 +109,17 @@ export default function EditBranch() {
   }
   return (
     <>
-      <FormComponent
-        initialValues={hotelData}
-        inputs={inputs}
-        validationSchema={validationSchema}
-        imagePrev={imagePreviews}
-        onSubmit={onSubmit}
-        mode={mode}
-        page="Branch"
-      />
+      <div className="lg:p-14 p-7  sm:ml-64">
+        <FormComponent
+          initialValues={hotelData}
+          inputs={inputs}
+          validationSchema={validationSchema}
+          imagePrev={imagePreviews}
+          onSubmit={onSubmit}
+          mode={mode}
+          page="Branch"
+        />
+      </div>
     </>
   );
 }

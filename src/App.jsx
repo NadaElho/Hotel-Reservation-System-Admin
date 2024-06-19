@@ -28,6 +28,9 @@ import AddSubscription from "./pages/AddSubscription.jsx";
 import EditSubscription from "./pages/EditSubscription.jsx";
 import Review from "./pages/Review.jsx";
 import UserDetails from "./pages/UserDetails.jsx";
+import ReservationStatus from "./pages/ReservationStatus.jsx";
+import AddReservationStatus from "./pages/AddReservationStatus.jsx";
+import EditReservationStatus from "./pages/EditReservationStatus.jsx";
 function App() {
   const myLoc = useLocation();
 
@@ -52,6 +55,19 @@ function App() {
               <Route path="/users/user-details/:id" element={<UserDetails />} />
 
               <Route path="/histories" element={<History />} />
+
+              <Route
+                path="/reservationStatus"
+                element={<ReservationStatus />}
+              />
+              <Route
+                path="/reservationStatus/add"
+                element={<AddReservationStatus />}
+              />
+              <Route
+                path="/reservationStatus/edit/:id"
+                element={<EditReservationStatus />}
+              />
 
               <Route path="/amenities" element={<Amenity />} />
               <Route path="/amenities/addAmenity" element={<AddAmenity />} />

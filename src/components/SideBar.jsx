@@ -14,6 +14,11 @@ const SideBar = () => {
     { link: "/users", name: "User", icon: FaRegUser },
     { link: "/branches", name: "Branch", icon: RiHotelLine },
     { link: "/histories", name: "History", icon: VscHistory },
+    {
+      link: "/reservationStatus",
+      name: "Reservation Status",
+      icon: TfiViewListAlt,
+    },
     { link: "/amenities", name: "Amenity", icon: TfiViewListAlt },
     { link: "/subscriptions", name: "Subscription", icon: TfiViewListAlt },
     {
