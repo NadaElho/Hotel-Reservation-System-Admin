@@ -165,17 +165,19 @@ export default function AddRoom() {
   }
   return (
     <>
-      <FormComponent
-        initialValues={initialValues}
-        inputs={inputs}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        mode={mode}
-        amenitiesOptions={amenitiesOptions}
-        dropdownOptions={dropdownOptions}
-        amenitiesRef={amenitiesRef}
-        page="Room"
-      />
+      <div className="p-7  sm:ml-64">
+        <FormComponent
+          initialValues={initialValues}
+          inputs={inputs}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          mode={mode}
+          amenitiesOptions={amenitiesOptions}
+          dropdownOptions={dropdownOptions}
+          amenitiesRef={amenitiesRef}
+          page="Room"
+        />
+      </div>
     </>
   );
 }

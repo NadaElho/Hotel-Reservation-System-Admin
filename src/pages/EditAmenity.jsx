@@ -93,15 +93,17 @@ export default function EditAmenity() {
   }
   return (
     <>
-      <FormComponent
-        initialValues={amenityData}
-        inputs={inputs}
-        validationSchema={validationSchema}
-        imagePrev={imagePreviews}
-        onSubmit={onSubmit}
-        mode={mode}
-        page="Amenity"
-      />
+      <div className="lg:p-14 p-7  sm:ml-64">
+        <FormComponent
+          initialValues={amenityData}
+          inputs={inputs}
+          validationSchema={validationSchema}
+          imagePrev={imagePreviews}
+          onSubmit={onSubmit}
+          mode={mode}
+          page="Amenity"
+        />
+      </div>
     </>
   );
 }

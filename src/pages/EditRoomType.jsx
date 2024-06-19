@@ -72,14 +72,16 @@ export default function EditRoomType() {
   }
   return (
     <>
-      <FormComponent
-        initialValues={roomTypeData}
-        inputs={inputs}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        mode={mode}
-        page="Room Type"
-      />
+      <div className="lg:px-14 md:pt-44 p-7  sm:ml-64">
+        <FormComponent
+          initialValues={roomTypeData}
+          inputs={inputs}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          mode={mode}
+          page="Room Type"
+        />
+      </div>
     </>
   );
 }

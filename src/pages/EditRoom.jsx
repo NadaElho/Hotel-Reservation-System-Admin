@@ -203,17 +203,19 @@ export default function EditRoom() {
     );
   }
   return (
-    <FormComponent
-      inputs={inputs}
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-      imagePrev={imagePreviews}
-      amenitiesOptions={amenitiesOptions}
-      amenitiesRef={amenitiesRef}
-      dropdownOptions={dropdownOptions}
-      mode={mode}
-      page="Room"
-    />
+    <div className="  p-7  sm:ml-64">
+      <FormComponent
+        inputs={inputs}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        imagePrev={imagePreviews}
+        amenitiesOptions={amenitiesOptions}
+        amenitiesRef={amenitiesRef}
+        dropdownOptions={dropdownOptions}
+        mode={mode}
+        page="Room"
+      />
+    </div>
   );
 }

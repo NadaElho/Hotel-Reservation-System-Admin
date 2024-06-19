@@ -123,17 +123,19 @@ export default function AddSubscription() {
   }
   return (
     <>
-      <FormComponent
-        initialValues={initialValues}
-        inputs={inputs}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        mode={mode}
-        subscriptionAdvantageOptions={subscriptionAdvantageOptions}
-        dropdownOptions={dropdownOptions}
-        subscriptionsAdvantageRef={subscriptionsAdvantageRef}
-        page="Subscriptions"
-      />
+      <div className="lg:p-14  p-7  sm:ml-64">
+        <FormComponent
+          initialValues={initialValues}
+          inputs={inputs}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          mode={mode}
+          subscriptionAdvantageOptions={subscriptionAdvantageOptions}
+          dropdownOptions={dropdownOptions}
+          subscriptionsAdvantageRef={subscriptionsAdvantageRef}
+          page="Subscriptions"
+        />
+      </div>
     </>
   );
 }

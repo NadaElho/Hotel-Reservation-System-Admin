@@ -7,45 +7,40 @@ import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
 
-export default function AddRoomType() {
+export default function AddReservationStatus() {
   const navigate = useNavigate();
   const mode = "add";
   const [isLoading, setLoading] = useState(false);
   const initialValues = {
-    type_en: "",
-    type_ar: "",
+    name_en: "",
+    name_ar: "",
   };
 
   const inputs = [
-    { name: "type_en", title: "English Type", type: "text" },
-    { name: "type_ar", title: "Arabic Type", type: "text" },
+    { name: "name_en", title: "English Name", type: "text" },
+    { name: "name_ar", title: "Arabic Name", type: "text" },
   ];
 
   const validationSchema = Yup.object({
-    type_en: Yup.string().required("English Type is required"),
-    type_ar: Yup.string().required("Arabic Type is required"),
+    name_en: Yup.string().required("English Name is required"),
+    name_ar: Yup.string().required("Arabic Name is required"),
   });
 
   const onSubmit = async (values) => {
     const formData = new FormData();
-    formData.append("type_en", values.type_en);
-    formData.append("type_ar", values.type_ar);
-
-    // Log formData entries for debugging
-    // for (let pair of formData.entries()) {
-    //   console.log(`${pair[0]}: ${pair[1]}`);
-    // }
+    formData.append("name_en", values.name_en);
+    formData.append("name_ar", values.name_ar);
 
     try {
       setLoading(true);
-      await axiosInstance.post("/room-type", formData, {
+      await axiosInstance.post("/reservation-status", formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       setLoading(false);
-      navigate("/roomsType");
-      toast.success("Room Type added successfully");
+      navigate("/reservationStatus");
+      toast.success("Reservation Status added successfully");
     } catch (err) {
       console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
@@ -64,14 +59,14 @@ export default function AddRoomType() {
 
   return (
     <>
-      <div className="lg:px-14 md:pt-44 pt-10 px-7  sm:ml-64">
+      <div className="lg:px-14 md:pt-44 p-7  sm:ml-64">
         <FormComponent
           initialValues={initialValues}
           inputs={inputs}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
           mode={mode}
-          page="Room Type"
+          page="Reservation Status"
         />
       </div>
     </>

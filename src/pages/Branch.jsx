@@ -75,7 +75,7 @@ export default function Branch() {
             limit={limit}
           />
         </div>
-        <div className="flex items-center justify-center py-3">
+        <div className="flex items-center justify-center pt-3">
           <Pagination
             handleLimit={handleLimit}
             limit={limit}

@@ -10,7 +10,7 @@ import axiosInstance from "../interceptor";
 export default function Room() {
   const [rooms, setRooms] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(2);
   const [noOfAllRooms, setNoOfAllRooms] = useState(0);
   const [noOfAvailablRooms, setNoOfAvailablRooms] = useState(0);
   const [noOfBookedRooms, setNoOfBookedRooms] = useState(0);
@@ -126,7 +126,7 @@ export default function Room() {
           limit={limit}
         />
       </div>
-      <div className="flex items-center justify-center py-3">
+      <div className="flex items-center justify-center pt-3">
         {rooms.length ? (
           <Pagination
             handleLimit={handleLimit}

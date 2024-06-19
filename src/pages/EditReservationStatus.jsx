@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
@@ -7,14 +7,29 @@ import FormComponent from "../components/FormComponent";
 import Loader from "../components/Loader";
 import axiosInstance from "../interceptor";
 
-export default function AddSubscriptionAdvantage() {
+export default function EditReservationStatus() {
   const navigate = useNavigate();
-  const mode = "add";
+  const { id } = useParams();
+  const mode = "edit";
   const [isLoading, setLoading] = useState(false);
-  const initialValues = {
+  const [reservationStatusData, setReservationStatusData] = useState({
     name_en: "",
     name_ar: "",
-  };
+  });
+
+  useEffect(() => {
+    async function getDataById() {
+      try {
+        setLoading(true);
+        const { data } = await axiosInstance.get(`/reservation-status/${id}`);
+        setReservationStatusData(data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    getDataById();
+  }, [id]);
 
   const inputs = [
     { name: "name_en", title: "English Name", type: "text" },
@@ -31,27 +46,21 @@ export default function AddSubscriptionAdvantage() {
     formData.append("name_en", values.name_en);
     formData.append("name_ar", values.name_ar);
 
-    // Log formData entries for debugging
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
-
     try {
       setLoading(true);
-      await axiosInstance.post("/subscription-advantage", formData, {
+      await axiosInstance.patch(`/reservation-status/${id}`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       setLoading(false);
-      navigate("/subscriptionsAdvantage");
-      toast.success("Subscription Advantage added successfully");
+      navigate("/reservationStatus");
+      toast.success("Reservation Status updated successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      // console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
     }
   };
-
   if (isLoading) {
     return (
       <div className="lg:p-14 p-7 sm:ml-64 h-full">
@@ -61,17 +70,16 @@ export default function AddSubscriptionAdvantage() {
       </div>
     );
   }
-
   return (
     <>
       <div className="lg:px-14 md:pt-44 p-7  sm:ml-64">
         <FormComponent
-          initialValues={initialValues}
+          initialValues={reservationStatusData}
           inputs={inputs}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
           mode={mode}
-          page="Subscription Advantage"
+          page="ReservationStatus"
         />
       </div>
     </>

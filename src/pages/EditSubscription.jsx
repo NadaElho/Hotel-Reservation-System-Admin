@@ -147,16 +147,18 @@ export default function EditSubscription() {
     );
   }
   return (
-    <FormComponent
-      inputs={inputs}
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-      subscriptionAdvantageOptions={subscriptionAdvantageOptions}
-      subscriptionsAdvantageRef={subscriptionsAdvantageRef}
-      dropdownOptions={dropdownOptions}
-      mode={mode}
-      page="Subscriptions Advantage"
-    />
+    <div className="lg:p-14 p-7  sm:ml-64">
+      <FormComponent
+        inputs={inputs}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        subscriptionAdvantageOptions={subscriptionAdvantageOptions}
+        subscriptionsAdvantageRef={subscriptionsAdvantageRef}
+        dropdownOptions={dropdownOptions}
+        mode={mode}
+        page="Subscriptions Advantage"
+      />
+    </div>
   );
 }
