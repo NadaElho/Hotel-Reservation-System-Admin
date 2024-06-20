@@ -31,6 +31,9 @@ import UserDetails from "./pages/UserDetails.jsx";
 import ReservationStatus from "./pages/ReservationStatus.jsx";
 import AddReservationStatus from "./pages/AddReservationStatus.jsx";
 import EditReservationStatus from "./pages/EditReservationStatus.jsx";
+import Promotion from "./pages/Promotion.jsx";
+import EditPromotion from "./pages/EditPromotion.jsx";
+import AddPromotion from "./pages/AddPromotion.jsx";
 function App() {
   const myLoc = useLocation();
 
@@ -104,6 +107,10 @@ function App() {
                 element={<EditSubscription />}
               />
               <Route path="/reviews" element={<Review />} />
+
+              <Route path="/promotions" element={<Promotion />} />
+              <Route path="/promotions/add" element={<AddPromotion />} />
+              <Route path="/promotions/edit/:id" element={<EditPromotion />} />
               <Route path="**" element={<Room />} />
             </Route>
           </Routes>
