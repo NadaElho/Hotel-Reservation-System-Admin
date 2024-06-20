@@ -28,6 +28,7 @@ const SideBar = () => {
     },
     { link: "/roomsType", name: "Room Type", icon: TfiViewListAlt },
     { link: "/reviews", name: "Reviews", icon: TfiViewListAlt },
+    { link: "/promotions", name: "promotion", icon: TfiViewListAlt },
   ];
   const location = useLocation();
 
