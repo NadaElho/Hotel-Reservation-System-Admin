@@ -84,13 +84,13 @@ export default function SubscriptionAdvantage() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-8 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8  w-full">
               {subscriptionsAdvantage.map((subscriptionAdvantage, index) => (
                 <div
                   key={index}
-                  className="flex justify-center p-5 items-center flex-col border-2 rounded-3xl border-[#52381D]"
+                  className="flex justify-center py-8  px-16 items-center flex-col border-2 rounded-3xl border-[#52381D]"
                 >
-                  <div className="text-main-800 w-52 font-bold ">
+                  <div className="text-main-800 w-48 font-bold ">
                     {truncated[index] ? (
                       <div>
                         {subscriptionAdvantage.name}

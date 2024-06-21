@@ -3,32 +3,44 @@ import { MdOutlineBedroomParent } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { RiHotelLine } from "react-icons/ri";
 import { VscHistory } from "react-icons/vsc";
-import { TfiViewListAlt } from "react-icons/tfi";
+import { CgGym } from "react-icons/cg";
+import { IoFastFoodOutline } from "react-icons/io5";
+import { LuCircleDashed } from "react-icons/lu";
+import { PiUserCircleCheckThin } from "react-icons/pi";
+import { RiExchangeDollarLine } from "react-icons/ri";
+import { TbMessageDollar } from "react-icons/tb";
+import { IoBedOutline } from "react-icons/io5";
+import { MdOutlineReviews } from "react-icons/md";
+import { RiDiscountPercentLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import logo from "/logo.png";
 
 const SideBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const pages = [
-    { link: "/rooms", name: "Room", icon: MdOutlineBedroomParent },
-    { link: "/users", name: "User", icon: FaRegUser },
     { link: "/branches", name: "Branch", icon: RiHotelLine },
+    { link: "/rooms", name: "Room", icon: IoBedOutline },
+    { link: "/roomsType", name: "Room Type", icon: MdOutlineBedroomParent },
+    { link: "/amenities", name: "Amenity", icon: IoFastFoodOutline },
+    { link: "/users", name: "User", icon: FaRegUser },
     { link: "/histories", name: "History", icon: VscHistory },
     {
       link: "/reservationStatus",
       name: "Reservation Status",
-      icon: TfiViewListAlt,
+      icon: LuCircleDashed,
     },
-    { link: "/amenities", name: "Amenity", icon: TfiViewListAlt },
-    { link: "/subscriptions", name: "Subscription", icon: TfiViewListAlt },
+    {
+      link: "/subscriptions",
+      name: "Subscription",
+      icon: RiExchangeDollarLine,
+    },
     {
       link: "/subscriptionsAdvantage",
       name: "Subscription Advantage",
-      icon: TfiViewListAlt,
+      icon: TbMessageDollar,
     },
-    { link: "/roomsType", name: "Room Type", icon: TfiViewListAlt },
-    { link: "/reviews", name: "Reviews", icon: TfiViewListAlt },
-    { link: "/promotions", name: "promotion", icon: TfiViewListAlt },
+    { link: "/reviews", name: "Reviews", icon: MdOutlineReviews },
+    { link: "/promotions", name: "promotion", icon: RiDiscountPercentLine },
   ];
   const location = useLocation();
 
@@ -71,11 +83,7 @@ const SideBar = () => {
       >
         <div className="h-full px-3 py-4  overflow-y-auto bg-[#52381D] text-white ">
           <a href="#" className="flex items-center  ps-2.5 mb-5">
-            <img
-              src={logo}
-              className="h-7  mb-11 sm:h-11"
-              alt="Flowbite Logo"
-            />
+            <img src={logo} className=" mb-4 sm:h-11" alt="Apex" />
           </a>
           <ul className="space-y-2 font-medium">
             {pages.map((page) => {
@@ -85,10 +93,12 @@ const SideBar = () => {
                     to={page.link}
                     className={`${
                       location.pathname === page.link ? "bg-[#81664B]" : ""
-                    } flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#81664B] dark:hover:bg-gray-700 group`}
+                    } flex items-center p-2 text-white rounded-lg   hover:bg-[#81664B]  group`}
                   >
                     {page.icon &&
-                      React.createElement(page.icon, { className: "w-5 h-5" })}
+                      React.createElement(page.icon, {
+                        className: "w-6 h-6 ",
+                      })}
                     <span className="ms-3">{page.name}</span>
                   </Link>
                 </li>
@@ -97,7 +107,7 @@ const SideBar = () => {
           </ul>
           <Link
             to="/"
-            className="bg-grey-100 px-4 py-2 text-main-800 w-full rounded-3xl block text-center mt-10"
+            className="bg-grey-100  font-bold py-2 text-main-800 w-3/4 rounded-3xl block text-center mt-7"
             onClick={() => localStorage.clear()}
           >
             Log out

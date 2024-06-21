@@ -47,12 +47,12 @@ const FormComponent = ({
     >
       {({ setFieldValue, values }) => (
         <Form className="mx-auto w-full max-w-4xl   ">
-          <div className="grid grid-cols-6 md:grid-cols-6 gap-6 ">
+          <div className="grid grid-cols-6 md:grid-cols-8 gap-6 ">
             {inputs.map((input) => (
-              <div className="col-span-6 md:col-span-3" key={input.name}>
+              <div className="col-span-6 md:col-span-4" key={input.name}>
                 <label
                   htmlFor={input.name}
-                  className="block mb-2 text-base font-bold"
+                  className="block mb-2  text-base font-bold"
                 >
                   {input.title}
                 </label>
@@ -66,8 +66,8 @@ const FormComponent = ({
                           color="#52381d"
                           style={{
                             border: "1px solid #52381d",
-                            borderRadius: "6px",
-                            padding: "6px",
+                            borderRadius: "1.5rem",
+                            padding: "8px",
                           }}
                           closeOnClickInput={true}
                           onChange={(selectedValues) => {
@@ -97,8 +97,8 @@ const FormComponent = ({
                           color="#52381d"
                           style={{
                             border: "1px solid #52381d",
-                            borderRadius: "6px",
-                            padding: "6px",
+                            borderRadius: "1.5rem",
+                            padding: "8px",
                           }}
                           closeOnClickInput={true}
                           onChange={(selectedValues) => {
@@ -131,7 +131,7 @@ const FormComponent = ({
                         id={input.name}
                         name={input.name}
                         placeholder={`Enter ${input.title}`}
-                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        className="border border-main-800 bg-[#fff7f2]  text-main-400 text-sm rounded-3xl focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       />
                       <ErrorMessage
                         name={input.name}
@@ -147,7 +147,7 @@ const FormComponent = ({
                         id={input.name}
                         name={input.name}
                         placeholder={`Enter ${input.title}`}
-                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-3xl focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       />
                       <ErrorMessage
                         name={input.name}
@@ -163,7 +163,7 @@ const FormComponent = ({
                         id={input.name}
                         name={input.name}
                         rows="4"
-                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-3xl focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                         placeholder={`Enter ${input.title}`}
                       />
                       <ErrorMessage
@@ -179,10 +179,10 @@ const FormComponent = ({
                         as="select"
                         id={input.name}
                         name={input.name}
-                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-3xl focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       >
                         <option value="">
-                          Select {input.title.toLowerCase()}
+                          Select {input.name.toLowerCase()}
                         </option>
                         {input.options.map((option, idx) => (
                           <option key={idx} value={option.id}>
@@ -202,7 +202,7 @@ const FormComponent = ({
                       <div className="flex items-center justify-center w-full ">
                         <label
                           htmlFor="images"
-                          className="flex items-center justify-center w-full border bg-[#fff7f2]  border-main-800  rounded-lg cursor-pointer  dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                          className="flex items-center justify-center w-full border bg-[#fff7f2]  border-main-800  rounded-3xl cursor-pointer  dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                         >
                           <div className="flex  items-center bg-[#fff7f2] py-2">
                             <svg
@@ -238,16 +238,6 @@ const FormComponent = ({
                           />
                         </label>
                       </div>
-                      {/* <input
-                            id="images"
-                            name="images"
-                            type="file"
-                            onChange={(event) =>
-                              handleImageChange(event, setFieldValue)
-                            }
-                            multiple
-                            className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full"
-                          /> */}
                       <ErrorMessage
                         name="images"
                         component="div"
@@ -297,7 +287,7 @@ const FormComponent = ({
                             <button
                               type="button"
                               onClick={() => push("")}
-                              className="bg-main-800 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block p-2.5 mb-2"
+                              className="bg-main-800 text-white text-sm rounded-3xl focus:ring-main-400 focus:border-main-400 block p-2.5 px-4 mb-2"
                             >
                               Add Phone Number
                             </button>
@@ -311,7 +301,7 @@ const FormComponent = ({
                                     <Field
                                       name={`phoneNumber[${index}]`}
                                       placeholder="Enter Phone Number"
-                                      className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5 mr-2"
+                                      className="border border-main-800 text-main-400 text-sm rounded-3xl focus:ring-main-400 focus:border-main-400 block w-full p-2.5 mr-2"
                                     />
                                     <ErrorMessage
                                       name={`phoneNumber[${index}]`}
@@ -339,7 +329,7 @@ const FormComponent = ({
             ))}
             <button
               type="submit"
-              className="bg-main-800 mt-5  text-white text-sm rounded-lg focus:ring-main-400  focus:border-main-400 col-span-6 md:col-start-2 md:col-end-6  p-2.5"
+              className="bg-main-800 mt-5  text-white text-sm rounded-3xl focus:ring-main-400  focus:border-main-400 col-span-6 md:col-start-3 md:col-end-7  p-2.5"
             >
               {mode === "add" ? `Add ${page}` : `Save ${page}`}
             </button>
