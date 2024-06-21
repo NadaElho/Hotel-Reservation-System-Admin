@@ -22,7 +22,7 @@ export default function Table(props) {
   for (let i = 0; i < limit; i++) {
     arrOfRows.push(i);
   }
-
+  cols.map((col, index) => console.log(col));
   const getStatusClass = (status) => {
     switch (status) {
       case "pending":
@@ -43,13 +43,32 @@ export default function Table(props) {
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden">
               <table className="min-w-full  order text-left text-sm font-bold text-main-800 text-surface">
-                <thead className="border-b border-neutral-200  font-medium text-gray-950 text-base">
+                <thead className="border-b border-neutral-200  font-medium text-[#313131] text-base">
+                  {/* s-12 pe-4 */}
                   <tr>
-                    {cols.map((col) => (
-                      <th scope="col" className="px-6 py-4" key={col.col}>
-                        {col.col}
-                      </th>
-                    ))}
+                    {cols.map((col) =>
+                      page == "room" && col.col == "Action" ? (
+                        <th
+                          scope="col"
+                          className="lg:ps-9  lg:pe-1 px-6 py-4"
+                          key={col.col}
+                        >
+                          {col.col}
+                        </th>
+                      ) : page == "user" && col.col == "Action" ? (
+                        <th
+                          scope="col"
+                          className="lg:ps-9  ps-6 py-4"
+                          key={col.col}
+                        >
+                          {col.col}
+                        </th>
+                      ) : (
+                        <th scope="col" className="px-4 py-4" key={col.col}>
+                          {col.col}
+                        </th>
+                      )
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -72,7 +91,7 @@ export default function Table(props) {
                     data.map((item, index) => (
                       <tr key={index} className="border-b border-neutral-200">
                         {Object.entries(item).map(([key, value], idx) => (
-                          <td key={idx} className="whitespace-wrap px-6 py-4">
+                          <td key={idx} className="whitespace-wrap px-4 py-4 ">
                             {key === "images" ? (
                               <img
                                 src={value[0]}
@@ -146,7 +165,7 @@ export default function Table(props) {
                           </td>
                         ))}
                         {page === "history" ? null : (
-                          <td className="whitespace-nowrap px-4 py-10 flex justify-center justify-items-end">
+                          <td className="whitespace-nowrap px-4 py-10 flex justify-center ">
                             {page === "user" ? (
                               <Link to={`${linkEdit}/${item.id}`}>
                                 <FaEye className="me-3 w-5 h-5 " />

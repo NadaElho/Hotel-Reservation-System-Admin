@@ -47,9 +47,9 @@ const FormComponent = ({
     >
       {({ setFieldValue, values }) => (
         <Form className="mx-auto w-full max-w-4xl   ">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
+          <div className="grid grid-cols-6 md:grid-cols-6 gap-6 ">
             {inputs.map((input) => (
-              <div className="col-span-1" key={input.name}>
+              <div className="col-span-6 md:col-span-3" key={input.name}>
                 <label
                   htmlFor={input.name}
                   className="block mb-2 text-base font-bold"
@@ -131,7 +131,7 @@ const FormComponent = ({
                         id={input.name}
                         name={input.name}
                         placeholder={`Enter ${input.title}`}
-                        className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       />
                       <ErrorMessage
                         name={input.name}
@@ -147,7 +147,7 @@ const FormComponent = ({
                         id={input.name}
                         name={input.name}
                         placeholder={`Enter ${input.title}`}
-                        className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       />
                       <ErrorMessage
                         name={input.name}
@@ -163,7 +163,7 @@ const FormComponent = ({
                         id={input.name}
                         name={input.name}
                         rows="4"
-                        className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                         placeholder={`Enter ${input.title}`}
                       />
                       <ErrorMessage
@@ -179,7 +179,7 @@ const FormComponent = ({
                         as="select"
                         id={input.name}
                         name={input.name}
-                        className="border border-main-800 text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
+                        className="border border-main-800 bg-[#fff7f2] text-main-400 text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
                       >
                         <option value="">
                           Select {input.title.toLowerCase()}
@@ -199,12 +199,12 @@ const FormComponent = ({
                   )}
                   {input.type === "file" && (
                     <div className="col-span-1" key={input.name}>
-                      <div className="flex items-center justify-center w-full">
+                      <div className="flex items-center justify-center w-full ">
                         <label
                           htmlFor="images"
-                          className="flex items-center justify-center w-full border  border-main-800  rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                          className="flex items-center justify-center w-full border bg-[#fff7f2]  border-main-800  rounded-lg cursor-pointer  dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                         >
-                          <div className="flex  items-center  py-2">
+                          <div className="flex  items-center bg-[#fff7f2] py-2">
                             <svg
                               className="w-8 h-8 me-8   text-main-400"
                               aria-hidden="true"
@@ -220,7 +220,7 @@ const FormComponent = ({
                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                               />
                             </svg>
-                            <p className="mb-2 text-sm  text-main-400">
+                            <p className="mb-2 text-sm  text-main-400 bg-[#fff7f2]">
                               <span className="font-semibold">
                                 Click to upload images
                               </span>{" "}
@@ -337,13 +337,13 @@ const FormComponent = ({
                 </>
               </div>
             ))}
+            <button
+              type="submit"
+              className="bg-main-800 mt-5  text-white text-sm rounded-lg focus:ring-main-400  focus:border-main-400 col-span-6 md:col-start-2 md:col-end-6  p-2.5"
+            >
+              {mode === "add" ? `Add ${page}` : `Save ${page}`}
+            </button>
           </div>
-          <button
-            type="submit"
-            className="bg-main-800 mt-5 text-white text-sm rounded-lg focus:ring-main-400 focus:border-main-400 block w-full p-2.5"
-          >
-            {mode === "add" ? `Add ${page}` : `Save ${page}`}
-          </button>
         </Form>
       )}
     </Formik>

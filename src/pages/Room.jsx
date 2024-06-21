@@ -68,7 +68,7 @@ export default function Room() {
       if (data.status === "success") {
         const formattedData = data.data.map((room) => ({
           id: room._id,
-          title_en: room.title_en,
+          name: room.title_en,
           images: room?.images,
           roomTypeId: room.roomTypeId.type_en,
           amenitiesIds: room.amenitiesIds
