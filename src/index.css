@@ -135,3 +135,7 @@ label {
 body {
   background-color: #fff7f2;
 }
+.css-128hebc-OptionComponent {
+  border-radius: 20px !important;
+  padding: 2px 13px !important;
+}
