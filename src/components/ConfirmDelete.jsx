@@ -10,7 +10,8 @@ export default function ConfirmDelete({ onClose, onConfirm, page, name }) {
           </div>
           <h2 className="text-3xl text-main-800  ">Are you sure?</h2>
           <p className=" text-main-400 my-2">
-            You want to delete this {page} {name}
+            You want to delete this {page}{" "}
+            <span className=" text-red-500">{name} </span>
           </p>
           <div>
             <button

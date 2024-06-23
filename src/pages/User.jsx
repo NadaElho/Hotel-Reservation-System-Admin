@@ -43,10 +43,26 @@ export default function User() {
       setUsers(formattedData);
       setLoading(false);
     } catch (err) {
-      // console.log(err.response?.data || err.message, "err");
+      console.log(err.response?.data || err.message, "err");
     }
   };
 
+  const updateUserRole = async (values, id) => {
+    const formData = new FormData();
+    formData.append("role", values.role);
+    try {
+      await axiosInstance.patch(`/users/add-admin/${id}`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      seteRenderDelete(!renderDelete);
+      toast("User Role Update successfully");
+    } catch (error) {
+      // console.log("Error Role:", error.response?.data || error.message);
+      toast.error(error.response?.data || error.message);
+    }
+  };
   const handleLimit = (num) => {
     setLimit(num);
   };
@@ -74,6 +90,7 @@ export default function User() {
             handleDelete={deleteUser}
             isLoading={isLoading}
             limit={limit}
+            updateUserRole={updateUserRole}
           />
         </div>
         <div className="flex items-center justify-center pt-3">

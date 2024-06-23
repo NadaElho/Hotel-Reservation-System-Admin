@@ -5,14 +5,29 @@ import { Link } from "react-router-dom";
 import ConfirmDelete from "./ConfirmDelete";
 // import LinesEllipsis from "react-lines-ellipsis";
 import { FaEye } from "react-icons/fa6";
+import { GrUserAdmin } from "react-icons/gr";
+import { FaEdit } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
+import ConfirmUpdateRole from "./ConfirmUpdateRole";
 export default function Table(props) {
-  const { cols, data, linkEdit, page, handleDelete, isLoading, limit } = props;
+  const {
+    cols,
+    data,
+    linkEdit,
+    page,
+    handleDelete,
+    isLoading,
+    limit,
+    updateUserRole,
+  } = props;
+
   const [showModal, setShowModal] = useState(false);
+  const [showModalUpdateRole, setShowModalUpdateRole] = useState(false);
   const [selectedName, setSelectedName] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
   const [idDelete, setIdDelete] = useState("");
   const [truncated, setTruncated] = useState([]);
   const arrOfRows = [];
@@ -22,7 +37,6 @@ export default function Table(props) {
   for (let i = 0; i < limit; i++) {
     arrOfRows.push(i);
   }
-  cols.map((col, index) => console.log(col));
   const getStatusClass = (status) => {
     switch (status) {
       case "pending":
@@ -165,11 +179,24 @@ export default function Table(props) {
                           </td>
                         ))}
                         {page === "history" ? null : (
-                          <td className="whitespace-nowrap px-4 py-10 flex justify-center ">
+                          <td className="whitespace-nowrap  py-10 flex justify-center ">
                             {page === "user" ? (
-                              <Link to={`${linkEdit}/${item.id}`}>
-                                <FaEye className="me-3 w-5 h-5 " />
-                              </Link>
+                              <>
+                                <button
+                                  onClick={() => {
+                                    setSelectedRole(item.role);
+                                    setSelectedName(item.name);
+                                    setIdDelete(item.id);
+                                    setShowModalUpdateRole(true);
+                                  }}
+                                >
+                                  <FaRegEdit className="me-3 w-5 h-5 " />
+                                </button>
+
+                                <Link to={`${linkEdit}/${item.id}`}>
+                                  <FaEye className="me-3 w-5 h-5 " />
+                                </Link>
+                              </>
                             ) : page === "review" ? null : (
                               <Link to={`${linkEdit}/${item.id}`}>
                                 <FaRegEdit className="me-3 w-5 h-5 text-green-600" />
@@ -200,6 +227,20 @@ export default function Table(props) {
                     handleDelete(idDelete);
                     setShowModal(false);
                   }}
+                />
+              )}
+
+              {showModalUpdateRole && (
+                <ConfirmUpdateRole
+                  page={page}
+                  name={selectedName}
+                  selectedRole={selectedRole}
+                  onClose={() => setShowModalUpdateRole(false)}
+                  onConfirm={(values, id) => {
+                    updateUserRole(values, id);
+                    setShowModalUpdateRole(false);
+                  }}
+                  id={idDelete}
                 />
               )}
             </div>
