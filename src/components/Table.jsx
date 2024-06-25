@@ -64,7 +64,7 @@ export default function Table(props) {
                       page == "room" && col.col == "Action" ? (
                         <th
                           scope="col"
-                          className="lg:ps-9  lg:pe-1 px-6 py-4"
+                          className="lg:ps-20  lg:pe-1 px-6 py-4"
                           key={col.col}
                         >
                           {col.col}
