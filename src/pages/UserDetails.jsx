@@ -65,12 +65,12 @@ function UserDetails() {
       let roomsId = data.data.data.map(
         (reservationUser) => reservationUser.roomId._id
       );
-      // console.log("data", data);
+
       const roomsResponse = await axiosInstance.get(
         `/rooms?roomsId=${roomsId.join(",")}`
       );
       const roomsData = roomsResponse.data.data;
-
+      console.log("roomsData", roomsData);
       const formattedData = data.data.data.map((reservationUser) => {
         const checkInDate = new Date(reservationUser?.checkIn);
         const checkOutDate = new Date(reservationUser?.checkOut);
@@ -94,6 +94,7 @@ function UserDetails() {
       });
       setLimit(formattedData.length);
       setReservationToUser(formattedData);
+
       setLoading(false);
     } catch (err) {
       setLoading(false);

@@ -97,7 +97,7 @@ export default function ConfirmUpdateRole({
                 </button>
                 <button
                   type="submit"
-                  className="px-7 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300"
+                  className="px-7 py-2  rounded-lg border focus:ring-[#C90000]/80  hover:bg-[#C90000]/60 text-[#C90000] hover:text-white  border-[#C90000] focus:ring-5 focus:outline-none"
                 >
                   Yes, Update Role
                 </button>

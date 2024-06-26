@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import ConfirmDelete from "./ConfirmDelete";
 // import LinesEllipsis from "react-lines-ellipsis";
 import { FaEye } from "react-icons/fa6";
-import { GrUserAdmin } from "react-icons/gr";
-import { FaEdit } from "react-icons/fa";
+import { MdPaid } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import ConfirmUpdateRole from "./ConfirmUpdateRole";
+import ConfirmPay from "./ConfirmPay";
 export default function Table(props) {
   const {
     cols,
@@ -26,6 +26,7 @@ export default function Table(props) {
 
   const [showModal, setShowModal] = useState(false);
   const [showModalUpdateRole, setShowModalUpdateRole] = useState(false);
+  const [showModalPay, setShowModalPay] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const [idDelete, setIdDelete] = useState("");
@@ -178,7 +179,27 @@ export default function Table(props) {
                             )}
                           </td>
                         ))}
-                        {page === "history" ? null : (
+                        {page === "reservation" ? (
+                          <td className="whitespace-nowrap  py-10 flex justify-center ">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedName(item.username);
+                                setIdDelete(item.id);
+                                setShowModalPay(true);
+                              }}
+                              className={` ${
+                                item.paid === "true"
+                                  ? "opacity-50 cursor-not-allowed "
+                                  : ""
+                              }text-main-800  px-3  bg-[#62f2ab]   rounded-3xl right-0 hover:bg-[#62f2ab]/70 focus:ring-4 focus:outline-none  font-medium text-sm  py-2 inline-flex items-center justify-center `}
+                            >
+                              {/* opacity-50 cursor-not-allowed */}
+                              <span className="font-bold"> Pay</span>
+                              <MdPaid className="w-5 h-5 ms-1" />
+                            </button>
+                          </td>
+                        ) : (
                           <td className="whitespace-nowrap  py-10 flex justify-center ">
                             {page === "user" ? (
                               <>
@@ -229,7 +250,17 @@ export default function Table(props) {
                   }}
                 />
               )}
-
+              {showModalPay && (
+                <ConfirmPay
+                  page={page}
+                  name={selectedName}
+                  onClose={() => setShowModalPay(false)}
+                  onConfirm={() => {
+                    handleDelete(idDelete);
+                    setShowModal(false);
+                  }}
+                />
+              )}
               {showModalUpdateRole && (
                 <ConfirmUpdateRole
                   page={page}
