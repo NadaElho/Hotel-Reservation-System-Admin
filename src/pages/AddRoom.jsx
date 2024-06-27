@@ -15,6 +15,7 @@ export default function AddRoom() {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [dropdownOptions, setDropdownOptions] = useState([]);
+  const [existingRoomNumbers, setExistingRoomNumbers] = useState([]);
   const amenitiesRef = useRef(null);
 
   useEffect(() => {
@@ -75,7 +76,16 @@ export default function AddRoom() {
   ];
 
   const validationSchema = Yup.object({
-    roomNumber: Yup.number().required("Room number is required"),
+    roomNumber: Yup.number()
+      .required("Room number is required")
+      .test(
+        "unique-room-number",
+        "Room number must be unique",
+        function (value) {
+          return !existingRoomNumbers.includes(value);
+        }
+      ),
+
     title_en: Yup.string().required("English name is required"),
     title_ar: Yup.string().required("Arabic name is required"),
     hotelId: Yup.string().required("Hotel ID is required"),
@@ -134,21 +144,29 @@ export default function AddRoom() {
     const fetchPromotion = async () => {
       try {
         const response = await axiosInstance.get("/promotions");
-
         const promotions = response.data.data.map((name) => ({
           id: name._id,
           name: name.percentage,
         }));
         setPromotions(promotions);
-        console.log("response", promotions);
       } catch (err) {
         console.error("Error fetching promotions:", err);
+      }
+    };
+    const fetchExistingRoomNumbers = async () => {
+      try {
+        const response = await axiosInstance.get("/rooms");
+        const roomNumbers = response.data.data.map((room) => room.roomNumber);
+        setExistingRoomNumbers(roomNumbers);
+      } catch (err) {
+        console.error("Error fetching room numbers:", err);
       }
     };
     fetchAmenities();
     fetchRoomTypes();
     fetchHotels();
     fetchPromotion();
+    fetchExistingRoomNumbers();
   }, []);
 
   const onSubmit = async (values) => {

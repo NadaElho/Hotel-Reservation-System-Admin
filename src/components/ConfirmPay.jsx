@@ -18,7 +18,7 @@ export default function ConfirmPay({ onClose, onConfirm, page, name }) {
               className="px-7 py-2 bg-main-800 text-white rounded-lg hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#52381D]/50 me-4"
               onClick={onClose}
             >
-              No, Cancel
+              Cancel
             </button>
             <button
               className="mt-4 px-7 py-2  rounded-lg border focus:ring-[#C90000]/80  hover:bg-[#C90000]/60 text-[#C90000] hover:text-white  border-[#C90000] focus:ring-5 focus:outline-none"
@@ -27,7 +27,7 @@ export default function ConfirmPay({ onClose, onConfirm, page, name }) {
                 onClose();
               }}
             >
-              Yes, Pay
+              Pay
             </button>
           </div>
         </div>

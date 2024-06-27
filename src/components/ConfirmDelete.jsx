@@ -11,14 +11,16 @@ export default function ConfirmDelete({ onClose, onConfirm, page, name }) {
           <h2 className="text-3xl text-main-800  ">Are you sure?</h2>
           <p className=" text-main-400 my-2">
             You want to delete this {page}{" "}
-            <span className=" text-red-500">{name} </span>
+            <span className=" text-red-500">
+              {name.split(" ").slice(0, 1).join(" ")}{" "}
+            </span>
           </p>
           <div>
             <button
               className="px-7 py-2 bg-main-800 text-white rounded-lg hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#52381D]/50 me-4"
               onClick={onClose}
             >
-              No, Cancel
+              Cancel
             </button>
             <button
               className="mt-4 px-7 py-2  rounded-lg border focus:ring-[#C90000]/80  hover:bg-[#C90000]/60 text-[#C90000] hover:text-white  border-[#C90000] focus:ring-5 focus:outline-none"
@@ -26,7 +28,7 @@ export default function ConfirmDelete({ onClose, onConfirm, page, name }) {
                 onConfirm();
               }}
             >
-              Yes, Delete
+              Delete
             </button>
           </div>
         </div>

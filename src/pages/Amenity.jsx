@@ -94,6 +94,7 @@ export default function Amenity() {
                   <div className="flex items-center justify-between w-40">
                     <div className="bg-main-400 p-3 rounded-full">
                       <img
+                        className={"w-5 h-5 object-cover"}
                         src={amenity?.images[0]}
                         alt="Amenity"
                         className="w-10 h-10 object-cover"
@@ -115,7 +116,7 @@ export default function Amenity() {
                       setIdDelete(amenity.id);
                       setShowModal(true);
                     }}
-                    className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60 focus:ring-4 focus:outline-none focus:ring-[#C90000]/80 font-medium text-sm py-2 inline-flex items-center justify-center"
+                    className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60  font-medium text-sm py-2 inline-flex items-center justify-center"
                   >
                     <RiDeleteBinLine className="w-4 h-4 me-2" /> Delete
                   </button>
@@ -125,7 +126,11 @@ export default function Amenity() {
           )}
         </div>
 
-        <div className={`${isLoading ? 'hidden' : 'flex' } items-center justify-center py-3`}>
+        <div
+          className={`${
+            isLoading ? "hidden" : "flex"
+          } items-center justify-center py-3`}
+        >
           <Pagination
             handleLimit={handleLimit}
             limit={limit}

@@ -29,6 +29,7 @@ export default function Table(props) {
   const [showModalPay, setShowModalPay] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
+  const [selectedPaid, setSelectedPaid] = useState("");
   const [idDelete, setIdDelete] = useState("");
   const [truncated, setTruncated] = useState([]);
   const arrOfRows = [];
@@ -61,29 +62,11 @@ export default function Table(props) {
                 <thead className="border-b border-neutral-200  font-medium text-[#313131] text-base">
                   {/* s-12 pe-4 */}
                   <tr>
-                    {cols.map((col) =>
-                      page == "room" && col.col == "Action" ? (
-                        <th
-                          scope="col"
-                          className="lg:ps-20  lg:pe-1 px-6 py-4"
-                          key={col.col}
-                        >
-                          {col.col}
-                        </th>
-                      ) : page == "user" && col.col == "Action" ? (
-                        <th
-                          scope="col"
-                          className="lg:ps-9  ps-6 py-4"
-                          key={col.col}
-                        >
-                          {col.col}
-                        </th>
-                      ) : (
-                        <th scope="col" className="px-4 py-4" key={col.col}>
-                          {col.col}
-                        </th>
-                      )
-                    )}
+                    {cols.map((col) => (
+                      <th scope="col" className="px-4 py-4" key={col.col}>
+                        {col.col}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
@@ -180,26 +163,27 @@ export default function Table(props) {
                           </td>
                         ))}
                         {page === "reservation" ? (
-                          <td className="whitespace-nowrap  py-10 flex justify-center ">
+                          <td className="whitespace-nowrap  py-10 flex ">
                             <button
                               type="button"
                               onClick={() => {
                                 setSelectedName(item.username);
                                 setIdDelete(item.id);
+                                setSelectedPaid(item.paid);
                                 setShowModalPay(true);
                               }}
                               className={` ${
                                 item.paid === "true"
                                   ? "opacity-50 cursor-not-allowed "
                                   : ""
-                              }text-main-800  px-3  bg-[#62f2ab]   rounded-3xl right-0 hover:bg-[#62f2ab]/70 focus:ring-4 focus:outline-none  font-medium text-sm  py-2 inline-flex items-center justify-center `}
+                              }text-main-800  px-3  bg-[#62f2ab]   rounded-3xl right-0 hover:bg-[#62f2ab]/70   font-medium text-sm  py-2 inline-flex items-center justify-center `}
                             >
                               <span className="font-bold"> Pay</span>
                               <MdPaid className="w-5 h-5 ms-1" />
                             </button>
                           </td>
                         ) : (
-                          <td className="whitespace-nowrap  py-10 flex justify-center ">
+                          <td className="whitespace-nowrap  px-4 py-10  flex ">
                             {page === "user" ? (
                               <>
                                 <button
@@ -214,7 +198,7 @@ export default function Table(props) {
                                 </button>
 
                                 <Link to={`${linkEdit}/${item.id}`}>
-                                  <FaEye className="me-3 w-5 h-5 " />
+                                  <FaEye className="me-3 w-5 h-5  " />
                                 </Link>
                               </>
                             ) : page === "review" ? null : (
@@ -249,7 +233,7 @@ export default function Table(props) {
                   }}
                 />
               )}
-              {showModalPay && (
+              {showModalPay && selectedPaid !== "true" && (
                 <ConfirmPay
                   page={page}
                   name={selectedName}
