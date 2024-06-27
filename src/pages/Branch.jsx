@@ -16,9 +16,9 @@ export default function Branch() {
 
   const cols = [
     { col: "Id" },
-    { col: "Branch Name" },
+    { col: "Branch" },
     { col: "Address" },
-    { col: "Phone Number" },
+    { col: "Phone" },
     { col: "Images" },
     { col: "Description" },
     { col: "Action" },

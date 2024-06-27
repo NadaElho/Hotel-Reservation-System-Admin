@@ -194,7 +194,6 @@ export default function Table(props) {
                                   : ""
                               }text-main-800  px-3  bg-[#62f2ab]   rounded-3xl right-0 hover:bg-[#62f2ab]/70 focus:ring-4 focus:outline-none  font-medium text-sm  py-2 inline-flex items-center justify-center `}
                             >
-                              {/* opacity-50 cursor-not-allowed */}
                               <span className="font-bold"> Pay</span>
                               <MdPaid className="w-5 h-5 ms-1" />
                             </button>

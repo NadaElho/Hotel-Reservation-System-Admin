@@ -13,9 +13,11 @@ import { IoBedOutline } from "react-icons/io5";
 import { MdOutlineReviews } from "react-icons/md";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
+
 import logo from "/logo.png";
 
 const SideBar = () => {
+  const withouSidebarRoutes = ["/not-found"];
   const [menuOpen, setMenuOpen] = useState(false);
   const pages = [
     { link: "/branches", name: "Branch", icon: RiHotelLine },
@@ -43,7 +45,9 @@ const SideBar = () => {
     { link: "/promotions", name: "promotion", icon: RiDiscountPercentLine },
   ];
   const location = useLocation();
-
+  console.log(location);
+  if (withouSidebarRoutes.some((item) => location.pathname === item))
+    return null;
   return (
     <>
       <button

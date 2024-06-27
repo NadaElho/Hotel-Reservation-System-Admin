@@ -243,7 +243,7 @@ const FormComponent = ({
                         component="div"
                         className="error text-red-500"
                       />
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mt-5">
+                      <div className="grid grid-cols-4 gap-2 mt-5">
                         {imagePreviews.map((preview, index) => (
                           <div
                             key={index}
@@ -291,7 +291,7 @@ const FormComponent = ({
                             >
                               Add Phone Number
                             </button>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4">
                               {form.values.phoneNumber.map((_, index) => (
                                 <div
                                   key={index}
@@ -312,7 +312,7 @@ const FormComponent = ({
                                   <button
                                     type="button"
                                     onClick={() => remove(index)}
-                                    className="text-red-500 mb-8 ms-2"
+                                    className="text-red-500  ms-2"
                                   >
                                     X
                                   </button>
