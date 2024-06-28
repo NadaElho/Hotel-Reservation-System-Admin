@@ -57,6 +57,7 @@ export default function EditRoomType() {
       navigate("/roomsType");
       toast.success("Room Type updated successfully");
     } catch (err) {
+      setLoading(false);
       // console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
     }

@@ -10,6 +10,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axiosInstance from "../interceptor";
 import Pagination from "../components/Pagination";
+import NoPageFound from "../components/NoPageFound";
 
 export default function SubscriptionAdvantage() {
   const [subscriptionsAdvantage, setSubscriptionsAdvantage] = useState([]);
@@ -22,6 +23,7 @@ export default function SubscriptionAdvantage() {
   const [truncated, setTruncated] = useState([]);
   const [noOfPages, setNoOfPages] = useState(1);
   const [pageNum, setPageNum] = useState(0);
+  const [NotPage, setNotPage] = useState(false);
   const toggleTruncated = (index) => {
     setTruncated((prev) => ({ ...prev, [index]: !prev[index] }));
   };
@@ -48,6 +50,11 @@ export default function SubscriptionAdvantage() {
       setSubscriptionsAdvantage(formattedData);
       setLoading(false);
     } catch (err) {
+      if (err.response.status == 404) {
+        console.log(err.response.status, "kk");
+        setSubscriptionsAdvantage([]);
+        setNotPage(true);
+      }
       console.log(err.response?.data || err.message, "err");
     }
   };
@@ -74,84 +81,89 @@ export default function SubscriptionAdvantage() {
             navigate="/subscriptionsAdvantage/add"
           />
         </div>
-        <div className="flex justify-center items-center">
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-8 w-full">
-              {arrOfCards.map((num) => (
-                <div key={num}>
-                  <Skeleton className="w-full rounded-3xl" height={208} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8  w-full">
-              {subscriptionsAdvantage.map((subscriptionAdvantage, index) => (
-                <div
-                  key={index}
-                  className="flex justify-center py-8  px-16 items-center flex-col border-2 rounded-3xl border-[#52381D]"
-                >
-                  <div className="text-main-800 w-48 font-bold ">
-                    {truncated[index] ? (
-                      <div>
-                        {subscriptionAdvantage.name}
-                        {subscriptionAdvantage.name.split(" ").length > 4 && (
+        {NotPage && subscriptionsAdvantage.length == 0 ? (
+          <NoPageFound page={"Subscription Advantage"} />
+        ) : (
+          <div className="flex justify-center items-center">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-8 w-full">
+                {arrOfCards.map((num) => (
+                  <div key={num}>
+                    <Skeleton className="w-full rounded-3xl" height={208} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8  w-full">
+                {subscriptionsAdvantage.map((subscriptionAdvantage, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-center py-8  px-16 items-center flex-col border-2 rounded-3xl border-[#52381D]"
+                  >
+                    <div className="text-main-800 w-48 font-bold ">
+                      {truncated[index] ? (
+                        <div>
+                          {subscriptionAdvantage.name}
+                          {subscriptionAdvantage.name.split(" ").length > 4 && (
+                            <button
+                              className="underline"
+                              onClick={() => toggleTruncated(index)}
+                            >
+                              Less
+                            </button>
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          {subscriptionAdvantage.name
+                            .split(" ")
+                            .slice(0, 4)
+                            .join(" ")}{" "}
+                          ...
                           <button
                             className="underline"
                             onClick={() => toggleTruncated(index)}
                           >
-                            Less
+                            More
                           </button>
-                        )}
-                      </div>
-                    ) : (
-                      <div>
-                        {subscriptionAdvantage.name
-                          .split(" ")
-                          .slice(0, 4)
-                          .join(" ")}{" "}
-                        ...
-                        <button
-                          className="underline"
-                          onClick={() => toggleTruncated(index)}
-                        >
-                          More
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                        </div>
+                      )}
+                    </div>
 
-                  <Link
-                    to={`/subscriptionsAdvantage/edit/${subscriptionAdvantage.id}`}
-                    className="text-white w-32 mt-5 mb-2 lg:w-40 bg-[#52381D] rounded-3xl right-0 hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium text-sm py-2 inline-flex items-center justify-center"
-                  >
-                    <FaRegEdit className="w-4 h-4 me-2" /> Edit
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setSelectedName(subscriptionAdvantage.name);
-                      setIdDelete(subscriptionAdvantage.id);
-                      setShowModal(true);
-                    }}
-                    className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60 font-medium text-sm py-2 inline-flex items-center justify-center"
-                  >
-                    <RiDeleteBinLine className="w-4 h-4 me-2" /> Delete
-                  </button>
-                </div>
-              ))}
-            </div>
+                    <Link
+                      to={`/subscriptionsAdvantage/edit/${subscriptionAdvantage.id}`}
+                      className="text-white w-32 mt-5 mb-2 lg:w-40 bg-[#52381D] rounded-3xl right-0 hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium text-sm py-2 inline-flex items-center justify-center"
+                    >
+                      <FaRegEdit className="w-4 h-4 me-2" /> Edit
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setSelectedName(subscriptionAdvantage.name);
+                        setIdDelete(subscriptionAdvantage.id);
+                        setShowModal(true);
+                      }}
+                      className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60 font-medium text-sm py-2 inline-flex items-center justify-center"
+                    >
+                      <RiDeleteBinLine className="w-4 h-4 me-2" /> Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="flex items-center justify-center pt-3">
+          {subscriptionsAdvantage.length >= 0 ? (
+            <Pagination
+              handleLimit={handleLimit}
+              limit={limit}
+              pageCount={noOfPages}
+              handlePageClick={handlePageClick}
+            />
+          ) : (
+            ""
           )}
-        </div>
-        <div
-          className={`${
-            isLoading ? "hidden" : "flex"
-          } items-center justify-center py-3`}
-        >
-          <Pagination
-            handleLimit={handleLimit}
-            limit={limit}
-            pageCount={noOfPages}
-            handlePageClick={handlePageClick}
-          />
         </div>
         {showModal && (
           <ConfirmDelete

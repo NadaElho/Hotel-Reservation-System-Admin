@@ -57,6 +57,7 @@ export default function EditReservationStatus() {
       navigate("/reservationStatus");
       toast.success("Reservation Status updated successfully");
     } catch (err) {
+      setLoading(false);
       // console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
     }

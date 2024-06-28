@@ -194,8 +194,9 @@ export default function AddRoom() {
       navigate("/rooms");
       toast.success("Room added successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      setLoading(false);
       toast.error(err.response?.data || err.message);
+      console.log(err.response?.data || err.message, "err");
     }
   };
   if (isLoading) {

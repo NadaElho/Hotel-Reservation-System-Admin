@@ -103,6 +103,7 @@ export default function EditSubscription() {
       navigate("/subscriptions");
       toast.success("subscription updated successfully");
     } catch (error) {
+      setLoading(false);
       // console.log("Error:", error.response?.data || error.message);
       toast.error(error.response?.data || error.message);
     }

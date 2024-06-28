@@ -42,8 +42,9 @@ export default function AddReservationStatus() {
       navigate("/reservationStatus");
       toast.success("Reservation Status added successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      setLoading(false);
       toast.error(err.response?.data || err.message);
+      console.log(err.response?.data || err.message, "err");
     }
   };
 

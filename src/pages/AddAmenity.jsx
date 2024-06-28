@@ -59,6 +59,7 @@ export default function AddAmenity() {
       toast.success("Amenity added successfully");
       setLoading(false);
     } catch (err) {
+      setLoading(false);
       toast.error(err.response?.data || err.message);
     }
   };

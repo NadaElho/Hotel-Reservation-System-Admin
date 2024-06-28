@@ -11,6 +11,7 @@ import ConfirmDelete from "../components/ConfirmDelete";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axiosInstance from "../interceptor";
+import NoPageFound from "../components/NoPageFound";
 
 export default function Amenity() {
   const [amenities, setAmenities] = useState([]);
@@ -22,7 +23,7 @@ export default function Amenity() {
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
   const [isLoading, setLoading] = useState(false);
-
+  const [NotPage, setNotPage] = useState(false);
   const arrOfCards = [];
   for (let i = 0; i < limit; i++) {
     arrOfCards.push(i);
@@ -48,6 +49,10 @@ export default function Amenity() {
       setAmenities(formattedData);
       setLoading(false);
     } catch (err) {
+      if (err.response.status == 404) {
+        setAmenities([]);
+        setNotPage(true);
+      }
       console.log(err.response?.data || err.message, "err");
     }
   };
@@ -75,62 +80,61 @@ export default function Amenity() {
             navigate="/amenities/addAmenity"
           />
         </div>
-        <div className="flex justify-center items-center">
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-8 w-full">
-              {arrOfCards.map((num) => (
-                <div key={num}>
-                  <Skeleton className="w-full rounded-3xl" height={208} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-8 w-full">
-              {amenities.map((amenity) => (
-                <div
-                  key={amenity.id}
-                  className="flex justify-center h-52 items-center flex-col border-2 rounded-3xl border-[#52381D]"
-                >
-                  <div className="flex items-center justify-between w-40">
-                    <div className="bg-main-400 p-3 rounded-full">
-                      <img
-                        className={"w-5 h-5 object-cover"}
-                        src={amenity?.images[0]}
-                        alt="Amenity"
-                        className="w-10 h-10 object-cover"
-                      />
-                    </div>
-                    <p className="text-main-800 text-lg font-bold">
-                      {amenity.name}
-                    </p>
+        {NotPage && amenities.length == 0 ? (
+          <NoPageFound page="Amenity" />
+        ) : (
+          <div className="flex justify-center items-center">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-8 w-full">
+                {arrOfCards.map((num) => (
+                  <div key={num}>
+                    <Skeleton className="w-full rounded-3xl" height={208} />
                   </div>
-                  <Link
-                    to={`/amenities/editAmenity/${amenity.id}`}
-                    className="text-white w-32 mt-5 mb-2 lg:w-40 bg-[#52381D] rounded-3xl right-0 hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium text-sm py-2 inline-flex items-center justify-center"
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mx-8 w-full">
+                {amenities.map((amenity) => (
+                  <div
+                    key={amenity.id}
+                    className="flex justify-center h-52 items-center flex-col border-2 rounded-3xl border-[#52381D]"
                   >
-                    <FaRegEdit className="w-4 h-4 me-2" /> Edit
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setSelectedName(amenity.name);
-                      setIdDelete(amenity.id);
-                      setShowModal(true);
-                    }}
-                    className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60  font-medium text-sm py-2 inline-flex items-center justify-center"
-                  >
-                    <RiDeleteBinLine className="w-4 h-4 me-2" /> Delete
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                    <div className="flex items-center justify-between w-40">
+                      <div className="bg-main-400 p-3 rounded-full">
+                        <img
+                          className={"w-5 h-5 object-cover"}
+                          src={amenity?.images[0]}
+                          alt="Amenity"
+                        />
+                      </div>
+                      <p className="text-main-800 text-lg font-bold">
+                        {amenity.name}
+                      </p>
+                    </div>
+                    <Link
+                      to={`/amenities/editAmenity/${amenity.id}`}
+                      className="text-white w-32 mt-5 mb-2 lg:w-40 bg-[#52381D] rounded-3xl right-0 hover:bg-[#52381D]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium text-sm py-2 inline-flex items-center justify-center"
+                    >
+                      <FaRegEdit className="w-4 h-4 me-2" /> Edit
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setSelectedName(amenity.name);
+                        setIdDelete(amenity.id);
+                        setShowModal(true);
+                      }}
+                      className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60  font-medium text-sm py-2 inline-flex items-center justify-center"
+                    >
+                      <RiDeleteBinLine className="w-4 h-4 me-2" /> Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
-        <div
-          className={`${
-            isLoading ? "hidden" : "flex"
-          } items-center justify-center py-3`}
-        >
+        <div className="flex items-center justify-center py-3">
           <Pagination
             handleLimit={handleLimit}
             limit={limit}

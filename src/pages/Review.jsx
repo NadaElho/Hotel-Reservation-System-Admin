@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Table from "../components/Table";
 import Pagination from "../components/Pagination";
 import axiosInstance from "../interceptor";
+import NoPageFound from "../components/NoPageFound";
 export default function Review() {
   const [reviews, setReviews] = useState([]);
   const [pageNum, setPageNum] = useState(0);
@@ -11,6 +12,8 @@ export default function Review() {
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const page = "review";
+  const [NotPage, setNotPage] = useState(false);
 
   const cols = [
     { col: "Id" },
@@ -46,6 +49,10 @@ export default function Review() {
       setNoOfPages(data.pagination.numberPages);
       setLoading(false);
     } catch (err) {
+      if (err.response.status == 404) {
+        setReviews([]);
+        setNotPage(true);
+      }
       console.log(err.response?.data || err.message, "err");
     }
   };
@@ -65,16 +72,20 @@ export default function Review() {
   return (
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
-        <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-          <Table
-            cols={cols}
-            data={reviews}
-            page="review"
-            isLoading={isLoading}
-            handleDelete={handleDeleteClick}
-            limit={limit}
-          />
-        </div>
+        {NotPage && reviews.length == 0 ? (
+          <NoPageFound page={page} />
+        ) : (
+          <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
+            <Table
+              cols={cols}
+              data={reviews}
+              page={page}
+              isLoading={isLoading}
+              handleDelete={handleDeleteClick}
+              limit={limit}
+            />
+          </div>
+        )}
         <div className="flex items-center justify-center py-3">
           <Pagination
             handleLimit={handleLimit}

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Table from "../components/Table";
 import Pagination from "../components/Pagination";
 import axiosInstance from "../interceptor";
+import NoPageFound from "../components/NoPageFound";
 
 export default function User() {
   const [users, setUsers] = useState([]);
@@ -12,6 +13,7 @@ export default function User() {
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const page = "user";
   const cols = [
     { col: "Id" },
     { col: "Name" },
@@ -20,7 +22,7 @@ export default function User() {
     { col: "Images" },
     { col: "Action" },
   ];
-
+  const [NotPage, setNotPage] = useState(false);
   useEffect(() => {
     getAllUsers();
   }, [renderDelete, pageNum, limit]);
@@ -43,7 +45,12 @@ export default function User() {
       setUsers(formattedData);
       setLoading(false);
     } catch (err) {
-      // console.log(err.response?.data || err.message, "err");
+      if (err.response.status == 500) {
+        console.log(err.response.status, "kk");
+        setUsers([]);
+        setNotPage(true);
+      }
+      console.log(err.response?.data || err.message, "err");
     }
   };
 
@@ -81,18 +88,22 @@ export default function User() {
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
         {/* <Button name="Add User " icon={CiSquarePlus}  navigate = "addUser"/> */}
-        <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl ">
-          <Table
-            cols={cols}
-            data={users}
-            linkEdit="user-details"
-            page="user"
-            handleDelete={deleteUser}
-            isLoading={isLoading}
-            limit={limit}
-            updateUserRole={updateUserRole}
-          />
-        </div>
+        {NotPage && users.length == 0 ? (
+          <NoPageFound page={page} />
+        ) : (
+          <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl ">
+            <Table
+              cols={cols}
+              data={users}
+              linkEdit="user-details"
+              page={page}
+              handleDelete={deleteUser}
+              isLoading={isLoading}
+              limit={limit}
+              updateUserRole={updateUserRole}
+            />
+          </div>
+        )}
         <div className="flex items-center justify-center pt-3">
           <Pagination
             handleLimit={handleLimit}

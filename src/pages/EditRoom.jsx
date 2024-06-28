@@ -144,6 +144,7 @@ export default function EditRoom() {
       navigate("/rooms");
       toast.success("Room updated successfully");
     } catch (error) {
+      setLoading(false);
       // console.log("Error:", error.response?.data || error.message);
       toast.error(error.response?.data || error.message);
     }

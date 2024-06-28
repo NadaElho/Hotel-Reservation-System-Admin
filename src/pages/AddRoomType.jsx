@@ -47,8 +47,9 @@ export default function AddRoomType() {
       navigate("/roomsType");
       toast.success("Room Type added successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      setLoading(false);
       toast.error(err.response?.data || err.message);
+      console.log(err.response?.data || err.message, "err");
     }
   };
 

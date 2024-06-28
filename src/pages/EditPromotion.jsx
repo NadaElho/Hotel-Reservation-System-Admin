@@ -61,6 +61,7 @@ export default function EditPromotion() {
       navigate("/promotions");
       toast.success("promotions updated successfully");
     } catch (err) {
+      setLoading(false);
       // console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
     }
