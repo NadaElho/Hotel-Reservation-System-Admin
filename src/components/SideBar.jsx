@@ -3,19 +3,19 @@ import { MdOutlineBedroomParent } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { RiHotelLine } from "react-icons/ri";
 import { VscHistory } from "react-icons/vsc";
-import { CgGym } from "react-icons/cg";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { LuCircleDashed } from "react-icons/lu";
-import { PiUserCircleCheckThin } from "react-icons/pi";
 import { RiExchangeDollarLine } from "react-icons/ri";
 import { TbMessageDollar } from "react-icons/tb";
 import { IoBedOutline } from "react-icons/io5";
 import { MdOutlineReviews } from "react-icons/md";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
+import { RiLogoutCircleLine } from "react-icons/ri";
 import logo from "/logo.png";
 
 const SideBar = () => {
+  const withouSidebarRoutes = ["/not-found"];
   const [menuOpen, setMenuOpen] = useState(false);
   const pages = [
     { link: "/branches", name: "Branch", icon: RiHotelLine },
@@ -43,7 +43,8 @@ const SideBar = () => {
     { link: "/promotions", name: "promotion", icon: RiDiscountPercentLine },
   ];
   const location = useLocation();
-
+  if (withouSidebarRoutes.some((item) => location.pathname === item))
+    return null;
   return (
     <>
       <button
@@ -107,10 +108,11 @@ const SideBar = () => {
           </ul>
           <Link
             to="/"
-            className="bg-grey-100  font-bold py-2 text-main-800 w-3/4 rounded-3xl block text-center mt-7"
+            className="flex items-center p-2 text-white rounded-lg   hover:bg-[#81664B]  group"
             onClick={() => localStorage.clear()}
           >
-            Log out
+            <RiLogoutCircleLine className="w-6 h-6 " />{" "}
+            <span className="ms-3">Log out</span>
           </Link>
         </div>
       </aside>

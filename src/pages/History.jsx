@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import Table from "../components/Table";
 import Pagination from "../components/Pagination";
 import axiosInstance from "../interceptor";
-
+import { toast } from "react-toastify";
 export default function History() {
   const [histories, setHistories] = useState([]);
   const [pageNum, setPageNum] = useState(0);
   const [limit, setLimit] = useState(3);
   const [noOfPages, setNoOfPages] = useState(1);
-  const [renderDelete] = useState(false);
+  const [renderDelete, seteRenderDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [noOfAllReservations, setNoOfAllReservations] = useState(0);
   const [noOfPending, setNoOfPending] = useState(0);
   const [noOfBooked, setNoOfBooked] = useState(0);
   const [noOfCanceled, setNoOfCanceled] = useState(0);
+
   const cols = [
     { col: "Id" },
     { col: "User Name" },
@@ -23,6 +24,8 @@ export default function History() {
     { col: "CheckIn" },
     { col: "CheckOut" },
     { col: "Status" },
+    { col: "Paid" },
+    { col: "Action" },
   ];
 
   useEffect(() => {
@@ -72,7 +75,9 @@ export default function History() {
         checkIn: new Date(history?.checkIn).toLocaleDateString(),
         checkOut: new Date(history?.checkOut).toLocaleDateString(),
         status: history.status?.name_en,
+        paid: history.paid.toString(),
       }));
+      // console.log("formattedData ", formattedData);
       setHistories(formattedData);
       setNoOfPages(data.pagination.numberPages);
       setLoading(false);
@@ -80,7 +85,11 @@ export default function History() {
       console.log(err.response?.data || err.message, "err");
     }
   };
-
+  const pay = async (id) => {
+    await axiosInstance.patch(`/reservations/${id}/paid`);
+    seteRenderDelete(!renderDelete);
+    toast("reservations pay successfully");
+  };
   const handleLimit = (num) => {
     setLimit(num);
   };
@@ -114,9 +123,10 @@ export default function History() {
           <Table
             cols={cols}
             data={histories}
-            page="history"
+            page="reservation"
             isLoading={isLoading}
             limit={limit}
+            handleDelete={pay}
           />
         </div>
         <div className="flex items-center justify-center py-3">

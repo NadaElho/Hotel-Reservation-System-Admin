@@ -37,7 +37,7 @@ export default function Review() {
       const formattedData = data.data?.map((review) => ({
         id: review._id,
         roomName: review.roomId.title_en,
-        review: review.title,
+        name: review.title,
         username: `${review.userId?.firstName} ${review.userId.lastName}`,
         rating: review.rating,
         date: new Date(review?.date).toLocaleDateString(),

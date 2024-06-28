@@ -1,6 +1,6 @@
 import { RiDeleteBin5Line } from "react-icons/ri";
 
-export default function ConfirmDelete({ onClose, onConfirm, page, name }) {
+export default function ConfirmPay({ onClose, onConfirm, page, name }) {
   return (
     <>
       <div className="fixed bg-gray-900 inset-0 bg-opacity-50 z-50 flex justify-center items-center ">
@@ -10,10 +10,8 @@ export default function ConfirmDelete({ onClose, onConfirm, page, name }) {
           </div>
           <h2 className="text-3xl text-main-800  ">Are you sure?</h2>
           <p className=" text-main-400 my-2">
-            You want to delete this {page}{" "}
-            <span className=" text-red-500">
-              {name.split(" ").slice(0, 1).join(" ")}{" "}
-            </span>
+            You want to Pay this {page} to{" "}
+            <span className=" text-red-500">{name} </span>
           </p>
           <div>
             <button
@@ -26,9 +24,10 @@ export default function ConfirmDelete({ onClose, onConfirm, page, name }) {
               className="mt-4 px-7 py-2  rounded-lg border focus:ring-[#C90000]/80  hover:bg-[#C90000]/60 text-[#C90000] hover:text-white  border-[#C90000] focus:ring-5 focus:outline-none"
               onClick={() => {
                 onConfirm();
+                onClose();
               }}
             >
-              Delete
+              Pay
             </button>
           </div>
         </div>

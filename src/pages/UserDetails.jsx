@@ -65,12 +65,12 @@ function UserDetails() {
       let roomsId = data.data.data.map(
         (reservationUser) => reservationUser.roomId._id
       );
-      // console.log("data", data);
+
       const roomsResponse = await axiosInstance.get(
         `/rooms?roomsId=${roomsId.join(",")}`
       );
       const roomsData = roomsResponse.data.data;
-
+      console.log("roomsData", roomsData);
       const formattedData = data.data.data.map((reservationUser) => {
         const checkInDate = new Date(reservationUser?.checkIn);
         const checkOutDate = new Date(reservationUser?.checkOut);
@@ -94,6 +94,7 @@ function UserDetails() {
       });
       setLimit(formattedData.length);
       setReservationToUser(formattedData);
+
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -140,7 +141,7 @@ function UserDetails() {
               key={user.id}
               className={` ${
                 index < 1
-                  ? "flex flex-col lg:flex-row-reverse justify-between items-start"
+                  ? "flex flex-col lg:flex-row-reverse justify-between items-stretch md:items-start"
                   : ""
               } `}
             >
@@ -174,21 +175,21 @@ function UserDetails() {
               <div className="border border-main-800 rounded-3xl lg:w-3/5 p-5 md:p-10 mb-10 text-main-400">
                 <div className="grid grid-cols-1 md:grid-cols-3 ">
                   <div>
-                    <p className="text-2xl text-main-800 mb-4  font-bold">
+                    <p className="text-2xl text-main-800  font-bold">
+                      {user.room.title_en}
+                    </p>
+                    <p className="text-sm mb-4">
+                      {" "}
                       {user.room.hotelId.name_en} Branch
                     </p>
                     <div>
-                      <p className="font-bold text-main-800">Booking Date</p>
+                      <p className="font-bold text-main-800 mb-2">
+                        Booking Date
+                      </p>
                       <p>
                         {user.checkIn} - {user.checkOut}
                       </p>
                       <p> {user.night} nights</p>
-                    </div>
-                    <div className=" mt-5">
-                      <p className="text-main-800  font-bold">Status</p>
-                      <p className={getStatusClass(user.status)}>
-                        {user.status}
-                      </p>
                     </div>
                   </div>
                   <div className="flex justify-evenly relative items-center lg:col-span-2 col-span-3  ">
@@ -203,12 +204,13 @@ function UserDetails() {
                     >
                       <GrFormPrevious className="text-xl" />
                     </button>
-
-                    <img
-                      className="object-center rounded-3xl mx-3 w-52 md:w-72"
-                      src={user.images[user.changeImage]}
-                      alt="Current Branch"
-                    />
+                    <div className="mx-0 md:mx-3 w-52 h-52 md:w-72 overflow-hidden flex justify-center items-center">
+                      <img
+                        className="rounded-3xl object-cover object-center w-full h-full"
+                        src={user.images[user.changeImage]}
+                        alt="Current Branch"
+                      />
+                    </div>
                     <button
                       className={`${
                         user.changeImage === user.images.length - 1
@@ -222,7 +224,7 @@ function UserDetails() {
                     </button>
                   </div>
                 </div>
-                <div className="flex justify-between mt-4">
+                <div className="flex justify-start gap-4  mt-4">
                   <p className="text-xl font-bold text-main-800">
                     Room Amenities
                   </p>
@@ -232,8 +234,8 @@ function UserDetails() {
                       .join(", ")}
                   </p>
                 </div>
-                <div className="flex   mt-4 ">
-                  <div className="me-32 flex">
+                <div className="flex  items-center justify-between  mt-4 ">
+                  <div className=" flex items-center">
                     <p className=" rounded-full text-3xl text-white bg-main-300  p-3 me-2">
                       <IoKeyOutline />
                     </p>
@@ -248,6 +250,10 @@ function UserDetails() {
                         {user.room.roomTypeId.type_en}
                       </p>
                     </div>
+                  </div>
+                  <div className="">
+                    <p className="text-main-800  font-bold">Status</p>
+                    <p className={getStatusClass(user.status)}>{user.status}</p>
                   </div>
                 </div>
               </div>

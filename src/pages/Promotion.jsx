@@ -19,12 +19,9 @@ export default function Promotion() {
   const [showModal, setShowModal] = useState(false);
   const [selectedName, setSelectedName] = useState("");
   const [idDelete, setIdDelete] = useState("");
-  const [truncated, setTruncated] = useState([]);
   const [noOfPages, setNoOfPages] = useState(1);
   const [pageNum, setPageNum] = useState(0);
-  const toggleTruncated = (index) => {
-    setTruncated((prev) => ({ ...prev, [index]: !prev[index] }));
-  };
+
   const arrOfCards = [];
   for (let i = 0; i < limit; i++) {
     arrOfCards.push(i);
@@ -112,7 +109,7 @@ export default function Promotion() {
                       setIdDelete(promotion.id);
                       setShowModal(true);
                     }}
-                    className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60 focus:ring-4 focus:outline-none focus:ring-[#C90000]/80 font-medium text-sm py-2 inline-flex items-center justify-center"
+                    className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60   font-medium text-sm py-2 inline-flex items-center justify-center"
                   >
                     <RiDeleteBinLine className="w-4 h-4 me-2" /> Delete
                   </button>

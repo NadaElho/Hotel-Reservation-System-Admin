@@ -34,6 +34,7 @@ import EditReservationStatus from "./pages/EditReservationStatus.jsx";
 import Promotion from "./pages/Promotion.jsx";
 import EditPromotion from "./pages/EditPromotion.jsx";
 import AddPromotion from "./pages/AddPromotion.jsx";
+import NotFound from "./pages/NotFound.jsx";
 function App() {
   const myLoc = useLocation();
 
@@ -113,6 +114,8 @@ function App() {
               <Route path="/promotions/edit/:id" element={<EditPromotion />} />
               <Route path="**" element={<Room />} />
             </Route>
+            <Route path="/not-found" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </SkeletonTheme>
       </div>

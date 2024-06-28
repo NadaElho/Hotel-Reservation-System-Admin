@@ -11,9 +11,11 @@ export default function AddRoom() {
   const [amenitiesOptions, setAmenitiesOptions] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [hotels, setHotels] = useState([]);
+  const [promotions, setPromotions] = useState([]);
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [dropdownOptions, setDropdownOptions] = useState([]);
+  const [existingRoomNumbers, setExistingRoomNumbers] = useState([]);
   const amenitiesRef = useRef(null);
 
   useEffect(() => {
@@ -34,6 +36,7 @@ export default function AddRoom() {
     description_ar: "",
     amenitiesIds: [],
     roomTypeId: "",
+    promotionId: "",
     price: "",
     images: [],
   };
@@ -63,14 +66,30 @@ export default function AddRoom() {
       type: "select",
       options: roomTypes,
     },
+    {
+      name: "promotionId",
+      title: "Promotion",
+      type: "select",
+      options: promotions,
+    },
     { name: "images", title: "Images", type: "file", multiple: true },
   ];
 
   const validationSchema = Yup.object({
-    roomNumber: Yup.number().required("Room number is required"),
+    roomNumber: Yup.number()
+      .required("Room number is required")
+      .test(
+        "unique-room-number",
+        "Room number must be unique",
+        function (value) {
+          return !existingRoomNumbers.includes(value);
+        }
+      ),
+
     title_en: Yup.string().required("English name is required"),
     title_ar: Yup.string().required("Arabic name is required"),
     hotelId: Yup.string().required("Hotel ID is required"),
+    promotionId: Yup.string().required("Promotion ID is required"),
     description_en: Yup.string().required("English description is required"),
     description_ar: Yup.string().required("Arabic description is required"),
     amenitiesIds: Yup.array().min(1, "Select at least one amenity"),
@@ -122,9 +141,32 @@ export default function AddRoom() {
         console.error("Error fetching hotels:", err);
       }
     };
+    const fetchPromotion = async () => {
+      try {
+        const response = await axiosInstance.get("/promotions");
+        const promotions = response.data.data.map((name) => ({
+          id: name._id,
+          name: name.percentage,
+        }));
+        setPromotions(promotions);
+      } catch (err) {
+        console.error("Error fetching promotions:", err);
+      }
+    };
+    const fetchExistingRoomNumbers = async () => {
+      try {
+        const response = await axiosInstance.get("/rooms");
+        const roomNumbers = response.data.data.map((room) => room.roomNumber);
+        setExistingRoomNumbers(roomNumbers);
+      } catch (err) {
+        console.error("Error fetching room numbers:", err);
+      }
+    };
     fetchAmenities();
     fetchRoomTypes();
     fetchHotels();
+    fetchPromotion();
+    fetchExistingRoomNumbers();
   }, []);
 
   const onSubmit = async (values) => {
@@ -142,7 +184,9 @@ export default function AddRoom() {
         formData.append(key, values[key]);
       }
     }
-
+    // for (let pair of formData.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}`);
+    // }
     try {
       setLoading(true);
       await axiosInstance.post("/rooms", formData);
@@ -150,7 +194,7 @@ export default function AddRoom() {
       navigate("/rooms");
       toast.success("Room added successfully");
     } catch (err) {
-      // console.log(err.response?.data || err.message, "err");
+      console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
     }
   };

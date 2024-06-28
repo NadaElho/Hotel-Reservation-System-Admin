@@ -99,11 +99,11 @@ export default function RoomType() {
                   </Link>
                   <button
                     onClick={() => {
-                      setSelectedName(roomType.name);
+                      setSelectedName(roomType.type);
                       setIdDelete(roomType.id);
                       setShowModal(true);
                     }}
-                    className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60 focus:ring-4 focus:outline-none focus:ring-[#C90000]/80 font-medium text-sm py-2 inline-flex items-center justify-center"
+                    className="text-[#C90000] w-32 lg:w-40 border border-[#C90000] rounded-3xl right-0 hover:text-white hover:bg-[#C90000]/60   font-medium text-sm py-2 inline-flex items-center justify-center"
                   >
                     <RiDeleteBinLine className="w-4 h-4 me-2" /> Delete
                   </button>

@@ -20,9 +20,9 @@ export default function Room() {
 
   const cols = [
     { col: "Id" },
-    { col: "Room Name" },
+    { col: "Name" },
     { col: "Images" },
-    { col: "Room Type" },
+    { col: "Type" },
     { col: "Amenities" },
     { col: "Action" },
   ];

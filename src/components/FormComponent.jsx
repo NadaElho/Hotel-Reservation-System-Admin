@@ -1,7 +1,7 @@
 import Dropdown from "react-dropdown-select";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { useState } from "react";
-
+import { FaPhoneVolume } from "react-icons/fa6";
 const FormComponent = ({
   inputs,
   initialValues,
@@ -243,7 +243,7 @@ const FormComponent = ({
                         component="div"
                         className="error text-red-500"
                       />
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mt-5">
+                      <div className="grid grid-cols-4 gap-2 mt-5">
                         {imagePreviews.map((preview, index) => (
                           <div
                             key={index}
@@ -283,15 +283,17 @@ const FormComponent = ({
                     <div className="col-span-1" key={input.name}>
                       <FieldArray name="phoneNumber">
                         {({ push, remove, form }) => (
-                          <div>
+                          <div className="">
                             <button
                               type="button"
                               onClick={() => push("")}
-                              className="bg-main-800 text-white text-sm rounded-3xl focus:ring-main-400 focus:border-main-400 block p-2.5 px-4 mb-2"
+                              className=" text-sm  text-main-400  border bg-[#fff7f2] font-semibold border-main-800 rounded-3xl block p-2.5 w-full  mb-2"
                             >
-                              Add Phone Number
+                              <FaPhoneVolume className="inline-block me-5 w-5 h-5" />{" "}
+                              Click to Add Phone{" "}
                             </button>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                            <div className="grid grid-cols-2 gap-4">
                               {form.values.phoneNumber.map((_, index) => (
                                 <div
                                   key={index}
@@ -312,7 +314,7 @@ const FormComponent = ({
                                   <button
                                     type="button"
                                     onClick={() => remove(index)}
-                                    className="text-red-500 mb-8 ms-2"
+                                    className="text-red-500   ms-2"
                                   >
                                     X
                                   </button>
@@ -329,7 +331,7 @@ const FormComponent = ({
             ))}
             <button
               type="submit"
-              className="bg-main-800 mt-5  text-white text-sm rounded-3xl focus:ring-main-400  focus:border-main-400 col-span-6 md:col-start-3 md:col-end-7  p-2.5"
+              className="bg-main-800 mt-5  text-white text-sm rounded-3xl focus:ring-main-400  focus:border-main-400 col-span-6 md:col-start-3 md:col-end-7  p-2.5 py-3"
             >
               {mode === "add" ? `Add ${page}` : `Save ${page}`}
             </button>
