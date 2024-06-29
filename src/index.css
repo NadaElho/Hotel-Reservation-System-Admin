@@ -9,6 +9,12 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+.font-link {
+  font-family: "Playwrite IT Moderna", cursive;
+  font-optical-sizing: auto;
+
+  font-style: normal;
+}
 
 *,
 *::before,

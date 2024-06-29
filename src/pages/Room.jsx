@@ -6,6 +6,7 @@ import Table from "../components/Table";
 import Button from "../components/Button";
 import Pagination from "../components/Pagination";
 import axiosInstance from "../interceptor";
+import NoPageFound from "../components/NoPageFound";
 
 export default function Room() {
   const [rooms, setRooms] = useState([]);
@@ -17,7 +18,7 @@ export default function Room() {
   const [noOfPages, setNoOfPages] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [renderDelete, seteRenderDelete] = useState(false);
-
+  const [NotPage, setNotPage] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "Name" },
@@ -26,7 +27,7 @@ export default function Room() {
     { col: "Amenities" },
     { col: "Action" },
   ];
-
+  const page = "room";
   useEffect(() => {
     getAllRooms();
     filter();
@@ -80,6 +81,10 @@ export default function Room() {
         setLoading(false);
       }
     } catch (err) {
+      if (err.response.status == 404) {
+        setRooms([]);
+        setNotPage(true);
+      }
       console.log(err.response?.data || err.message, "err");
     }
   };
@@ -115,19 +120,24 @@ export default function Room() {
         </div>
       </div>
       <Button name="Add Room " icon={CiSquarePlus} navigate="addRoom" />
-      <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-        <Table
-          cols={cols}
-          data={rooms}
-          linkEdit="editRoom"
-          page="room"
-          handleDelete={handleDeleteClick}
-          isLoading={isLoading}
-          limit={limit}
-        />
-      </div>
+
+      {NotPage && rooms.length == 0 ? (
+        <NoPageFound page={page} />
+      ) : (
+        <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
+          <Table
+            cols={cols}
+            data={rooms}
+            linkEdit="editRoom"
+            page={page}
+            handleDelete={handleDeleteClick}
+            isLoading={isLoading}
+            limit={limit}
+          />
+        </div>
+      )}
       <div className="flex items-center justify-center pt-3">
-        {rooms.length ? (
+        {rooms.length >= 0 ? (
           <Pagination
             handleLimit={handleLimit}
             limit={limit}

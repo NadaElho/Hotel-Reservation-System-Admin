@@ -3,6 +3,7 @@ import Table from "../components/Table";
 import Pagination from "../components/Pagination";
 import axiosInstance from "../interceptor";
 import { toast } from "react-toastify";
+import NoPageFound from "../components/NoPageFound";
 export default function History() {
   const [histories, setHistories] = useState([]);
   const [pageNum, setPageNum] = useState(0);
@@ -14,7 +15,7 @@ export default function History() {
   const [noOfPending, setNoOfPending] = useState(0);
   const [noOfBooked, setNoOfBooked] = useState(0);
   const [noOfCanceled, setNoOfCanceled] = useState(0);
-
+  const [NotPage, setNotPage] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "User Name" },
@@ -82,6 +83,10 @@ export default function History() {
       setNoOfPages(data.pagination.numberPages);
       setLoading(false);
     } catch (err) {
+      if (err.response.status == 404) {
+        setHistories([]);
+        setNotPage(true);
+      }
       console.log(err.response?.data || err.message, "err");
     }
   };
@@ -119,16 +124,20 @@ export default function History() {
             <p>({noOfCanceled})</p>
           </div>
         </div>
-        <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-          <Table
-            cols={cols}
-            data={histories}
-            page="reservation"
-            isLoading={isLoading}
-            limit={limit}
-            handleDelete={pay}
-          />
-        </div>
+        {NotPage && histories.length == 0 ? (
+          <NoPageFound page="reservation" />
+        ) : (
+          <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
+            <Table
+              cols={cols}
+              data={histories}
+              page="reservation"
+              isLoading={isLoading}
+              limit={limit}
+              handleDelete={pay}
+            />
+          </div>
+        )}
         <div className="flex items-center justify-center py-3">
           <Pagination
             handleLimit={handleLimit}

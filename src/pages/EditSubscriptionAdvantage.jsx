@@ -59,6 +59,7 @@ export default function EditsubscriptionAdvantage() {
       navigate("/subscriptionsAdvantage");
       toast.success("Subscription Advantage updated successfully");
     } catch (err) {
+      setLoading(false);
       // console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
     }

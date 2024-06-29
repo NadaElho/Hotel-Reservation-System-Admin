@@ -30,6 +30,7 @@ export default function Table(props) {
   const [selectedName, setSelectedName] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const [selectedPaid, setSelectedPaid] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [idDelete, setIdDelete] = useState("");
   const [truncated, setTruncated] = useState([]);
   const arrOfRows = [];
@@ -171,9 +172,11 @@ export default function Table(props) {
                                 setIdDelete(item.id);
                                 setSelectedPaid(item.paid);
                                 setShowModalPay(true);
+                                setSelectedStatus(item.status);
                               }}
                               className={` ${
-                                item.paid === "true"
+                                item.paid === "true" ||
+                                item.status !== "pending"
                                   ? "opacity-50 cursor-not-allowed "
                                   : ""
                               }text-main-800  px-3  bg-[#62f2ab]   rounded-3xl right-0 hover:bg-[#62f2ab]/70   font-medium text-sm  py-2 inline-flex items-center justify-center `}
@@ -203,7 +206,7 @@ export default function Table(props) {
                               </>
                             ) : page === "review" ? null : (
                               <Link to={`${linkEdit}/${item.id}`}>
-                                <FaRegEdit className="me-3 w-5 h-5 text-green-600" />
+                                <FaRegEdit className="me-3 w-5 h-5 text-main-800" />
                               </Link>
                             )}
                             <button
@@ -233,17 +236,19 @@ export default function Table(props) {
                   }}
                 />
               )}
-              {showModalPay && selectedPaid !== "true" && (
-                <ConfirmPay
-                  page={page}
-                  name={selectedName}
-                  onClose={() => setShowModalPay(false)}
-                  onConfirm={() => {
-                    handleDelete(idDelete);
-                    setShowModal(false);
-                  }}
-                />
-              )}
+              {showModalPay &&
+                selectedPaid !== "true" &&
+                selectedStatus == "pending" && (
+                  <ConfirmPay
+                    page={page}
+                    name={selectedName}
+                    onClose={() => setShowModalPay(false)}
+                    onConfirm={() => {
+                      handleDelete(idDelete);
+                      setShowModal(false);
+                    }}
+                  />
+                )}
               {showModalUpdateRole && (
                 <ConfirmUpdateRole
                   page={page}

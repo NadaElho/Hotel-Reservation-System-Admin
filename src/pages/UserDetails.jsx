@@ -11,12 +11,16 @@ import "react-loading-skeleton/dist/skeleton.css";
 // import { FaKey } from "react-icons/fa";
 import { IoKeyOutline } from "react-icons/io5";
 import Loader from "../components/Loader";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import NoPageFound from "../components/NoPageFound";
+import Button from "../components/Button";
 function UserDetails() {
   const [reservationToUser, setReservationToUser] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const [limit, setLimit] = useState(0);
+  const [NotPage, setNotPage] = useState(false);
   useEffect(() => {
     getAllReservationToUser();
   }, [limit]);
@@ -99,8 +103,13 @@ function UserDetails() {
     } catch (err) {
       setLoading(false);
       if (err.response?.data && err.response.status) {
-        navigate("/users");
-        toast.error(err.response?.data?.message || err.message);
+        if (err.response.status == 404) {
+          console.log(err.response.status, "kk");
+          setReservationToUser([]);
+          setNotPage(true);
+        }
+        // navigate("/users");
+        // toast.error(err.response?.data?.message || err.message);
       }
       // console.log(err.response?.data || err.message, "err");
     }
@@ -116,149 +125,161 @@ function UserDetails() {
   // }
   return (
     <div className="lg:px-16 lg:py-10 10 p-7 sm:ml-64">
-      {isLoading
-        ? arrOfCards.map((num, index) => (
-            <div
-              key={num}
-              className={` ${
-                index < 1
-                  ? "flex flex-col lg:flex-row-reverse justify-between items-start"
-                  : ""
-              } `}
-            >
-              {index < 1 && (
-                <div className=" rounded-3xl p-5 w-80 lg:mb-0 mb-6">
-                  <Skeleton className="w-full rounded-3xl" height={208} />
-                </div>
-              )}
-              <div className="rounded-3xl lg:w-3/5 p-5 md:p-10 mb-10">
+      {NotPage && reservationToUser.length == 0 ? (
+        <>
+          <NoPageFound page={"reservation"} />
+
+          <div className="flex items-center justify-center pt-7">
+            <Button
+              name="Back to Users"
+              icon={FaArrowLeftLong}
+              navigate="/users"
+            />
+          </div>
+        </>
+      ) : isLoading ? (
+        arrOfCards.map((num, index) => (
+          <div
+            key={num}
+            className={` ${
+              index < 1
+                ? "flex flex-col lg:flex-row-reverse justify-between items-start"
+                : ""
+            } `}
+          >
+            {index < 1 && (
+              <div className=" rounded-3xl p-5 w-80 lg:mb-0 mb-6">
                 <Skeleton className="w-full rounded-3xl" height={208} />
               </div>
+            )}
+            <div className="rounded-3xl lg:w-3/5 p-5 md:p-10 mb-10">
+              <Skeleton className="w-full rounded-3xl" height={208} />
             </div>
-          ))
-        : reservationToUser.map((user, index) => (
-            <div
-              key={user.id}
-              className={` ${
-                index < 1
-                  ? "flex flex-col lg:flex-row-reverse justify-between items-stretch md:items-start"
-                  : ""
-              } `}
-            >
-              {index < 1 && (
-                <div className="border border-main-800 rounded-3xl p-5 w-80 text-main-400 lg:mb-0 mb-6">
-                  <div className="flex justify-between mb-5">
+          </div>
+        ))
+      ) : (
+        reservationToUser.map((user, index) => (
+          <div
+            key={user.id}
+            className={` ${
+              index < 1
+                ? "flex flex-col lg:flex-row-reverse justify-between items-stretch md:items-start"
+                : ""
+            } `}
+          >
+            {index < 1 && (
+              <div className="border border-main-800 rounded-3xl p-5 w-80 text-main-400 lg:mb-0 mb-6">
+                <div className="flex justify-between mb-5">
+                  <img
+                    className="w-40 h-40 object-cover  rounded-3xl"
+                    src={user.user.images[0]}
+                    alt="Current Branch"
+                  />
+                  <div>
+                    <p>#{user.user._id.slice(0, 8)}</p>
+                    <p className="text-xl font-bold text-main-800">{`${user.user.firstName} ${user.user.lastName}`}</p>
+                  </div>
+                </div>
+                {user.user.phoneNumber && (
+                  <p>
+                    <FaPhoneSquareAlt className="inline-block text-2xl" />{" "}
+                    {user.user.phoneNumber}
+                  </p>
+                )}
+                <p>
+                  <MdOutlineMailOutline className="inline-block text-2xl" />{" "}
+                  {user.user.email}
+                </p>
+
+                {/* <p>{user.user.gender}</p> */}
+              </div>
+            )}
+            <div className="border border-main-800 rounded-3xl lg:w-3/5 p-5 md:p-10 mb-10 text-main-400">
+              <div className="grid grid-cols-1 md:grid-cols-3 ">
+                <div>
+                  <p className="text-2xl text-main-800  font-bold">
+                    {user.room.title_en}
+                  </p>
+                  <p className="text-sm mb-4">
+                    {" "}
+                    {user.room.hotelId.name_en} Branch
+                  </p>
+                  <div>
+                    <p className="font-bold text-main-800 mb-2">Booking Date</p>
+                    <p>
+                      {user.checkIn} - {user.checkOut}
+                    </p>
+                    <p> {user.night} nights</p>
+                  </div>
+                </div>
+                <div className="flex justify-evenly relative items-center lg:col-span-2 col-span-3  ">
+                  <button
+                    className={`${
+                      user.changeImage === 0
+                        ? "opacity-50 border-main-100 "
+                        : " border-main-800  "
+                    } border rounded-full   p-1`}
+                    onClick={() => prevSlider(index)}
+                    disabled={user.changeImage === 0}
+                  >
+                    <GrFormPrevious className="text-xl" />
+                  </button>
+                  <div className="mx-0 md:mx-3 w-52 h-52 md:w-72 overflow-hidden flex justify-center items-center">
                     <img
-                      className="w-40 h-40 object-cover  rounded-3xl"
-                      src={user.user.images[0]}
+                      className="rounded-3xl object-cover object-center w-full h-full"
+                      src={user.images[user.changeImage]}
                       alt="Current Branch"
                     />
-                    <div>
-                      <p>#{user.user._id.slice(0, 8)}</p>
-                      <p className="text-xl font-bold text-main-800">{`${user.user.firstName} ${user.user.lastName}`}</p>
-                    </div>
                   </div>
-                  {user.user.phoneNumber && (
-                    <p>
-                      <FaPhoneSquareAlt className="inline-block text-2xl" />{" "}
-                      {user.user.phoneNumber}
-                    </p>
-                  )}
-                  <p>
-                    <MdOutlineMailOutline className="inline-block text-2xl" />{" "}
-                    {user.user.email}
-                  </p>
-
-                  {/* <p>{user.user.gender}</p> */}
+                  <button
+                    className={`${
+                      user.changeImage === user.images.length - 1
+                        ? "opacity-50 border-main-100 "
+                        : " border-main-800 "
+                    } border rounded-full   p-1`}
+                    onClick={() => nextSlider(index)}
+                    disabled={user.changeImage === user.images.length - 1}
+                  >
+                    <MdOutlineNavigateNext className="text-xl" />
+                  </button>
                 </div>
-              )}
-              <div className="border border-main-800 rounded-3xl lg:w-3/5 p-5 md:p-10 mb-10 text-main-400">
-                <div className="grid grid-cols-1 md:grid-cols-3 ">
+              </div>
+              <div className="flex justify-start gap-4  mt-4">
+                <p className="text-xl font-bold text-main-800">
+                  Room Amenities
+                </p>
+                <p>
+                  {user.room.amenitiesIds
+                    .map((amenity) => amenity.name_en)
+                    .join(", ")}
+                </p>
+              </div>
+              <div className="flex  items-center justify-between  mt-4 ">
+                <div className=" flex items-center">
+                  <p className=" rounded-full text-3xl text-white bg-main-300  p-3 me-2">
+                    <IoKeyOutline />
+                  </p>
                   <div>
-                    <p className="text-2xl text-main-800  font-bold">
-                      {user.room.title_en}
-                    </p>
-                    <p className="text-sm mb-4">
+                    <p>
                       {" "}
-                      {user.room.hotelId.name_en} Branch
+                      <span className="font-bold"> Booking ID: </span> #
+                      {user.id.slice(0, 8)}
                     </p>
-                    <div>
-                      <p className="font-bold text-main-800 mb-2">
-                        Booking Date
-                      </p>
-                      <p>
-                        {user.checkIn} - {user.checkOut}
-                      </p>
-                      <p> {user.night} nights</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-evenly relative items-center lg:col-span-2 col-span-3  ">
-                    <button
-                      className={`${
-                        user.changeImage === 0
-                          ? "opacity-50 border-main-100 "
-                          : " border-main-800  "
-                      } border rounded-full   p-1`}
-                      onClick={() => prevSlider(index)}
-                      disabled={user.changeImage === 0}
-                    >
-                      <GrFormPrevious className="text-xl" />
-                    </button>
-                    <div className="mx-0 md:mx-3 w-52 h-52 md:w-72 overflow-hidden flex justify-center items-center">
-                      <img
-                        className="rounded-3xl object-cover object-center w-full h-full"
-                        src={user.images[user.changeImage]}
-                        alt="Current Branch"
-                      />
-                    </div>
-                    <button
-                      className={`${
-                        user.changeImage === user.images.length - 1
-                          ? "opacity-50 border-main-100 "
-                          : " border-main-800 "
-                      } border rounded-full   p-1`}
-                      onClick={() => nextSlider(index)}
-                      disabled={user.changeImage === user.images.length - 1}
-                    >
-                      <MdOutlineNavigateNext className="text-xl" />
-                    </button>
+                    <p>
+                      <span className="font-bold"> Room Type:</span>{" "}
+                      {user.room.roomTypeId.type_en}
+                    </p>
                   </div>
                 </div>
-                <div className="flex justify-start gap-4  mt-4">
-                  <p className="text-xl font-bold text-main-800">
-                    Room Amenities
-                  </p>
-                  <p>
-                    {user.room.amenitiesIds
-                      .map((amenity) => amenity.name_en)
-                      .join(", ")}
-                  </p>
-                </div>
-                <div className="flex  items-center justify-between  mt-4 ">
-                  <div className=" flex items-center">
-                    <p className=" rounded-full text-3xl text-white bg-main-300  p-3 me-2">
-                      <IoKeyOutline />
-                    </p>
-                    <div>
-                      <p>
-                        {" "}
-                        <span className="font-bold"> Booking ID: </span> #
-                        {user.id.slice(0, 8)}
-                      </p>
-                      <p>
-                        <span className="font-bold"> Room Type:</span>{" "}
-                        {user.room.roomTypeId.type_en}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="">
-                    <p className="text-main-800  font-bold">Status</p>
-                    <p className={getStatusClass(user.status)}>{user.status}</p>
-                  </div>
+                <div className="">
+                  <p className="text-main-800  font-bold">Status</p>
+                  <p className={getStatusClass(user.status)}>{user.status}</p>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+        ))
+      )}
     </div>
   );
 }

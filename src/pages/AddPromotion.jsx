@@ -45,8 +45,9 @@ export default function AddPromotion() {
       navigate("/promotions");
       toast.success("Promotion added successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      setLoading(false);
       toast.error(err.response?.data || err.message);
+      console.log(err.response?.data || err.message, "err");
     }
   };
 

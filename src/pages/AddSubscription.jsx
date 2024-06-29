@@ -108,8 +108,9 @@ export default function AddSubscription() {
       navigate("/subscriptions");
       toast.success("Subscription added successfully");
     } catch (err) {
+      setLoading(false);
+      toast.error(err.response?.data || err.message);
       console.log(err.response?.data || err.message, "err");
-      //   toast.error(err.response?.data || err.message);
     }
   };
   if (isLoading) {

@@ -47,8 +47,9 @@ export default function AddSubscriptionAdvantage() {
       navigate("/subscriptionsAdvantage");
       toast.success("Subscription Advantage added successfully");
     } catch (err) {
-      console.log(err.response?.data || err.message, "err");
+      setLoading(false);
       toast.error(err.response?.data || err.message);
+      console.log(err.response?.data || err.message, "err");
     }
   };
 

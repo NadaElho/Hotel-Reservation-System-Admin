@@ -21,6 +21,8 @@ export default function EditBranch() {
     address_ar: "",
     description_en: "",
     description_ar: "",
+    latitude: "",
+    longitude: "",
     images: [],
   });
 
@@ -42,6 +44,8 @@ export default function EditBranch() {
   const inputs = [
     { name: "name_en", title: "English Name", type: "text" },
     { name: "name_ar", title: "Arabic Name", type: "text" },
+    { name: "latitude", title: "Latitude", type: "text" },
+    { name: "longitude", title: "Longitude", type: "text" },
     { name: "address_en", title: "English Address", type: "text" },
     { name: "address_ar", title: "Arabic Address", type: "text" },
     { name: "description_en", title: "English Description", type: "textarea" },
@@ -53,6 +57,8 @@ export default function EditBranch() {
   const validationSchema = Yup.object({
     name_en: Yup.string().required("English name is required"),
     name_ar: Yup.string().required("Arabic name is required"),
+    latitude: Yup.string().required("latitude is required"),
+    longitude: Yup.string().required("longitude is required"),
     phoneNumber: Yup.array()
       .of(
         Yup.string()
@@ -94,6 +100,7 @@ export default function EditBranch() {
       navigate("/branches");
       toast.success("Branch updated successfully");
     } catch (err) {
+      setLoading(false);
       // console.log(err.response?.data || err.message, "err");
       toast.error(err.response?.data || err.message);
     }

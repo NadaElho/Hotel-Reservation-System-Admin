@@ -5,6 +5,7 @@ import Table from "../components/Table";
 import Button from "../components/Button";
 import Pagination from "../components/Pagination";
 import axiosInstance from "../interceptor";
+import NoPageFound from "../components/NoPageFound";
 
 export default function Branch() {
   const [branches, setBranches] = useState([]);
@@ -13,7 +14,7 @@ export default function Branch() {
   const [noOfPages, setNoOfPages] = useState(1);
   const [renderDelete, seteRenderDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
-
+  const [NotPage, setNotPage] = useState(false);
   const cols = [
     { col: "Id" },
     { col: "Branch" },
@@ -46,6 +47,10 @@ export default function Branch() {
       setBranches(formattedData);
       setLoading(false);
     } catch (err) {
+      if (err.response.status == 404) {
+        setBranches([]);
+        setNotPage(true);
+      }
       console.log(err.response?.data || err.message, "err");
     }
   };
@@ -64,17 +69,21 @@ export default function Branch() {
     <>
       <div className="lg:p-14 p-7 sm:ml-64">
         <Button name="Add Branch " icon={CiSquarePlus} navigate="addBranch" />
-        <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
-          <Table
-            cols={cols}
-            data={branches}
-            linkEdit="editBranch"
-            page="branch"
-            handleDelete={deleteBranch}
-            isLoading={isLoading}
-            limit={limit}
-          />
-        </div>
+        {NotPage && branches.length == 0 ? (
+          <NoPageFound page="Branch" />
+        ) : (
+          <div className="p-4 border-2 overflow-hidden border-gray-200 border-solid rounded-3xl dark:border-gray-700">
+            <Table
+              cols={cols}
+              data={branches}
+              linkEdit="editBranch"
+              page="branch"
+              handleDelete={deleteBranch}
+              isLoading={isLoading}
+              limit={limit}
+            />
+          </div>
+        )}
         <div className="flex items-center justify-center pt-3">
           <Pagination
             handleLimit={handleLimit}
