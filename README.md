@@ -21,6 +21,8 @@ npm run dev
 ### Live Demo
 
 You can view the live demo at: [https://hotel-reservation-system-admin.vercel.app/](https://hotel-reservation-system-admin.vercel.app/)
+- **Email:** engsamar105@gmail.com
+- **Password:** 1234567
 
 ### Login Page
 
