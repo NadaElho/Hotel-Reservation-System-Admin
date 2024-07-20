@@ -4,7 +4,7 @@
 
 ### Installing Dependencies
 
-To install the project dependencies, run the following command:
+To install the project dependencies, run:
 
 ```bash
 npm install
@@ -12,22 +12,12 @@ npm install
 
 ### Starting the Server
 
-To start the development server, use the following command:
+To start the development server, use:
 
 ```bash
 npm run dev
 ```
 
-### Live Demo
+### Demo
 
-You can view the live demo at: [https://hotel-reservation-system-admin.vercel.app/](https://hotel-reservation-system-admin.vercel.app/)
-- **Email:** engsamar105@gmail.com
-- **Password:** 1234567
-
-### Login Page
-
-To access the admin login page locally, use the following endpoint:
-
-- **Endpoint:** [http://localhost:5173/](http://localhost:5173/)
-- **Email:** engsamar105@gmail.com
-- **Password:** 1234567
+**Demo**: [Admin Video](https://drive.google.com/file/d/1FEHatwNXgpm7dDsB16nsICGH6HBaciEt/view?usp=sharing)
